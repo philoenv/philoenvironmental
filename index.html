@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Philo Environmental LLC | Advanced Defense & Technical Solutions</title>
+    <style>
+        :root {
+            --primary: #0f172a; /* Slate Dark */
+            --accent: #2563eb;  /* Defense Blue */
+            --gold: #d97706;    /* Award / Finalist Highlight */
+            --light: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background-color: var(--light); color: var(--text); line-height: 1.6; }
+
+        header {
+            background: #ffffff;
+            border-bottom: 2px solid #e2e8f0;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo { font-size: 1.35rem; font-weight: 800; letter-spacing: 0.05em; color: var(--primary); text-transform: uppercase; }
+        nav a { margin-left: 1.5rem; text-decoration: none; color: var(--text); font-weight: 600; font-size: 0.95rem; }
+        nav a:hover { color: var(--accent); }
+
+        .hero {
+            background: linear-gradient(135deg, #020617 0%, #1e293b 100%);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(217, 119, 6, 0.15);
+            color: #f59e0b;
+            border: 1px solid #d97706;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 { font-size: 2.75rem; margin-bottom: 1rem; line-height: 1.2; font-weight: 800; }
+        .hero p { font-size: 1.2rem; max-width: 750px; margin: 0 auto 2rem auto; color: #94a3b8; }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .btn:hover { background-color: #1d4ed8; }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 4rem 2rem; }
+
+        /* NATO Highlight Section */
+        .nato-feature {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-left: 6px solid var(--gold);
+            border-radius: 8px;
+            padding: 2.5rem;
+            margin-bottom: 4rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+        }
+
+        .nato-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+        .nato-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+        .nato-tag { background: #fef3c7; color: #92400e; font-size: 0.8rem; font-weight: 700; padding: 0.25rem 0.75rem; border-radius: 4px; }
+
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .card.primary-card { border-top: 4px solid var(--accent); }
+        .card.secondary-card { border-top: 4px solid #64748b; }
+
+        .card h3 { color: var(--primary); margin-bottom: 0.75rem; font-size: 1.25rem; }
+        .card .category { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: #64748b; margin-bottom: 0.5rem; display: block; }
+
+        .contact { text-align: center; background-color: var(--primary); color: white; padding: 4rem 2rem; }
+        .contact p { color: #94a3b8; margin-bottom: 1.5rem; }
+
+        footer { text-align: center; padding: 1.5rem; background-color: #020617; color: #64748b; font-size: 0.875rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">Philo Environmental LLC</div>
+        <nav>
+            <a href="#defense">Defense Solutions</a>
+            <a href="#nato">NATO Achievement</a>
+            <a href="#capabilities">All Services</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <span class="badge">NATO Innovation Challenge Finalist</span>
+        <h1>Edge-AI Defense Architecture & Technical Consulting</h1>
+        <p>Deploying tactical acoustic detection platforms, specialized environmental geology oversight, and government procurement solutions.</p>
+        <a href="#contact" class="btn">Initiate Technical Briefing</a>
+    </section>
+
+    <main class="container">
+
+        <section class="nato-feature" id="nato">
+            <div class="nato-header">
+                <div class="nato-title">NATO Innovation Challenge Finalist</div>
+                <span class="nato-tag">Global Defense Innovation</span>
+            </div>
+            <p style="font-size: 1.05rem; color: #334155; margin-bottom: 1rem;">
+                Philo Environmental LLC was selected as a finalist in the NATO Innovation Challenge for engineering Project DADS (Distributed Airfield Denial System)—an edge-AI acoustic detection and tracking platform engineered for high-noise operational environments.
+            </p>
+            <ul style="list-style-type: square; margin-left: 1.5rem; color: #475569;">
+                <li>Real-time edge signal processing utilizing custom MFCC feature extraction and machine learning classifiers.</li>
+                <li>Designed for low-cost, scalable counter-unmanned observation and tactical field awareness.</li>
+                <li>Validated presentation and software architecture delivered to NATO HQ SACT evaluators.</li>
+            </ul>
+        </section>
+
+        <h2 style="text-align: center; color: var(--primary); margin-bottom: 2rem;" id="capabilities">Capabilities & Service Lines</h2>
+        
+        <div class="services-grid">
+            <div class="card primary-card" id="defense">
+                <span class="category" style="color: var(--accent);">Primary Focus</span>
+                <h3>Defense & Sensor Architecture</h3>
+                <p>Development and integration of low-cost RF/optical sensor fusion, acoustic signature classification platforms, and edge-AI monitoring system prototypes tailored for tactical perimeter and asset defense.</p>
+            </div>
+
+            <div class="card secondary-card">
+                <span class="category">Secondary Focus</span>
+                <h3>Environmental & Geological Consulting</h3>
+                <p>Licensed site assessment, subsurface contamination sampling, hazardous material compliance audits, and regulatory site remediation oversight for state and municipal entities.</p>
+            </div>
+
+            <div class="card secondary-card">
+                <span class="category">Secondary Focus</span>
+                <h3>Specialized Government Procurement</h3>
+                <p>B2G procurement consulting, RFP execution, and subconsultant partnering for municipal infrastructure, equipment supply, and specialized public-sector solicitations.</p>
+            </div>
+        </div>
