@@ -49,23 +49,6 @@
             text-transform: uppercase; 
         }
 
-        nav {
-            display: flex;
-            gap: 1rem;
-        }
-
-        nav a { 
-            text-decoration: none; 
-            color: var(--text); 
-            font-weight: 600; 
-            font-size: 0.9rem; 
-            padding: 0.5rem 0.25rem;
-        }
-
-        nav a:hover { 
-            color: var(--accent); 
-        }
-
         .hero {
             background: linear-gradient(135deg, #020617 0%, #1e293b 100%);
             color: white;
@@ -123,8 +106,8 @@
         .btn-outline {
             display: inline-block;
             background-color: transparent;
-            color: var(--accent);
-            border: 1px solid var(--accent);
+            color: #059669;
+            border: 1px solid #059669;
             padding: 0.6rem 1.2rem;
             border-radius: 6px;
             text-decoration: none;
@@ -135,7 +118,7 @@
         }
 
         .btn-outline:hover {
-            background-color: var(--accent);
+            background-color: #059669;
             color: white;
         }
 
@@ -217,7 +200,7 @@
 
         .card.primary-card { border-top: 4px solid var(--accent); }
         .card.secondary-card { border-top: 4px solid #64748b; }
-        .card.tool-card { border-top: 4px solid #059669; } /* Emerald Green for Engineering Utility */
+        .card.tool-card { border-top: 4px solid #059669; }
 
         .card h3 { 
             color: var(--primary); 
@@ -275,7 +258,6 @@
             .nato-title { font-size: 1.5rem; }
             .services-grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
             .btn { width: auto; }
-            nav a { font-size: 0.95rem; margin-left: 1rem; }
         }
     </style>
 </head>
@@ -283,11 +265,6 @@
 
     <header>
         <div class="logo">Philo Environmental</div>
-        <nav>
-            <a href="#defense">Capabilities</a>
-            <a href="#nato">NATO</a>
-            <a href="#contact">Contact</a>
-        </nav>
     </header>
 
     <section class="hero">
@@ -328,7 +305,7 @@
                 </div>
             </div>
 
-            <!-- Environmental & Geology Tool Card (Highlighted Utility) -->
+            <!-- Environmental & Geology Tool Card -->
             <div class="card tool-card">
                 <div>
                     <span class="category" style="color: #059669;">Geological Software & Consulting</span>
@@ -336,7 +313,7 @@
                     <p>Professional geological consulting, site characterization, and custom web utilities. Features Borehole Studio—an interactive tool for field data formatting and visual stratigraphy plotting.</p>
                 </div>
                 <div>
-                    <a href="/borehole-studio.html" class="btn-outline" style="border-color: #059669; color: #059669;">Launch Borehole Studio &rarr;</a>
+                    <a href="/borehole-studio.html" class="btn-outline">Launch Borehole Studio &rarr;</a>
                 </div>
             </div>
 
@@ -356,336 +333,6 @@
         <h2>Partner With Philo Environmental</h2>
         <p>Direct inquiries regarding defense technology demos, environmental consulting, or procurement proposals.</p>
         <a href="mailto:daniel.philo@philoenvironmental.com" class="btn">Send Direct Inquiry</a>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 Philo Environmental LLC. All rights reserved.</p>
-    </footer>
-
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Philo Environmental LLC - Autonomous Sensor Systems, Environmental Geology, and Specialized Procurement Solutions.">
-    <title>Philo Environmental LLC | Autonomous Sensor Systems & Technical Consulting</title>
-    <style>
-        :root {
-            --primary: #0f172a; /* Slate Dark */
-            --accent: #2563eb;  /* Defense Blue */
-            --gold: #d97706;    /* Award / Finalist Highlight */
-            --light: #f8fafc;
-            --card-bg: #ffffff;
-            --text: #1e293b;
-        }
-
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; 
-        }
-
-        body { 
-            background-color: var(--light); 
-            color: var(--text); 
-            line-height: 1.6;
-            -webkit-text-size-adjust: 100%;
-        }
-
-        header {
-            background: #ffffff;
-            border-bottom: 2px solid #e2e8f0;
-            padding: 1rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo { 
-            font-size: 1.25rem; 
-            font-weight: 800; 
-            letter-spacing: 0.05em; 
-            color: var(--primary); 
-            text-transform: uppercase; 
-        }
-
-        nav {
-            display: flex;
-            gap: 1rem;
-        }
-
-        nav a { 
-            text-decoration: none; 
-            color: var(--text); 
-            font-weight: 600; 
-            font-size: 0.9rem; 
-            padding: 0.5rem 0.25rem;
-        }
-
-        nav a:hover { 
-            color: var(--accent); 
-        }
-
-        .hero {
-            background: linear-gradient(135deg, #020617 0%, #1e293b 100%);
-            color: white;
-            padding: 3.5rem 1.25rem;
-            text-align: center;
-        }
-
-        .badge {
-            display: inline-block;
-            background: rgba(217, 119, 6, 0.15);
-            color: #f59e0b;
-            border: 1px solid #d97706;
-            padding: 0.4rem 0.85rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            margin-bottom: 1.25rem;
-        }
-
-        .hero h1 { 
-            font-size: clamp(1.75rem, 5vw, 2.75rem); 
-            margin-bottom: 1rem; 
-            line-height: 1.25; 
-            font-weight: 800; 
-        }
-
-        .hero p { 
-            font-size: clamp(1rem, 2.5vw, 1.2rem); 
-            max-width: 750px; 
-            margin: 0 auto 1.75rem auto; 
-            color: #94a3b8; 
-        }
-
-        .btn {
-            display: inline-block;
-            background-color: var(--accent);
-            color: white;
-            padding: 0.85rem 1.75rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: background 0.2s;
-            width: 100%;
-            max-width: 320px;
-            text-align: center;
-        }
-
-        .btn:hover { 
-            background-color: #1d4ed8; 
-        }
-
-        .container { 
-            max-width: 1100px; 
-            margin: 0 auto; 
-            padding: 2.5rem 1.25rem; 
-        }
-
-        /* NATO Highlight Section */
-        .nato-feature {
-            background: #ffffff;
-            border: 2px solid #e2e8f0;
-            border-left: 6px solid var(--gold);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 2.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .nato-header { 
-            display: flex; 
-            align-items: flex-start; 
-            justify-content: space-between; 
-            flex-wrap: wrap; 
-            gap: 0.5rem; 
-            margin-bottom: 1rem; 
-        }
-
-        .nato-title { 
-            font-size: 1.25rem; 
-            font-weight: 700; 
-            color: var(--primary); 
-        }
-
-        .nato-tag { 
-            background: #fef3c7; 
-            color: #92400e; 
-            font-size: 0.75rem; 
-            font-weight: 700; 
-            padding: 0.25rem 0.6rem; 
-            border-radius: 4px; 
-            display: inline-block;
-        }
-
-        .nato-feature p {
-            font-size: 1rem;
-            color: #334155;
-            margin-bottom: 1rem;
-        }
-
-        .nato-feature ul {
-            list-style-type: square;
-            margin-left: 1.25rem;
-            color: #475569;
-            font-size: 0.95rem;
-        }
-
-        .nato-feature li {
-            margin-bottom: 0.5rem;
-        }
-
-        .services-grid { 
-            display: grid; 
-            grid-template-columns: 1fr; 
-            gap: 1.5rem; 
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-        }
-
-        .card.primary-card { border-top: 4px solid var(--accent); }
-        .card.secondary-card { border-top: 4px solid #64748b; }
-
-        .card h3 { 
-            color: var(--primary); 
-            margin-bottom: 0.5rem; 
-            font-size: 1.2rem; 
-        }
-
-        .card .category { 
-            font-size: 0.75rem; 
-            font-weight: 700; 
-            text-transform: uppercase; 
-            color: #64748b; 
-            margin-bottom: 0.35rem; 
-            display: block; 
-        }
-
-        .card p {
-            font-size: 0.95rem;
-            color: #334155;
-        }
-
-        .contact { 
-            text-align: center; 
-            background-color: var(--primary); 
-            color: white; 
-            padding: 3.5rem 1.25rem; 
-        }
-
-        .contact h2 {
-            font-size: 1.75rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .contact p { 
-            color: #94a3b8; 
-            margin-bottom: 1.5rem; 
-            font-size: 1rem;
-        }
-
-        footer { 
-            text-align: center; 
-            padding: 1.5rem 1rem; 
-            background-color: #020617; 
-            color: #64748b; 
-            font-size: 0.85rem; 
-        }
-
-        /* Desktop Breakpoints */
-        @media (min-width: 768px) {
-            header { padding: 1.25rem 2rem; }
-            .hero { padding: 5rem 2rem; }
-            .container { padding: 4rem 2rem; }
-            .nato-feature { padding: 2.5rem; margin-bottom: 4rem; }
-            .nato-title { font-size: 1.5rem; }
-            .services-grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
-            .btn { width: auto; }
-            nav a { font-size: 0.95rem; margin-left: 1rem; }
-        }
-    </style>
-</head>
-<body>
-
-    <header>
-        <div class="logo">Philo Environmental LLC</div>
-        <nav>
-            <a href="mailto:contact@philoenvironmental.com">Contact</a>
-        </nav>
-    </header>
-
-    <section class="hero">
-        <span class="badge">NATO Innovation Challenge Finalist</span>
-        <h1>Autonomous Sensor Systems & Technical Consulting</h1>
-        <p>Deploying tactical acoustic detection platforms, specialized environmental geology oversight, and government procurement solutions.</p>
-        <a href="#contact" class="btn">Initiate Technical Briefing</a>
-    </section>
-
-    <main class="container">
-
-        <!-- NATO Achievement Highlight -->
-        <section class="nato-feature" id="nato">
-            <div class="nato-header">
-                <div class="nato-title">NATO Innovation Challenge Finalist</div>
-                <span class="nato-tag">Global Defense Innovation</span>
-            </div>
-            <p>
-                Philo Environmental LLC was selected as a finalist in the NATO Innovation Challenge 2026-2: Persistent Airfield Denial for engineering Project DADS (Distributed Airfield Denial System)—an autonomous acoustic detection and tracking platform engineered for high-noise operational environments.
-            </p>
-            <ul>
-                <li>Real-time, on-device signal processing utilizing custom MFCC feature extraction and machine learning classifiers.</li>
-                <li>Designed for low-cost, field-deployable counter-unmanned observation and tactical perimeter defense.</li>
-                <li>Validated presentation and software architecture delivered to NATO HQ SACT evaluators.</li>
-            </ul>
-        </section>
-
-        <!-- Capabilities Grid -->
-        <h2 style="text-align: center; color: var(--primary); margin-bottom: 2rem;" id="defense">Capabilities & Service Lines</h2>
-        
-        <div class="services-grid">
-            <!-- Primary Service Line -->
-            <div class="card primary-card">
-                <span class="category" style="color: var(--accent);">Defense Systems</span>
-                <h3>Autonomous Sensor Systems & Defense Solutions</h3>
-                <p>Development and integration of low-cost acoustic signature classification platforms and standalone monitoring nodes tailored for tactical perimeter defense, asset protection, and forward-deployed weapon integration.</p>
-            </div>
-
-            <!-- Secondary Service Line 1 -->
-            <div class="card secondary-card">
-                <span class="category">Environmental Science</span>
-                <h3>Environmental & Geological Consulting</h3>
-                <p>Licensed site assessment, subsurface contamination sampling, hazardous material compliance audits, and regulatory site remediation oversight for state and municipal entities.</p>
-            </div>
-
-            <!-- Secondary Service Line 2 -->
-            <div class="card secondary-card">
-                <span class="category">Public Sector</span>
-                <h3>Specialized Government Procurement</h3>
-                <p>B2G procurement consulting, RFP execution, and subconsultant partnering for municipal infrastructure, equipment supply, and specialized public-sector solicitations.</p>
-            </div>
-        </div>
-
-    </main>
-
-    <section class="contact" id="contact">
-        <h2>Partner With Philo Environmental LLC</h2>
-        <p>Direct inquiries regarding defense technology demos, environmental consulting, or procurement proposals.</p>
-        <a href="mailto:contact@philoenvironmental.com" class="btn">Send Direct Inquiry</a>
     </section>
 
     <footer>
