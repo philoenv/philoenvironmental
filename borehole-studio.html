@@ -797,7 +797,6 @@
         }
     </script>
 <!-- CLOUD STORAGE MODAL -->
-    <script>
 <div id="cloudModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-white rounded-xl shadow-2xl max-w-md w-full overflow-hidden border border-slate-100">
         <!-- Modal Header -->
@@ -853,7 +852,7 @@
 
     function openCloudSaveModal() {
         currentModalMode = "save";
-        document.getElementById("cloudModalTitle").innerText = "Save Log to Philo Cloud";
+        document.getElementById("cloudModalTitle").innerText = "Save Log to Philo Environmental LLC Cloud";
         document.getElementById("projectNameContainer").classList.remove("hidden");
         document.getElementById("fileNameContainer").classList.remove("hidden");
         document.getElementById("cloudSubmitBtn").innerHTML = `<i data-lucide="cloud-upload" class="w-4 h-4"></i> Save to Cloud`;
@@ -891,7 +890,7 @@
             return;
         }
 
-        showCloudStatus("Connecting to Philo Workspace Drive...", "info");
+        showCloudStatus("Connecting to Philo Environmental LLC Workspace Drive...", "info");
 
         if (currentModalMode === "save") {
             const projectName = document.getElementById("cloudProjectName").value.trim() || "General_Projects";
