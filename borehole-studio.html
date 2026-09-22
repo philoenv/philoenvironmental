@@ -752,9 +752,13 @@
         renderLogTable();
     }
 
-    function addStratumRow() {
-        const last = logData.strata[logData.strata.length - 1];
-        const top = last ? last.depthBottom : 0;
+function addStratumRow() {
+        // Ensure logData and logData.strata exist
+        if (!logData) logData = {};
+        if (!Array.isArray(logData.strata)) logData.strata = [];
+
+        const last = logData.strata.length > 0 ? logData.strata[logData.strata.length - 1] : null;
+        const top = last ? (parseFloat(last.depthBottom) || 0) : 0;
         const bot = top + 5.0;
 
         logData.strata.push({
