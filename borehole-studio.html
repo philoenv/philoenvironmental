@@ -173,7 +173,6 @@
     </style>
 </head>
 <body class="p-3 md:p-6 min-h-screen">
-
 <!-- STANDALONE WELCOME BANNER & TIER SUMMARY -->
 <div class="no-print max-w-7xl mx-auto mb-4 bg-white p-5 rounded-xl shadow-sm border border-slate-200">
     <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
@@ -224,52 +223,51 @@
         </div>
     </div>
 </div>
-
-<!-- Top Action Toolbar (Hidden on Print) -->
-<header class="no-print max-w-7xl mx-auto mb-6 bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
-    <div class="flex items-center gap-3">
-        <div id="modeIconBg" class="p-2.5 bg-blue-600 text-white rounded-xl shadow-sm transition-colors">
-            <i id="modeIcon" data-lucide="flask-conical" class="w-6 h-6"></i>
+    <!-- Top Action Toolbar (Hidden on Print) -->
+    <header class="no-print max-w-7xl mx-auto mb-6 bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-wrap gap-4 items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div id="modeIconBg" class="p-2.5 bg-blue-600 text-white rounded-xl shadow-sm transition-colors">
+                <i id="modeIcon" data-lucide="flask-conical" class="w-6 h-6"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-slate-800 text-base leading-tight">Philo Environmental LLC | Borehole Studio</h1>
+                <p class="text-xs text-slate-500">Subsurface Geotechnical & Environmental Logging Engine</p>
+            </div>
         </div>
-        <div>
-            <h1 class="font-bold text-slate-800 text-base leading-tight">Philo Environmental LLC | Borehole Studio</h1>
-            <p class="text-xs text-slate-500">Subsurface Geotechnical & Environmental Logging Engine</p>
-        </div>
-    </div>
 
-    <!-- Mode Toggle Switcher -->
-    <div class="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200">
-        <button id="btnEnvMode" onclick="setLoggingMode('environmental')" class="flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold transition-all shadow-sm bg-white text-blue-700">
-            <i data-lucide="flask-conical" class="w-3.5 h-3.5"></i> Environmental Mode
-        </button>
-        <button id="btnGeoMode" onclick="setLoggingMode('geotechnical')" class="flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold transition-all text-slate-600 hover:text-slate-900">
-            <i data-lucide="pick" class="w-3.5 h-3.5"></i> Geotechnical Mode
-        </button>
-    </div>
-</header>
+        <!-- Mode Toggle Switcher -->
+        <div class="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200">
+            <button id="btnEnvMode" onclick="setLoggingMode('environmental')" class="flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold transition-all shadow-sm bg-white text-blue-700">
+                <i data-lucide="flask-conical" class="w-3.5 h-3.5"></i> Environmental Mode
+            </button>
+            <button id="btnGeoMode" onclick="setLoggingMode('geotechnical')" class="flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold transition-all text-slate-600 hover:text-slate-900">
+                <i data-lucide="pick" class="w-3.5 h-3.5"></i> Geotechnical Mode
+            </button>
+        </div>
 
 <!-- WORKSPACE TOOLBAR / TIERED ACTIONS -->
-<div class="no-print max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-    <!-- FREE TIER BOX (ACTIVE) -->
-    <div class="relative border-2 border-slate-200 bg-slate-50/50 rounded-xl p-4 pt-5 shadow-sm">
-        <span class="absolute -top-3 left-4 bg-slate-200 text-slate-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider border border-slate-300">
-            Free Tier Tools
-        </span>
-        <div class="flex flex-wrap items-center gap-2.5">
-            <button onclick="window.print()" class="flex-1 whitespace-nowrap bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5 shadow-xs">
-                <i data-lucide="printer" class="w-4 h-4 text-slate-600 shrink-0"></i> Print PDF
-            </button>
-            <button onclick="exportJSON()" class="flex-1 whitespace-nowrap bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5 shadow-xs">
-                <i data-lucide="download" class="w-4 h-4 text-slate-600 shrink-0"></i> Export JSON
-            </button>
-            
-            <!-- IMPORT JSON WITH FILE INPUT -->
-            <label for="jsonInput" class="flex-1 whitespace-nowrap bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5 shadow-xs cursor-pointer">
-                <i data-lucide="upload" class="w-4 h-4 text-slate-600 shrink-0"></i> Import JSON
-                <input type="file" id="jsonInput" onchange="importJSON(event)" class="hidden" accept=".json">
-            </label>
-        </div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
+    
+   <!-- FREE TIER BOX (ACTIVE) -->
+<div class="relative border-2 border-slate-200 bg-slate-50/50 rounded-xl p-4 pt-5 shadow-sm">
+    <span class="absolute -top-3 left-4 bg-slate-200 text-slate-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider border border-slate-300">
+        Free Tier Tools
+    </span>
+    <div class="flex flex-wrap items-center gap-2.5">
+        <button onclick="window.print()" class="flex-1 whitespace-nowrap bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5 shadow-xs">
+            <i data-lucide="printer" class="w-4 h-4 text-slate-600 shrink-0"></i> Print PDF
+        </button>
+        <button onclick="exportJSON()" class="flex-1 whitespace-nowrap bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5 shadow-xs">
+            <i data-lucide="download" class="w-4 h-4 text-slate-600 shrink-0"></i> Export JSON
+        </button>
+        
+        <!-- IMPORT JSON WITH FILE INPUT -->
+        <label for="jsonInput" class="flex-1 whitespace-nowrap bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5 shadow-xs cursor-pointer">
+            <i data-lucide="upload" class="w-4 h-4 text-slate-600 shrink-0"></i> Import JSON
+            <input type="file" id="jsonInput" onchange="importJSON(event)" class="hidden" accept=".json">
+        </label>
     </div>
+</div>
 
     <!-- PAID SUBSCRIPTION TIER BOX (DISABLED / COMING SOON) -->
     <div class="relative border-2 border-slate-200 bg-slate-100/50 rounded-xl p-4 pt-5 shadow-sm opacity-75">
@@ -285,574 +283,902 @@
             </button>
         </div>
     </div>
+
 </div>
+    </header>
 
-<main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
-    <!-- Left Column: Interactive Stratum Layer Manager (Hidden on Print) -->
-    <section class="no-print lg:col-span-4 bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex flex-col gap-5 max-h-[88vh] overflow-y-auto">
-        <div>
-            <div class="flex justify-between items-center mb-1">
-                <h2 class="font-bold text-slate-800 text-sm flex items-center gap-2">
-                    <i data-lucide="sliders" class="w-4 h-4 text-blue-600"></i> Stratigraphy Manager
-                </h2>
-                <span id="modeBadge" class="text-[8pt] font-mono px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-bold uppercase">ENVIRONMENTAL</span>
-            </div>
-            <p class="text-xs text-slate-500 mb-3">Add sample intervals or strata runs. Contiguous runs sharing the same lithology display subtle dotted dividers.</p>
-            <button onclick="addStratumRow()" class="w-full py-2 bg-blue-50 border border-blue-200 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition">
-                <i data-lucide="plus" class="w-4 h-4"></i> Add Layer Interval
-            </button>
-        </div>
-
-        <!-- Dynamic Form Cards Container -->
-        <div id="strataEditorList" class="flex flex-col gap-3">
-            <!-- Dynamically populated via JavaScript -->
-        </div>
-    </section>
-
-    <!-- Right Column: Printable Document Sheet Canvas -->
-    <section class="lg:col-span-8 flex justify-center">
-        <div class="print-container bg-white p-6 rounded-xl shadow-lg border border-slate-200 w-full max-w-[8.5in] text-slate-900 flex flex-col justify-between">
+    <main class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Left Column: Interactive Stratum Layer Manager (Hidden on Print) -->
+        <section class="no-print lg:col-span-4 bg-white p-5 rounded-xl shadow-sm border border-slate-200 flex flex-col gap-5 max-h-[88vh] overflow-y-auto">
             <div>
-                <!-- Header Document Block -->
-                <div class="header-box border-2 border-slate-900 mb-2 text-xs">
-                    <div class="border-b-2 border-slate-900 p-2.5 bg-slate-50 flex justify-between items-center">
-                        <div>
-                            <h1 class="text-sm font-black tracking-wide uppercase editable-field" contenteditable="true" id="companyName">PHILO ENVIRONMENTAL LLC</h1>
-                            <p class="text-[8pt] text-slate-600 font-medium editable-field" contenteditable="true" id="companySub">ENVIRONMENTAL & GEOTECHNICAL SUBSURFACE LOG</p>
-                        </div>
-                        <div class="text-right">
-                            <div class="text-[10pt] font-black tracking-wider editable-field" contenteditable="true" id="logTitle">BORING / WELL LOG</div>
-                            <div class="text-[7.5pt] font-mono text-slate-600">WELL / BORING ID: <span class="editable-field font-bold text-slate-900" contenteditable="true" id="boreholeId">MW-01</span></div>
-                        </div>
-                    </div>
-
-                    <!-- Header Metadata Fields -->
-                    <div class="grid grid-cols-3 divide-x divide-y border-slate-900 text-[7.5pt]">
-                        <div class="p-1">
-                            <span class="text-slate-500 block text-[6.5pt] font-bold">PROJECT NAME</span>
-                            <span class="editable-field font-semibold" contenteditable="true" id="projectName">Commercial Facility Phase II ESA</span>
-                        </div>
-                        <div class="p-1">
-                            <span class="text-slate-500 block text-[6.5pt] font-bold">JOB / PERMIT NO.</span>
-                            <span class="editable-field font-semibold" contenteditable="true" id="projectNo">PE-2026-104</span>
-                        </div>
-                        <div class="p-1">
-                            <span class="text-slate-500 block text-[6.5pt] font-bold">DRILLING METHOD</span>
-                            <span class="editable-field font-semibold" contenteditable="true" id="drillMethod">Direct Push / Geoprobe 7822DT</span>
-                        </div>
-
-                        <div class="p-1">
-                            <span class="text-slate-500 block text-[6.5pt] font-bold">LOCATION / COORDS</span>
-                            <span class="editable-field" contenteditable="true" id="location">Site Area A - North Parcel</span>
-                        </div>
-                        <div class="p-1">
-                            <span class="text-slate-500 block text-[6.5pt] font-bold">SURFACE ELEVATION</span>
-                            <span class="editable-field font-semibold" contenteditable="true" id="surfaceElev">100.0 ft NAVD88</span>
-                        </div>
-                        <div class="p-1">
-                            <span class="text-slate-500 block text-[6.5pt] font-bold">SAMPLING METHOD</span>
-                            <span class="editable-field" contenteditable="true" id="samplingMethod">4-ft Continuous MacroCore</span>
-                        </div>
-
-                        <div class="p-1">
-                            <span class="text-slate-500 block text-[6.5pt] font-bold">DATE STARTED / COMPLETED</span>
-                            <span class="editable-field" contenteditable="true" id="dates">Sept 20, 2026</span>
-                        </div>
-                        <div class="p-1">
-                            <span class="text-slate-500 block text-[6.5pt] font-bold">GROUNDWATER DEPTH</span>
-                            <span class="editable-field font-semibold" contenteditable="true" id="gwlInfo">6.0 ft bgs (Static)</span>
-                        </div>
-                        <div class="p-1">
-                            <span class="text-slate-500 block text-[6.5pt] font-bold">LOGGED / CHECKED BY</span>
-                            <span class="editable-field" contenteditable="true" id="personnel">Philo Env Staff</span>
-                        </div>
-                    </div>
+                <div class="flex justify-between items-center mb-1">
+                    <h2 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                        <i data-lucide="sliders" class="w-4 h-4 text-blue-600"></i> Stratigraphy Manager
+                    </h2>
+                    <span id="modeBadge" class="text-[8pt] font-mono px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-bold uppercase">ENVIRONMENTAL</span>
                 </div>
-
-                <!-- Main Subsurface Log Table -->
-                <table class="log-table">
-                    <thead id="logTableHead">
-                        <!-- Injected dynamically based on active mode -->
-                    </thead>
-                    <tbody id="logTableBody">
-                        <!-- Injected dynamically -->
-                    </tbody>
-                </table>
+                <p class="text-xs text-slate-500 mb-3">Add sample intervals or strata runs. Contiguous runs sharing the same lithology display subtle dotted dividers.</p>
+                <button onclick="addStratumRow()" class="w-full py-2 bg-blue-50 border border-blue-200 hover:bg-blue-100 text-blue-700 text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition">
+                    <i data-lucide="plus" class="w-4 h-4"></i> Add Layer Interval
+                </button>
             </div>
 
-            <!-- Footer Remarks & Watermark -->
-            <div class="mt-3 pt-1.5 border-t-2 border-slate-900 text-[7pt] flex justify-between items-end">
-                <div class="max-w-xl">
-                    <p class="font-bold text-slate-800">FIELD NOTES & REMARKS:</p>
-                    <p class="editable-field text-slate-600" contenteditable="true" id="remarks">PID calibrated with 100 ppm Isobutylene gas. Monitoring well completed with flush-mount vault and locked expansion cap.</p>
-                </div>
-                <div class="text-right font-mono text-[6.5pt] text-slate-400 italic">
-                    Created with Philo Environmental LLC | Borehole Studio
-                </div>
+            <!-- Dynamic Form Cards Container -->
+            <div id="strataEditorList" class="flex flex-col gap-3">
+                <!-- Dynamically populated via JavaScript -->
             </div>
-        </div>
-    </section>
-</main>
+        </section>
 
-<script>
-    // Global State
-    let currentMode = 'environmental';
-
-    let logData = {
-        mode: 'environmental',
-        metadata: {
-            companyName: "PHILO ENVIRONMENTAL LLC",
-            companySub: "ENVIRONMENTAL & GEOTECHNICAL SUBSURFACE LOG",
-            logTitle: "MONITORING WELL LOG",
-            boreholeId: "MW-01",
-            projectName: "Commercial Facility Phase II ESA",
-            projectNo: "PE-2026-104",
-            drillMethod: "Direct Push / Geoprobe 7822DT",
-            location: "Site Area A - North Parcel",
-            surfaceElev: "100.0 ft NAVD88",
-            samplingMethod: "4-ft Continuous MacroCore",
-            dates: "Sept 20, 2026",
-            gwlInfo: "6.0 ft bgs (Static)",
-            personnel: "Philo Env Staff",
-            remarks: "PID calibrated with 100 ppm Isobutylene gas. Monitoring well completed with flush-mount vault and locked expansion cap."
-        },
-        strata: [
-            {
-                depthTop: 0, depthBottom: 0.5, uscs: "FILL", pattern: "asphalt",
-                description: "ASPHALT PAVEMENT (2 in) over Crushed Base Aggregate. Dry, dense.",
-                sampleId: "—", pid: "0.0", odorSheen: "None", wellComp: "grout",
-                wellDesc: "Flush-mount Vault & Grout Seal (0-1.0 ft)", spt: "—", rqd: "—"
-            },
-            {
-                depthTop: 0.5, depthBottom: 5.0, uscs: "CL", pattern: "clay",
-                description: "LEAN CLAY with sand: Dark brown, stiff, moist, medium plasticity. Interval 0.5 to 5.0 ft.",
-                sampleId: "SB-1 (2-3')", pid: "4.2", odorSheen: "None", wellComp: "grout",
-                wellDesc: "2\" Schedule 40 Riser Pipe", spt: "4-6-8 (14)", rqd: "85% Rec"
-            },
-            {
-                depthTop: 5.0, depthBottom: 10.0, uscs: "CL", pattern: "clay",
-                description: "LEAN CLAY with sand (continued): Reddish brown, stiff, saturated below 6.0 ft. Hydrocarbon odor noted near 8.0 ft.",
-                sampleId: "SB-2 (7-8')", pid: "184.5", odorSheen: "Moderate Odor / Sheen", wellComp: "bentonite",
-                wellDesc: "Bentonite Chip Seal (3.0-5.0 ft)", spt: "5-7-9 (16)", rqd: "95% Rec"
-            },
-            {
-                depthTop: 10.0, depthBottom: 15.0, uscs: "SP", pattern: "sand",
-                description: "POORLY GRADED SAND: Yellowish brown, medium dense, saturated. Well screen interval.",
-                sampleId: "MW-1-W (GW)", pid: "62.0", odorSheen: "Slight Odor", wellComp: "screen",
-                wellDesc: "0.010 Slot Screen & #2 Sand Pack (5.0-15.0 ft)", spt: "12-18-22 (40)", rqd: "90% Rec"
-            },
-            {
-                depthTop: 15.0, depthBottom: 20.0, uscs: "SP", pattern: "sand",
-                description: "POORLY GRADED SAND (continued): Continuous saturated sand stratum, fine to medium grained.",
-                sampleId: "SB-5 (17-18')", pid: "12.4", odorSheen: "Slight Odor", wellComp: "sand",
-                wellDesc: "Filter Sand Pack", spt: "15-20-24 (44)", rqd: "95% Rec"
-            }
-        ]
-    };
-
-    window.onload = function() {
-        lucide.createIcons();
-        loadMetadataToUI();
-        setLoggingMode(logData.mode || 'environmental');
-    };
-
-    function setLoggingMode(mode) {
-        currentMode = mode;
-        logData.mode = mode;
-
-        const btnGeo = document.getElementById('btnGeoMode');
-        const btnEnv = document.getElementById('btnEnvMode');
-        const modeBadge = document.getElementById('modeBadge');
-        const modeIconBg = document.getElementById('modeIconBg');
-        const modeIcon = document.getElementById('modeIcon');
-
-        if (mode === 'geotechnical') {
-            btnGeo.className = "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold transition-all shadow-sm bg-white text-blue-700";
-            btnEnv.className = "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold transition-all text-slate-600 hover:text-slate-900";
-            modeBadge.innerText = "GEOTECHNICAL";
-            modeBadge.className = "text-[8pt] font-mono px-2 py-0.5 rounded bg-amber-50 text-amber-700 font-bold uppercase";
-            modeIconBg.className = "p-2.5 bg-amber-600 text-white rounded-xl shadow-sm transition-colors";
-            modeIcon.setAttribute('data-lucide', 'pick');
-        } else {
-            btnEnv.className = "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold transition-all shadow-sm bg-white text-blue-700";
-            btnGeo.className = "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold transition-all text-slate-600 hover:text-slate-900";
-            modeBadge.innerText = "ENVIRONMENTAL";
-            modeBadge.className = "text-[8pt] font-mono px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-bold uppercase";
-            modeIconBg.className = "p-2.5 bg-blue-600 text-white rounded-xl shadow-sm transition-colors";
-            modeIcon.setAttribute('data-lucide', 'flask-conical');
-        }
-
-        lucide.createIcons();
-        renderTableHead();
-        renderLogTable();
-        renderEditorForm();
-    }
-
-    function loadMetadataToUI() {
-        if (!logData.metadata) return;
-        Object.keys(logData.metadata).forEach(key => {
-            const el = document.getElementById(key);
-            if (el) {
-                el.innerText = logData.metadata[key] || "";
-            }
-        });
-    }
-
-    function harvestMetadataFromUI() {
-        if (!logData.metadata) logData.metadata = {};
-        const metaKeys = [
-            "companyName", "companySub", "logTitle", "boreholeId",
-            "projectName", "projectNo", "drillMethod", "location",
-            "surfaceElev", "samplingMethod", "dates", "gwlInfo",
-            "personnel", "remarks"
-        ];
-        metaKeys.forEach(key => {
-            const el = document.getElementById(key);
-            if (el) {
-                logData.metadata[key] = el.innerText.trim();
-            }
-        });
-    }
-
-    function renderTableHead() {
-        const thead = document.getElementById('logTableHead');
-        if (currentMode === 'geotechnical') {
-            thead.innerHTML = `
-                <tr class="bg-slate-100 text-[7.5pt] uppercase font-bold text-slate-800">
-                    <th style="width: 10%;">Depth Scale<br>(Feet)</th>
-                    <th style="width: 7%;">USCS</th>
-                    <th style="width: 11%;">Lithology</th>
-                    <th style="width: 42%;">Material Description & Field Observations</th>
-                    <th style="width: 10%;">Sample ID</th>
-                    <th style="width: 10%;">SPT Blows<br>(N-Value)</th>
-                    <th style="width: 10%;">Rec / RQD</th>
-                </tr>
-            `;
-        } else {
-            thead.innerHTML = `
-                <tr class="bg-slate-100 text-[7.5pt] uppercase font-bold text-slate-800">
-                    <th style="width: 10%;">Depth Scale<br>(Feet)</th>
-                    <th style="width: 7%;">USCS</th>
-                    <th style="width: 10%;">Lithology</th>
-                    <th style="width: 33%;">Soil Description & Field Screening Notes</th>
-                    <th style="width: 10%;">PID Reading<br>(ppm VOC)</th>
-                    <th style="width: 10%;">Odor / Sheen</th>
-                    <th style="width: 9%;">Sample ID</th>
-                    <th style="width: 11%;">Well Detail</th>
-                </tr>
-            `;
-        }
-    }
-
-    function renderRulerCell(top, bottom, heightPx) {
-        const range = Math.max(bottom - top, 0.1);
-        let tickHTML = '';
-        for (let d = Math.ceil(top * 10) / 10; d <= bottom; d += 1) {
-            const depthVal = Math.round(d);
-            if (depthVal < top || depthVal > bottom) continue;
-            const percent = ((depthVal - top) / range) * 100;
-            const isMajor = (depthVal % 5 === 0);
-            if (isMajor) {
-                tickHTML += `
-                    <div class="absolute w-full flex items-center justify-between px-1" style="top: ${percent}%;">
-                        <span class="font-mono font-bold text-[7.5pt] text-slate-900">${depthVal}'</span>
-                        <div class="w-2.5 h-[1.5px] bg-slate-900"></div>
-                    </div>
-                `;
-            } else {
-                tickHTML += `
-                    <div class="absolute right-0 w-1.5 h-[1px] bg-slate-400" style="top: ${percent}%;"></div>
-                `;
-            }
-        }
-        return `
-            <div class="relative w-full bg-slate-50 border-r border-slate-300 overflow-hidden" style="height: ${heightPx}px;">
-                ${tickHTML}
-            </div>
-        `;
-    }
-
-    function renderLogTable() {
-        const tbody = document.getElementById('logTableBody');
-        tbody.innerHTML = '';
-
-        if (!logData.strata || !Array.isArray(logData.strata)) return;
-
-        logData.strata.forEach((layer, index) => {
-            const tr = document.createElement('tr');
-            const layerHeight = Math.max((layer.depthBottom - layer.depthTop) * 20, 48);
-            const nextLayer = logData.strata[index + 1];
-            const isNextSamePattern = nextLayer && nextLayer.pattern === layer.pattern;
-
-            const borderClass = (isNextSamePattern && index < logData.strata.length - 1) 
-                ? "stratum-border-subtle" 
-                : "stratum-border-split";
-
-            const rulerHTML = renderRulerCell(layer.depthTop, layer.depthBottom, layerHeight);
-
-            if (currentMode === 'geotechnical') {
-                tr.innerHTML = `
-                    <td class="${borderClass} p-0 align-top">${rulerHTML}</td>
-                    <td class="${borderClass} font-bold text-[8pt] align-middle bg-slate-50/50">${layer.uscs || ''}</td>
-                    <td class="${borderClass} p-0 align-middle relative"><div class="w-full pat-${layer.pattern}" style="height: ${layerHeight}px;"></div></td>
-                    <td class="${borderClass} text-left align-top p-2 leading-relaxed">${layer.description || ''}</td>
-                    <td class="${borderClass} font-mono text-[7.5pt] align-middle font-medium">${layer.sampleId || '—'}</td>
-                    <td class="${borderClass} font-mono text-[7.5pt] align-middle font-bold text-blue-900">${layer.spt || '—'}</td>
-                    <td class="${borderClass} font-mono text-[7pt] align-middle text-slate-700">${layer.rqd || '—'}</td>
-                `;
-            } else {
-                const pidVal = parseFloat(layer.pid) || 0;
-                const pidBarWidth = Math.min((pidVal / 300) * 100, 100);
+        <!-- Right Column: Printable Document Sheet Canvas -->
+        <section class="lg:col-span-8 flex justify-center">
+            <div class="print-container bg-white p-6 rounded-xl shadow-lg border border-slate-200 w-full max-w-[8.5in] text-slate-900 flex flex-col justify-between">
                 
-                let wellClass = "";
-                if (layer.wellComp === 'grout') wellClass = "well-grout-bg";
-                if (layer.wellComp === 'bentonite') wellClass = "well-bentonite-bg";
-                if (layer.wellComp === 'sand' || layer.wellComp === 'screen') wellClass = "well-sand-bg";
-
-                tr.innerHTML = `
-                    <td class="${borderClass} p-0 align-top">${rulerHTML}</td>
-                    <td class="${borderClass} font-bold text-[8pt] align-middle bg-slate-50/50">${layer.uscs || ''}</td>
-                    <td class="${borderClass} p-0 align-middle relative"><div class="w-full pat-${layer.pattern}" style="height: ${layerHeight}px;"></div></td>
-                    <td class="${borderClass} text-left align-top p-2 leading-relaxed">${layer.description || ''}</td>
-                    <td class="${borderClass} font-mono text-[7.5pt] align-middle p-1">
-                        <div class="font-bold text-slate-900">${layer.pid ? layer.pid + ' ppm' : '—'}</div>
-                        ${layer.pid && layer.pid !== '—' ? `
-                            <div class="w-full bg-slate-100 h-2 rounded border border-slate-300 overflow-hidden mt-1">
-                                <div class="bg-red-500 h-full" style="width: ${pidBarWidth}%;"></div>
+                <div>
+                    <!-- Header Document Block -->
+                    <div class="header-box border-2 border-slate-900 mb-2 text-xs">
+                        <div class="border-b-2 border-slate-900 p-2.5 bg-slate-50 flex justify-between items-center">
+                            <div>
+                                <h1 class="text-sm font-black tracking-wide uppercase editable-field" contenteditable="true" id="companyName">PHILO ENVIRONMENTAL LLC</h1>
+                                <p class="text-[8pt] text-slate-600 font-medium editable-field" contenteditable="true" id="companySub">ENVIRONMENTAL & GEOTECHNICAL SUBSURFACE LOG</p>
                             </div>
-                        ` : ''}
-                    </td>
-                    <td class="${borderClass} text-[7pt] align-middle font-medium text-slate-800">${layer.odorSheen || 'None'}</td>
-                    <td class="${borderClass} font-mono text-[7.5pt] align-middle font-bold text-blue-900">${layer.sampleId || '—'}</td>
-                    <td class="${borderClass} p-1 align-middle relative text-left">
-                        <div class="w-full h-full p-1 rounded border border-slate-300 relative ${wellClass}">
-                            ${layer.wellComp === 'screen' ? '<div class="absolute inset-y-0 left-1/2 -translate-x-1/2 w-2.5 bg-white border-2 border-slate-900 border-dashed"></div>' : ''}
-                            ${layer.wellComp === 'grout' ? '<div class="absolute inset-y-0 left-1/2 -translate-x-1/2 w-2.5 bg-white border-2 border-slate-900"></div>' : ''}
-                            <span class="relative z-10 bg-white/90 px-1 py-0.5 rounded font-mono text-[6.5pt] font-semibold block text-slate-900 shadow-sm">
-                                ${layer.wellDesc || layer.wellComp || ''}
-                            </span>
+                            <div class="text-right">
+                                <div class="text-[10pt] font-black tracking-wider editable-field" contenteditable="true" id="logTitle">BORING / WELL LOG</div>
+                                <div class="text-[7.5pt] font-mono text-slate-600">WELL / BORING ID: <span class="editable-field font-bold text-slate-900" contenteditable="true" id="boreholeId">MW-01</span></div>
+                            </div>
                         </div>
-                    </td>
+
+                        <!-- Header Metadata Fields -->
+                        <div class="grid grid-cols-3 divide-x divide-y border-slate-900 text-[7.5pt]">
+                            <div class="p-1">
+                                <span class="text-slate-500 block text-[6.5pt] font-bold">PROJECT NAME</span>
+                                <span class="editable-field font-semibold" contenteditable="true" id="projectName">Commercial Facility Phase II ESA</span>
+                            </div>
+                            <div class="p-1">
+                                <span class="text-slate-500 block text-[6.5pt] font-bold">JOB / PERMIT NO.</span>
+                                <span class="editable-field font-semibold" contenteditable="true" id="projectNo">PE-2026-104</span>
+                            </div>
+                            <div class="p-1">
+                                <span class="text-slate-500 block text-[6.5pt] font-bold">DRILLING METHOD</span>
+                                <span class="editable-field font-semibold" contenteditable="true" id="drillMethod">Direct Push / Geoprobe 7822DT</span>
+                            </div>
+
+                            <div class="p-1">
+                                <span class="text-slate-500 block text-[6.5pt] font-bold">LOCATION / COORDS</span>
+                                <span class="editable-field" contenteditable="true" id="location">Site Area A - North Parcel</span>
+                            </div>
+                            <div class="p-1">
+                                <span class="text-slate-500 block text-[6.5pt] font-bold">SURFACE ELEVATION</span>
+                                <span class="editable-field font-semibold" contenteditable="true" id="surfaceElev">100.0 ft NAVD88</span>
+                            </div>
+                            <div class="p-1">
+                                <span class="text-slate-500 block text-[6.5pt] font-bold">SAMPLING METHOD</span>
+                                <span class="editable-field" contenteditable="true" id="samplingMethod">4-ft Continuous MacroCore</span>
+                            </div>
+
+                            <div class="p-1">
+                                <span class="text-slate-500 block text-[6.5pt] font-bold">DATE STARTED / COMPLETED</span>
+                                <span class="editable-field" contenteditable="true" id="dates">Sept 20, 2026</span>
+                            </div>
+                            <div class="p-1">
+                                <span class="text-slate-500 block text-[6.5pt] font-bold">GROUNDWATER DEPTH</span>
+                                <span class="editable-field font-semibold" contenteditable="true" id="gwlInfo">6.0 ft bgs (Static)</span>
+                            </div>
+                            <div class="p-1">
+                                <span class="text-slate-500 block text-[6.5pt] font-bold">LOGGED / CHECKED BY</span>
+                                <span class="editable-field" contenteditable="true" id="personnel">Philo Env Staff</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Subsurface Log Table -->
+                    <table class="log-table">
+                        <thead id="logTableHead">
+                            <!-- Injected dynamically based on active mode -->
+                        </thead>
+                        <tbody id="logTableBody">
+                            <!-- Injected dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Footer Remarks & Watermark -->
+                <div class="mt-3 pt-1.5 border-t-2 border-slate-900 text-[7pt] flex justify-between items-end">
+                    <div class="max-w-xl">
+                        <p class="font-bold text-slate-800">FIELD NOTES & REMARKS:</p>
+                        <p class="editable-field text-slate-600" contenteditable="true" id="remarks">PID calibrated with 100 ppm Isobutylene gas. Monitoring well completed with flush-mount vault and locked expansion cap.</p>
+                    </div>
+                    <div class="text-right font-mono text-[6.5pt] text-slate-400 italic">
+                        Created with Philo Environmental LLC | Borehole Studio
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Global State
+        let currentMode = 'environmental';
+
+        let logData = {
+            mode: 'environmental',
+            metadata: {
+                companyName: "PHILO ENVIRONMENTAL LLC",
+                companySub: "ENVIRONMENTAL & GEOTECHNICAL SUBSURFACE LOG",
+                logTitle: "MONITORING WELL LOG",
+                boreholeId: "MW-01",
+                projectName: "Commercial Facility Phase II ESA",
+                projectNo: "PE-2026-104",
+                drillMethod: "Direct Push / Geoprobe 7822DT",
+                location: "Site Area A - North Parcel",
+                surfaceElev: "100.0",
+                samplingMethod: "4-ft Continuous MacroCore",
+                dates: "Sept 20, 2026",
+                gwlInfo: "6.0 ft bgs (Static)",
+                personnel: "Philo Env Staff",
+                remarks: "PID calibrated with 100 ppm Isobutylene gas. Monitoring well completed with flush-mount vault and locked expansion cap."
+            },
+            strata: [
+                {
+                    depthTop: 0, depthBottom: 0.5, uscs: "FILL", pattern: "asphalt",
+                    description: "ASPHALT PAVEMENT (2 in) over Crushed Base Aggregate. Dry, dense.",
+                    sampleId: "—", pid: "0.0", odorSheen: "None", wellComp: "grout",
+                    wellDesc: "Flush-mount Vault & Grout Seal (0-1.0 ft)", spt: "—", rqd: "—"
+                },
+                {
+                    depthTop: 0.5, depthBottom: 5.0, uscs: "CL", pattern: "clay",
+                    description: "LEAN CLAY with sand: Dark brown, stiff, moist, medium plasticity. Interval 0.5 to 5.0 ft.",
+                    sampleId: "SB-1 (2-3')", pid: "4.2", odorSheen: "None", wellComp: "grout",
+                    wellDesc: "2\" Schedule 40 Riser Pipe", spt: "4-6-8 (14)", rqd: "85% Rec"
+                },
+                {
+                    depthTop: 5.0, depthBottom: 10.0, uscs: "CL", pattern: "clay",
+                    description: "LEAN CLAY with sand (continued): Reddish brown, stiff, saturated below 6.0 ft. Hydrocarbon odor noted near 8.0 ft.",
+                    sampleId: "SB-2 (7-8')", pid: "184.5", odorSheen: "Moderate Odor / Sheen", wellComp: "bentonite",
+                    wellDesc: "Bentonite Chip Seal (3.0-5.0 ft)", spt: "5-7-9 (16)", rqd: "95% Rec"
+                },
+                {
+                    depthTop: 10.0, depthBottom: 15.0, uscs: "SP", pattern: "sand",
+                    description: "POORLY GRADED SAND: Yellowish brown, medium dense, saturated. Well screen interval.",
+                    sampleId: "MW-1-W (GW)", pid: "62.0", odorSheen: "Slight Odor", wellComp: "screen",
+                    wellDesc: "0.010 Slot Screen & #2 Sand Pack (5.0-15.0 ft)", spt: "12-18-22 (40)", rqd: "90% Rec"
+                },
+                {
+                    depthTop: 15.0, depthBottom: 20.0, uscs: "SP", pattern: "sand",
+                    description: "POORLY GRADED SAND (continued): Continuous saturated sand stratum, fine to medium grained.",
+                    sampleId: "SB-5 (17-18')", pid: "12.4", odorSheen: "Slight Odor", wellComp: "sand",
+                    wellDesc: "Filter Sand Pack", spt: "15-20-24 (44)", rqd: "95% Rec"
+                }
+            ]
+        };
+
+        window.onload = function() {
+            lucide.createIcons();
+            loadMetadataToUI();
+            setLoggingMode(logData.mode || 'environmental');
+        };
+
+        function setLoggingMode(mode) {
+            currentMode = mode;
+            logData.mode = mode;
+
+            const btnGeo = document.getElementById('btnGeoMode');
+            const btnEnv = document.getElementById('btnEnvMode');
+            const modeBadge = document.getElementById('modeBadge');
+            const modeIconBg = document.getElementById('modeIconBg');
+            const modeIcon = document.getElementById('modeIcon');
+
+            if (mode === 'geotechnical') {
+                btnGeo.className = "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold transition-all shadow-sm bg-white text-blue-700";
+                btnEnv.className = "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold transition-all text-slate-600 hover:text-slate-900";
+                modeBadge.innerText = "GEOTECHNICAL";
+                modeBadge.className = "text-[8pt] font-mono px-2 py-0.5 rounded bg-amber-50 text-amber-700 font-bold uppercase";
+                modeIconBg.className = "p-2.5 bg-amber-600 text-white rounded-xl shadow-sm transition-colors";
+                modeIcon.setAttribute('data-lucide', 'pick');
+            } else {
+                btnEnv.className = "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold transition-all shadow-sm bg-white text-blue-700";
+                btnGeo.className = "flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-bold transition-all text-slate-600 hover:text-slate-900";
+                modeBadge.innerText = "ENVIRONMENTAL";
+                modeBadge.className = "text-[8pt] font-mono px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-bold uppercase";
+                modeIconBg.className = "p-2.5 bg-blue-600 text-white rounded-xl shadow-sm transition-colors";
+                modeIcon.setAttribute('data-lucide', 'flask-conical');
+            }
+
+            lucide.createIcons();
+            renderTableHead();
+            renderLogTable();
+            renderEditorForm();
+        }
+
+        function loadMetadataToUI() {
+            Object.keys(logData.metadata).forEach(key => {
+                const el = document.getElementById(key);
+                if (el) {
+                    el.innerText = logData.metadata[key];
+                    el.addEventListener('blur', () => {
+                        logData.metadata[key] = el.innerText;
+                    });
+                }
+            });
+        }
+
+        function renderTableHead() {
+            const thead = document.getElementById('logTableHead');
+            
+            if (currentMode === 'geotechnical') {
+                thead.innerHTML = `
+                    <tr class="bg-slate-100 text-[7.5pt] uppercase font-bold text-slate-800">
+                        <th style="width: 10%;">Depth Scale<br>(Feet)</th>
+                        <th style="width: 7%;">USCS</th>
+                        <th style="width: 11%;">Lithology</th>
+                        <th style="width: 42%;">Material Description & Field Observations</th>
+                        <th style="width: 10%;">Sample ID</th>
+                        <th style="width: 10%;">SPT Blows<br>(N-Value)</th>
+                        <th style="width: 10%;">Rec / RQD</th>
+                    </tr>
+                `;
+            } else {
+                thead.innerHTML = `
+                    <tr class="bg-slate-100 text-[7.5pt] uppercase font-bold text-slate-800">
+                        <th style="width: 10%;">Depth Scale<br>(Feet)</th>
+                        <th style="width: 7%;">USCS</th>
+                        <th style="width: 10%;">Lithology</th>
+                        <th style="width: 33%;">Soil Description & Field Screening Notes</th>
+                        <th style="width: 10%;">PID Reading<br>(ppm VOC)</th>
+                        <th style="width: 10%;">Odor / Sheen</th>
+                        <th style="width: 9%;">Sample ID</th>
+                        <th style="width: 11%;">Well Detail</th>
+                    </tr>
                 `;
             }
-            tbody.appendChild(tr);
-        });
-    }
+        }
 
-    function renderEditorForm() {
-        const container = document.getElementById('strataEditorList');
-        container.innerHTML = '';
+        // Helper to generate Depth Ruler Track (1-ft minor ticks, 5-ft labeled major ticks)
+        function renderRulerCell(top, bottom, heightPx) {
+            const range = Math.max(bottom - top, 0.1);
+            let tickHTML = '';
 
-        if (!logData.strata || !Array.isArray(logData.strata)) return;
+            // Calculate exact tick positions continuously
+            for (let d = Math.ceil(top * 10) / 10; d <= bottom; d += 1) {
+                const depthVal = Math.round(d);
+                if (depthVal < top || depthVal > bottom) continue;
 
-        logData.strata.forEach((layer, index) => {
-            const card = document.createElement('div');
-            card.className = 'p-3 bg-slate-50 rounded-lg border border-slate-200 text-xs flex flex-col gap-2 relative group';
+                const percent = ((depthVal - top) / range) * 100;
+                const isMajor = (depthVal % 5 === 0);
 
-            card.innerHTML = `
-                <div class="flex items-center justify-between font-bold text-slate-700">
-                    <span>Layer ${index + 1} (${layer.depthTop}ft - ${layer.depthBottom}ft)</span>
-                    <button onclick="removeStratumRow(${index})" class="text-red-500 hover:text-red-700 p-1">
-                        <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
-                    </button>
+                if (isMajor) {
+                    tickHTML += `
+                        <div class="absolute w-full flex items-center justify-between px-1" style="top: ${percent}%;">
+                            <span class="font-mono font-bold text-[7.5pt] text-slate-900">${depthVal}'</span>
+                            <div class="w-2.5 h-[1.5px] bg-slate-900"></div>
+                        </div>
+                    `;
+                } else {
+                    tickHTML += `
+                        <div class="absolute right-0 w-1.5 h-[1px] bg-slate-400" style="top: ${percent}%;"></div>
+                    `;
+                }
+            }
+
+            return `
+                <div class="relative w-full bg-slate-50 border-r border-slate-300 overflow-hidden" style="height: ${heightPx}px;">
+                    ${tickHTML}
                 </div>
+            `;
+        }
 
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Top Depth (ft)</label>
-                        <input type="number" step="0.5" value="${layer.depthTop}" onchange="updateLayerData(${index}, 'depthTop', parseFloat(this.value))" class="w-full p-1 border rounded bg-white font-mono">
-                    </div>
-                    <div>
-                        <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Bot Depth (ft)</label>
-                        <input type="number" step="0.5" value="${layer.depthBottom}" onchange="updateLayerData(${index}, 'depthBottom', parseFloat(this.value))" class="w-full p-1 border rounded bg-white font-mono">
-                    </div>
-                </div>
+        function renderLogTable() {
+            const tbody = document.getElementById('logTableBody');
+            tbody.innerHTML = '';
 
-                <div class="grid grid-cols-2 gap-2">
-                    <div>
-                        <label class="text-[6.5pt] font-bold text-slate-500 uppercase">USCS Code</label>
-                        <input type="text" value="${layer.uscs || ''}" onchange="updateLayerData(${index}, 'uscs', this.value)" class="w-full p-1 border rounded bg-white font-bold">
-                    </div>
-                    <div>
-                        <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Lithology Pattern</label>
-                        <select onchange="updateLayerData(${index}, 'pattern', this.value)" class="w-full p-1 border rounded bg-white text-xs font-semibold">
-                            <option value="sand" ${layer.pattern === 'sand' ? 'selected' : ''}>Sand (SW/SP)</option>
-                            <option value="clay" ${layer.pattern === 'clay' ? 'selected' : ''}>Clay (CL/CH)</option>
-                            <option value="gravel" ${layer.pattern === 'gravel' ? 'selected' : ''}>Gravel (GW/GP)</option>
-                            <option value="silt" ${layer.pattern === 'silt' ? 'selected' : ''}>Silt (ML/MH)</option>
-                            <option value="asphalt" ${layer.pattern === 'asphalt' ? 'selected' : ''}>Asphalt / Fill</option>
-                            <option value="rock" ${layer.pattern === 'rock' ? 'selected' : ''}>Bedrock</option>
-                            <option value="peat" ${layer.pattern === 'peat' ? 'selected' : ''}>Peat (PT)</option>
-                        </select>
-                    </div>
-                </div>
+            logData.strata.forEach((layer, index) => {
+                const tr = document.createElement('tr');
 
-                <div>
-                    <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Description</label>
-                    <textarea onchange="updateLayerData(${index}, 'description', this.value)" rows="2" class="w-full p-1 border rounded bg-white text-xs leading-tight">${layer.description || ''}</textarea>
-                </div>
+                const layerHeight = Math.max((layer.depthBottom - layer.depthTop) * 20, 48);
 
-                ${currentMode === 'environmental' ? `
+                const nextLayer = logData.strata[index + 1];
+                const isNextSamePattern = nextLayer && nextLayer.pattern === layer.pattern;
+
+                // Subtle dotted line if contiguous same lithology; Solid line if pattern changes
+                const borderClass = (isNextSamePattern && index < logData.strata.length - 1) 
+                    ? "stratum-border-subtle" 
+                    : "stratum-border-split";
+
+                const rulerHTML = renderRulerCell(layer.depthTop, layer.depthBottom, layerHeight);
+
+                if (currentMode === 'geotechnical') {
+                    tr.innerHTML = `
+                        <td class="${borderClass} p-0 align-top">
+                            ${rulerHTML}
+                        </td>
+                        <td class="${borderClass} font-bold text-[8pt] align-middle bg-slate-50/50">
+                            ${layer.uscs}
+                        </td>
+                        <td class="${borderClass} p-0 align-middle relative">
+                            <div class="w-full pat-${layer.pattern}" style="height: ${layerHeight}px;"></div>
+                        </td>
+                        <td class="${borderClass} text-left align-top p-2 leading-relaxed">
+                            ${layer.description}
+                        </td>
+                        <td class="${borderClass} font-mono text-[7.5pt] align-middle font-medium">
+                            ${layer.sampleId || '—'}
+                        </td>
+                        <td class="${borderClass} font-mono text-[7.5pt] align-middle font-bold text-blue-900">
+                            ${layer.spt || '—'}
+                        </td>
+                        <td class="${borderClass} font-mono text-[7pt] align-middle text-slate-700">
+                            ${layer.rqd || '—'}
+                        </td>
+                    `;
+                } else {
+                    const pidVal = parseFloat(layer.pid) || 0;
+                    const pidBarWidth = Math.min((pidVal / 300) * 100, 100);
+                    
+                    let wellClass = "";
+                    if (layer.wellComp === 'grout') wellClass = "well-grout-bg";
+                    if (layer.wellComp === 'bentonite') wellClass = "well-bentonite-bg";
+                    if (layer.wellComp === 'sand' || layer.wellComp === 'screen') wellClass = "well-sand-bg";
+
+                    tr.innerHTML = `
+                        <td class="${borderClass} p-0 align-top">
+                            ${rulerHTML}
+                        </td>
+                        <td class="${borderClass} font-bold text-[8pt] align-middle bg-slate-50/50">
+                            ${layer.uscs}
+                        </td>
+                        <td class="${borderClass} p-0 align-middle relative">
+                            <div class="w-full pat-${layer.pattern}" style="height: ${layerHeight}px;"></div>
+                        </td>
+                        <td class="${borderClass} text-left align-top p-2 leading-relaxed">
+                            ${layer.description}
+                        </td>
+                        <td class="${borderClass} font-mono text-[7.5pt] align-middle p-1">
+                            <div class="font-bold text-slate-900">${layer.pid ? layer.pid + ' ppm' : '—'}</div>
+                            ${layer.pid && layer.pid !== '—' ? `
+                                <div class="w-full bg-slate-100 h-2 rounded border border-slate-300 overflow-hidden mt-1">
+                                    <div class="bg-red-500 h-full" style="width: ${pidBarWidth}%;"></div>
+                                </div>
+                            ` : ''}
+                        </td>
+                        <td class="${borderClass} text-[7pt] align-middle font-medium text-slate-800">
+                            ${layer.odorSheen || 'None'}
+                        </td>
+                        <td class="${borderClass} font-mono text-[7.5pt] align-middle font-bold text-blue-900">
+                            ${layer.sampleId || '—'}
+                        </td>
+                        <td class="${borderClass} p-1 align-middle relative text-left">
+                            <div class="w-full h-full p-1 rounded border border-slate-300 relative ${wellClass}">
+                                ${layer.wellComp === 'screen' ? '<div class="absolute inset-y-0 left-1/2 -translate-x-1/2 w-2.5 bg-white border-2 border-slate-900 border-dashed"></div>' : ''}
+                                ${layer.wellComp === 'grout' ? '<div class="absolute inset-y-0 left-1/2 -translate-x-1/2 w-2.5 bg-white border-2 border-slate-900"></div>' : ''}
+                                <span class="relative z-10 bg-white/90 px-1 py-0.5 rounded font-mono text-[6.5pt] font-semibold block text-slate-900 shadow-sm">
+                                    ${layer.wellDesc || layer.wellComp}
+                                </span>
+                            </div>
+                        </td>
+                    `;
+                }
+
+                tbody.appendChild(tr);
+            });
+        }
+
+        function renderEditorForm() {
+            const container = document.getElementById('strataEditorList');
+            container.innerHTML = '';
+
+            logData.strata.forEach((layer, index) => {
+                const card = document.createElement('div');
+                card.className = 'p-3 bg-slate-50 rounded-lg border border-slate-200 text-xs flex flex-col gap-2 relative group';
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between font-bold text-slate-700">
+                        <span>Layer ${index + 1} (${layer.depthTop}ft - ${layer.depthBottom}ft)</span>
+                        <button onclick="removeStratumRow(${index})" class="text-red-500 hover:text-red-700 p-1">
+                            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                        </button>
+                    </div>
+
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="text-[6.5pt] font-bold text-slate-500 uppercase">PID VOC (ppm)</label>
-                            <input type="text" value="${layer.pid \vert{}\vert{} ''}" onchange="updateLayerData(${index}, 'pid', this.value)" class="w-full p-1 border rounded bg-white font-mono">
+                            <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Top Depth (ft)</label>
+                            <input type="number" step="0.5" value="${layer.depthTop}" onchange="updateLayerData(${index}, 'depthTop', parseFloat(this.value))" class="w-full p-1 border rounded bg-white font-mono">
                         </div>
                         <div>
-                            <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Sample ID</label>
-                            <input type="text" value="${layer.sampleId \vert{}\vert{} ''}" onchange="updateLayerData(${index}, 'sampleId', this.value)" class="w-full p-1 border rounded bg-white font-mono">
+                            <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Bot Depth (ft)</label>
+                            <input type="number" step="0.5" value="${layer.depthBottom}" onchange="updateLayerData(${index}, 'depthBottom', parseFloat(this.value))" class="w-full p-1 border rounded bg-white font-mono">
                         </div>
                     </div>
+
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Odor / Sheen</label>
-                            <input type="text" value="${layer.odorSheen \vert{}\vert{} ''}" onchange="updateLayerData(${index}, 'odorSheen', this.value)" class="w-full p-1 border rounded bg-white">
+                            <label class="text-[6.5pt] font-bold text-slate-500 uppercase">USCS Code</label>
+                            <input type="text" value="${layer.uscs}" onchange="updateLayerData(${index}, 'uscs', this.value)" class="w-full p-1 border rounded bg-white font-bold">
                         </div>
                         <div>
-                            <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Well Component</label>
-                            <select onchange="updateLayerData(${index}, 'wellComp', this.value)" class="w-full p-1 border rounded bg-white text-xs">
-                                <option value="none" ${layer.wellComp === 'none' ? 'selected' : ''}>None</option>
-                                <option value="grout" ${layer.wellComp === 'grout' ? 'selected' : ''}>Grout / Vault</option>
-                                <option value="bentonite" ${layer.wellComp === 'bentonite' ? 'selected' : ''}>Bentonite Seal</option>
-                                <option value="sand" ${layer.wellComp === 'sand' ? 'selected' : ''}>Filter Sand Pack</option>
-                                <option value="screen" ${layer.wellComp === 'screen' ? 'selected' : ''}>Screen Section</option>
+                            <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Lithology Pattern</label>
+                            <select onchange="updateLayerData(${index}, 'pattern', this.value)" class="w-full p-1 border rounded bg-white text-xs font-semibold">
+                                <option value="sand" ${layer.pattern === 'sand' ? 'selected' : ''}>Sand (SW/SP)</option>
+                                <option value="clay" ${layer.pattern === 'clay' ? 'selected' : ''}>Clay (CL/CH)</option>
+                                <option value="gravel" ${layer.pattern === 'gravel' ? 'selected' : ''}>Gravel (GW/GP)</option>
+                                <option value="silt" ${layer.pattern === 'silt' ? 'selected' : ''}>Silt (ML/MH)</option>
+                                <option value="asphalt" ${layer.pattern === 'asphalt' ? 'selected' : ''}>Asphalt / Fill</option>
+                                <option value="rock" ${layer.pattern === 'rock' ? 'selected' : ''}>Bedrock</option>
+                                <option value="peat" ${layer.pattern === 'peat' ? 'selected' : ''}>Peat (PT)</option>
                             </select>
                         </div>
                     </div>
+
                     <div>
-                        <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Well Construction Note</label>
-                        <input type="text" value="${layer.wellDesc \vert{}\vert{} ''}" onchange="updateLayerData(${index}, 'wellDesc', this.value)" class="w-full p-1 border rounded bg-white text-xs">
+                        <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Description</label>
+                        <textarea onchange="updateLayerData(${index}, 'description', this.value)" rows="2" class="w-full p-1 border rounded bg-white text-xs leading-tight">${layer.description}</textarea>
                     </div>
-                ` : `
-                    <div class="grid grid-cols-3 gap-1.5">
-                        <div>
-                            <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Sample ID</label>
-                            <input type="text" value="${layer.sampleId \vert{}\vert{} ''}" onchange="updateLayerData(${index}, 'sampleId', this.value)" class="w-full p-1 border rounded bg-white font-mono text-[7pt]">
+
+                    ${currentMode === 'environmental' ? `
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="text-[6.5pt] font-bold text-slate-500 uppercase">PID VOC (ppm)</label>
+                                <input type="text" value="${layer.pid || ''}" onchange="updateLayerData(${index}, 'pid', this.value)" class="w-full p-1 border rounded bg-white font-mono">
+                            </div>
+                            <div>
+                                <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Sample ID</label>
+                                <input type="text" value="${layer.sampleId || ''}" onchange="updateLayerData(${index}, 'sampleId', this.value)" class="w-full p-1 border rounded bg-white font-mono">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Odor / Sheen</label>
+                                <input type="text" value="${layer.odorSheen || ''}" onchange="updateLayerData(${index}, 'odorSheen', this.value)" class="w-full p-1 border rounded bg-white">
+                            </div>
+                            <div>
+                                <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Well Component</label>
+                                <select onchange="updateLayerData(${index}, 'wellComp', this.value)" class="w-full p-1 border rounded bg-white text-xs">
+                                    <option value="none" ${layer.wellComp === 'none' ? 'selected' : ''}>None</option>
+                                    <option value="grout" ${layer.wellComp === 'grout' ? 'selected' : ''}>Grout / Vault</option>
+                                    <option value="bentonite" ${layer.wellComp === 'bentonite' ? 'selected' : ''}>Bentonite Seal</option>
+                                    <option value="sand" ${layer.wellComp === 'sand' ? 'selected' : ''}>Filter Sand Pack</option>
+                                    <option value="screen" ${layer.wellComp === 'screen' ? 'selected' : ''}>Screen Section</option>
+                                </select>
+                            </div>
                         </div>
                         <div>
-                            <label class="text-[6.5pt] font-bold text-slate-500 uppercase">SPT Blows</label>
-                            <input type="text" value="${layer.spt \vert{}\vert{} ''}" onchange="updateLayerData(${index}, 'spt', this.value)" class="w-full p-1 border rounded bg-white font-mono text-[7pt]">
+                            <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Well Construction Note</label>
+                            <input type="text" value="${layer.wellDesc || ''}" onchange="updateLayerData(${index}, 'wellDesc', this.value)" class="w-full p-1 border rounded bg-white text-xs">
                         </div>
-                        <div>
-                            <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Rec / RQD</label>
-                            <input type="text" value="${layer.rqd \vert{}\vert{} ''}" onchange="updateLayerData(${index}, 'rqd', this.value)" class="w-full p-1 border rounded bg-white font-mono text-[7pt]">
+                    ` : `
+                        <div class="grid grid-cols-3 gap-1.5">
+                            <div>
+                                <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Sample ID</label>
+                                <input type="text" value="${layer.sampleId || ''}" onchange="updateLayerData(${index}, 'sampleId', this.value)" class="w-full p-1 border rounded bg-white font-mono text-[7pt]">
+                            </div>
+                            <div>
+                                <label class="text-[6.5pt] font-bold text-slate-500 uppercase">SPT Blows</label>
+                                <input type="text" value="${layer.spt || ''}" onchange="updateLayerData(${index}, 'spt', this.value)" class="w-full p-1 border rounded bg-white font-mono text-[7pt]">
+                            </div>
+                            <div>
+                                <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Rec / RQD</label>
+                                <input type="text" value="${layer.rqd || ''}" onchange="updateLayerData(${index}, 'rqd', this.value)" class="w-full p-1 border rounded bg-white font-mono text-[7pt]">
+                            </div>
                         </div>
-                    </div>
-                `}
-            `;
+                    `}
+                `;
 
-            container.appendChild(card);
-        });
+                container.appendChild(card);
+            });
 
-        lucide.createIcons();
-    }
+            lucide.createIcons();
+        }
 
-    function updateLayerData(index, key, value) {
-        logData.strata[index][key] = value;
-        renderLogTable();
-    }
+        function updateLayerData(index, key, value) {
+            logData.strata[index][key] = value;
+            renderLogTable();
+        }
 
-function addStratumRow() {
-        // Ensure logData and logData.strata exist
-        if (!logData) logData = {};
-        if (!Array.isArray(logData.strata)) logData.strata = [];
+        function addStratumRow() {
+            const last = logData.strata[logData.strata.length - 1];
+            const top = last ? last.depthBottom : 0;
+            const bot = top + 5.0;
 
-        const last = logData.strata.length > 0 ? logData.strata[logData.strata.length - 1] : null;
-        const top = last ? (parseFloat(last.depthBottom) || 0) : 0;
-        const bot = top + 5.0;
+            logData.strata.push({
+                depthTop: top,
+                depthBottom: bot,
+                uscs: "CL",
+                pattern: last ? last.pattern : "clay",
+                description: "New 5-ft stratum interval description.",
+                sampleId: "S-" + (logData.strata.length + 1),
+                pid: "0.0",
+                odorSheen: "None",
+                wellComp: "none",
+                wellDesc: "—",
+                spt: "0-0-0 (0)",
+                rqd: "100%"
+            });
 
-        logData.strata.push({
-            depthTop: top,
-            depthBottom: bot,
-            uscs: "CL",
-            pattern: last ? last.pattern : "clay",
-            description: "New 5-ft stratum interval description.",
-            sampleId: "S-" + (logData.strata.length + 1),
-            pid: "0.0",
-            odorSheen: "None",
-            wellComp: "none",
-            wellDesc: "—",
-            spt: "0-0-0 (0)",
-            rqd: "100%"
-        });
+            renderEditorForm();
+            renderLogTable();
+        }
 
-        renderEditorForm();
-        renderLogTable();
-    }
+        function removeStratumRow(index) {
+            logData.strata.splice(index, 1);
+            renderEditorForm();
+            renderLogTable();
+        }
 
-    function removeStratumRow(index) {
-        logData.strata.splice(index, 1);
-        renderEditorForm();
-        renderLogTable();
-    }
+        function exportJSON() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(logData, null, 2));
+            const downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `${logData.metadata.boreholeId || 'borehole_log'}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
 
-    // --- LOCAL JSON EXPORT & IMPORT ENGINE ---
+        // Helper: Handles local JSON file upload, populates form inputs, and updates canvas
+function importJSON(event) {
+    const file = event.target.files[0];
+    if (!file) return;
 
-    function exportJSON() {
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
         try {
-            // 1. Explicitly harvest current text from contenteditable DOM fields
-            harvestMetadataFromUI();
+            const data = JSON.parse(e.target.result);
+            console.log("Imported Local JSON Payload:", data);
 
-            // 2. Ensure current logging mode is assigned
-            logData.mode = currentMode;
+            // 1. Assign payload to global active state
+            if (typeof logData !== "undefined") {
+                Object.assign(logData, data);
+            } else {
+                window.logData = data;
+            }
 
-            // 3. Serialize master logData object
-            const boreholeId = logData.metadata?.boreholeId || 'borehole_log';
-            const fileName = boreholeId.replace(/[^a-z0-9]/gi, '_') + '.json';
-            const jsonStr = JSON.stringify(logData, null, 2);
-            
-            const blob = new Blob([jsonStr], { type: "application/json" });
-            const url = URL.createObjectURL(blob);
-            
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = fileName;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+            // 2. Run local import routines if defined
+            if (typeof importJSONData === "function") importJSONData(data);
+            if (typeof loadJSON === "function") loadJSON(data);
+            if (typeof loadBoreholeData === "function") loadBoreholeData(data);
+
+            // 3. Populate Form Inputs (Title block, field notes, and all DOM fields)
+            if (typeof populateForm === "function") {
+                populateForm(data);
+            }
+
+            // Sync known title block fields
+            const headerData = data.header || data.projectInfo || data.titleBlock || data;
+            const fieldMap = {
+                "projectName": headerData.projectName || headerData.project || "",
+                "client": headerData.client || headerData.clientName || "",
+                "location": headerData.location || headerData.siteLocation || "",
+                "boringNo": headerData.boringNo || headerData.boringNumber || headerData.holeNo || "",
+                "date": headerData.date || headerData.dateStarted || "",
+                "driller": headerData.driller || headerData.drillingCompany || "",
+                "elevation": headerData.elevation || headerData.groundElevation || "",
+                "loggedBy": headerData.loggedBy || headerData.inspector || "",
+                "sheetNo": headerData.sheetNo || headerData.sheet || "",
+                "fieldNotes": data.fieldNotes || data.notes || ""
+            };
+
+            Object.keys(fieldMap).forEach(id => {
+                const inputEl = document.getElementById(id) || document.querySelector(`[name="${id}"]`);
+                if (inputEl && fieldMap[id] !== undefined) {
+                    inputEl.value = fieldMap[id];
+                    inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+                    inputEl.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            });
+
+            // 4. Force Canvas Redraw
+            if (typeof renderLog === "function") renderLog();
+            if (typeof updateUI === "function") updateUI();
+            if (typeof drawCanvas === "function") drawCanvas();
+
+            window.dispatchEvent(new Event('resize'));
+
+            // Reset file input value so selecting the same file again triggers onchange
+            event.target.value = "";
 
         } catch (err) {
-            console.error("Export Error:", err);
-            alert("An error occurred while exporting log data.");
+            console.error("JSON Import Error:", err);
+            alert("Error parsing JSON file. Please ensure it is a valid Borehole Studio log file.");
+        }
+    };
+
+    reader.readAsText(file);
+}
+    </script>
+<!-- CLOUD STORAGE MODAL -->
+<div id="cloudModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full overflow-hidden border border-slate-100">
+        <!-- Modal Header -->
+        <div class="bg-slate-900 text-white p-4 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i data-lucide="cloud" class="w-5 h-5 text-blue-400"></i>
+                <h3 id="cloudModalTitle" class="font-bold text-base">Philo Cloud Storage</h3>
+            </div>
+            <button onclick="closeCloudModal()" class="text-slate-400 hover:text-white transition">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="p-5 space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Subscriber Email</label>
+                <input type="email" id="cloudUserEmail" placeholder="geologist@firm.com" class="w-full text-sm p-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+            </div>
+<!-- ADD THIS PIN FIELD HERE -->
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Account PIN / Password</label>
+                <input type="password" id="cloudUserPin" placeholder="4-6 digit PIN or secret key" class="w-full text-sm p-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+            </div>
+            <div id="projectNameContainer">
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Project Subfolder Name</label>
+                <input type="text" id="cloudProjectName" placeholder="e.g. 2026_MainSt_Expansion" class="w-full text-sm p-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+            </div>
+
+            <div id="fileNameContainer">
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Borehole Log File Name</label>
+                <input type="text" id="cloudFileName" placeholder="BH-01.json" class="w-full text-sm p-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+            </div>
+
+            <!-- Status Indicator / Project List Container -->
+            <div id="cloudStatus" class="hidden text-xs p-3 rounded-lg font-medium"></div>
+
+            <!-- Modal Action Buttons -->
+            <div class="pt-2 flex flex-col gap-2">
+                <button id="cloudSubmitBtn" onclick="executeCloudAction()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg text-sm transition shadow-sm flex items-center justify-center gap-2">
+                    <i data-lucide="cloud-upload" class="w-4 h-4"></i> Save to Workspace Drive
+                </button>
+                <a href="https://buy.stripe.com/aFadRaaFr3HL8sd2FtbfO00" target="_blank" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2 rounded-lg text-xs text-center transition">
+                    Need an active subscription? Upgrade for $19/mo
+                </a>
+                <!-- 2. INSERT STRIPE CUSTOMER PORTAL LINK HERE -->
+                <a href="https://billing.stripe.com/p/login/aFadRaaFr3HL8sd2FtbfO00" target="_blank" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium py-2 rounded-lg text-xs text-center block transition border border-slate-200">
+                    Manage or Cancel Active Subscription
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CLOUD API INTEGRATION SCRIPT -->
+<script>
+    // Configuration: Deployed Google Apps Script Web App URL
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwTtMfAUpjjxnkjMJh3eFwJI3ptBV_9YuquXz5F7ex1z8avANVvP0fSO14t3E2nf-21_w/exec";
+    
+    let currentModalMode = "save"; // "save" or "load"
+
+    function openCloudSaveModal() {
+        currentModalMode = "save";
+        document.getElementById("cloudModalTitle").innerText = "Save Log to Philo Environmental LLC Cloud";
+        document.getElementById("projectNameContainer").classList.remove("hidden");
+        document.getElementById("fileNameContainer").classList.remove("hidden");
+        document.getElementById("cloudSubmitBtn").innerHTML = `<i data-lucide="cloud-upload" class="w-4 h-4"></i> Save to Cloud`;
+        
+        if (typeof logData !== "undefined" && logData.boringNo) {
+            document.getElementById("cloudFileName").value = logData.boringNo + ".json";
+        }
+        
+        document.getElementById("cloudModal").classList.remove("hidden");
+        if (window.lucide) lucide.createIcons();
+    }
+
+    function openCloudLoadModal() {
+        currentModalMode = "load";
+        document.getElementById("cloudModalTitle").innerText = "Fetch Cloud Project Files";
+        document.getElementById("projectNameContainer").classList.add("hidden");
+        document.getElementById("fileNameContainer").classList.add("hidden");
+        document.getElementById("cloudSubmitBtn").innerHTML = `<i data-lucide="folder-open" class="w-4 h-4"></i> List My Projects`;
+        
+        document.getElementById("cloudModal").classList.remove("hidden");
+        if (window.lucide) lucide.createIcons();
+    }
+
+    function closeCloudModal() {
+        document.getElementById("cloudModal").classList.add("hidden");
+        document.getElementById("cloudStatus").classList.add("hidden");
+    }
+
+async function executeCloudAction() {
+        const email = document.getElementById("cloudUserEmail").value.trim();
+        const pin = document.getElementById("cloudUserPin").value.trim(); // 1. GRAB PIN HERE
+
+        if (!email || !pin) {
+            showCloudStatus("Please enter both your registered email and account PIN.", "error");
+            return;
+        }
+
+        showCloudStatus("Connecting to Philo Environmental LLC Workspace Drive...", "info");
+
+        if (currentModalMode === "save") {
+            const projectName = document.getElementById("cloudProjectName").value.trim() || "General_Projects";
+            let fileName = document.getElementById("cloudFileName").value.trim() || "borehole_log.json";
+            if (!fileName.endsWith(".json")) fileName += ".json";
+
+            const currentLogPayload = typeof exportLogData === "function" ? exportLogData() : (typeof logData !== "undefined" ? logData : {});
+
+            try {
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({
+                        action: "save_log",
+                        email: email,
+                        pin: pin, // 2. PASS PIN TO BACKEND HERE
+                        projectName: projectName,
+                        fileName: fileName,
+                        logData: currentLogPayload
+                    })
+                });
+
+                const result = await response.json();
+                if (result.status === "success") {
+                    showCloudStatus(`Successfully saved '${fileName}' into folder '${projectName}'!`, "success");
+                    setTimeout(closeCloudModal, 2000);
+                } else {
+                    showCloudStatus(result.message || "Save failed. Verify subscription or PIN.", "error");
+                }
+            } catch (err) {
+                showCloudStatus("Network error connecting to cloud vault.", "error");
+            }
+
+        } else if (currentModalMode === "load") {
+            try {
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({
+                        action: "list_projects",
+                        email: email,
+                        pin: pin // 3. PASS PIN TO BACKEND HERE
+                    })
+                });
+
+                const result = await response.json();
+                if (result.status === "success" && result.projects) {
+                    renderProjectList(result.projects);
+                } else {
+                    showCloudStatus(result.message || "Could not retrieve project directory. Check PIN.", "error");
+                }
+            } catch (err) {
+                showCloudStatus("Network error connecting to cloud vault.", "error");
+            }
         }
     }
 
-    function importJSON(event) {
-        const file = event.target?.files?.[0];
-        if (!file) return;
+    // Helper: Renders clickable project folders inside the modal
+    function renderProjectList(projects) {
+        const statusDiv = document.getElementById("cloudStatus");
+        statusDiv.classList.remove("hidden", "bg-red-100", "bg-blue-100", "text-red-700", "text-blue-700");
+        statusDiv.classList.add("bg-slate-50", "text-slate-800", "border", "border-slate-200");
 
-        const reader = new FileReader();
+        if (!projects || projects.length === 0) {
+            statusDiv.innerHTML = `<p class="text-xs text-slate-500">No projects or saved logs found for this email.</p>`;
+            return;
+        }
 
-        reader.onload = function(e) {
-            try {
-                const data = JSON.parse(e.target.result);
-
-                // 1. Assign to master state
-                if (data && typeof data === "object") {
-                    logData = {
-                        mode: data.mode || 'environmental',
-                        metadata: data.metadata || {},
-                        strata: Array.isArray(data.strata) ? data.strata : []
-                    };
-                }
-
-                // 2. Re-populate Title Block & Remarks in DOM
-                loadMetadataToUI();
-
-                // 3. Re-render mode toggle, stratigraphy form cards, and visual canvas table
-                setLoggingMode(logData.mode);
-
-                // 4. Reset input value so consecutive uploads of same file trigger onchange
-                event.target.value = "";
-
-            } catch (err) {
-                console.error("Import Error:", err);
-                alert("Could not parse JSON file. Please verify it is a valid Borehole Studio file.");
+        let html = `<div class="space-y-3 max-h-48 overflow-y-auto pt-1 text-left">`;
+        projects.forEach(p => {
+            html += `<div class="text-xs font-bold text-slate-700 border-b pb-1 flex items-center gap-1"><i data-lucide="folder" class="w-3.5 h-3.5 text-blue-600"></i>${p.projectName}</div>`;
+            html += `<ul class="pl-4 space-y-1 my-1">`;
+            if (!p.files || p.files.length === 0) {
+                html += `<li class="text-xs text-slate-400 italic">No files in folder</li>`;
+            } else {
+                p.files.forEach(f => {
+                    html += `<li class="text-xs text-blue-600 hover:underline cursor-pointer flex items-center gap-1 font-medium" onclick="loadCloudFile('${f.id}', '${f.name}')">
+                        <i data-lucide="file-text" class="w-3 h-3 text-slate-400"></i> ${f.name}
+                    </li>`;
+                });
             }
-        };
+            html += `</ul>`;
+        });
+        html += `</div>`;
 
-        reader.readAsText(file);
+        statusDiv.innerHTML = html;
+        if (window.lucide) lucide.createIcons();
+    }
+
+// Helper: Fetches JSON content from Drive, maps title block inputs, and renders workspace
+async function loadCloudFile(fileId, fileName) {
+    const email = document.getElementById("cloudUserEmail").value.trim();
+    const pin = document.getElementById("cloudUserPin").value.trim();
+
+    if (!email || !pin) {
+        showCloudStatus("Please enter your email and PIN to retrieve this file.", "error");
+        return;
+    }
+
+    showCloudStatus(`Loading '${fileName}' into workspace...`, "info");
+
+    try {
+        const response = await fetch(APPS_SCRIPT_URL, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({
+                action: "get_file",
+                email: email,
+                pin: pin,
+                fileId: fileId
+            })
+        });
+
+        const result = await response.json();
+        if (result.status === "success" && result.fileData) {
+            const data = result.fileData;
+
+            // 1. Assign payload to active state
+            if (typeof logData !== "undefined") {
+                Object.assign(logData, data);
+            } else {
+                window.logData = data;
+            }
+
+            // 2. Local import routines if present
+            if (typeof importJSONData === "function") {
+                importJSONData(data);
+            } else if (typeof loadJSON === "function") {
+                loadJSON(data);
+            } else if (typeof loadBoreholeData === "function") {
+                loadBoreholeData(data);
+            }
+
+            // 3. Populate Form Inputs (including fallback mapping for nested title block data)
+            if (typeof populateForm === "function") {
+                populateForm(data);
+            }
+
+            // Explicitly sync Title Block / Header Inputs if nested in JSON payload
+            const headerData = data.header || data.projectInfo || data.titleBlock || data;
+            const fieldMap = {
+                // DOM Input ID or Name : JSON Key
+                "projectName": headerData.projectName || headerData.project || "",
+                "client": headerData.client || headerData.clientName || "",
+                "location": headerData.location || headerData.siteLocation || "",
+                "boringNo": headerData.boringNo || headerData.boringNumber || headerData.holeNo || "",
+                "date": headerData.date || headerData.dateStarted || "",
+                "driller": headerData.driller || headerData.drillingCompany || "",
+                "elevation": headerData.elevation || headerData.groundElevation || "",
+                "loggedBy": headerData.loggedBy || headerData.inspector || "",
+                "sheetNo": headerData.sheetNo || headerData.sheet || ""
+            };
+
+            // Loop through map and populate input elements if found
+            Object.keys(fieldMap).forEach(id => {
+                const inputEl = document.getElementById(id) || document.querySelector(`[name="${id}"]`);
+                if (inputEl && fieldMap[id] !== undefined) {
+                    inputEl.value = fieldMap[id];
+                    // Dispatch input/change event so local state listeners pick up the update
+                    inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+                    inputEl.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            });
+
+            // 4. Trigger Canvas Redraw
+            if (typeof renderLog === "function") renderLog();
+            if (typeof updateUI === "function") updateUI();
+            if (typeof drawCanvas === "function") drawCanvas();
+
+            window.dispatchEvent(new Event('resize'));
+
+            showCloudStatus(`Successfully loaded '${fileName}'!`, "success");
+            setTimeout(closeCloudModal, 1000);
+        } else {
+            showCloudStatus(result.message || "Failed to load file. Verify PIN.", "error");
+        }
+    } catch (err) {
+        showCloudStatus("Network error retrieving file contents.", "error");
+    }
+}
+
+    // Helper: Displays alert and status banners in the modal
+    function showCloudStatus(message, type) {
+        const statusDiv = document.getElementById("cloudStatus");
+        statusDiv.innerText = message;
+        statusDiv.classList.remove("hidden", "bg-red-100", "text-red-700", "bg-green-100", "text-green-700", "bg-blue-100", "text-blue-700", "bg-slate-50", "border", "border-slate-200");
+
+        if (type === "error") statusDiv.classList.add("bg-red-100", "text-red-700");
+        else if (type === "success") statusDiv.classList.add("bg-green-100", "text-green-700");
+        else statusDiv.classList.add("bg-blue-100", "text-blue-700");
     }
 </script>
 </body>
