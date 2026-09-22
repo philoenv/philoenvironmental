@@ -977,7 +977,7 @@
         if (window.lucide) lucide.createIcons();
     }
 
-    // Helper: Fetches JSON content from Drive and safely imports payload into workspace
+// Helper: Fetches JSON content from Drive, imports payload, and simulates physical UI clicks to render
     async function loadCloudFile(fileId, fileName) {
         showCloudStatus(`Loading '${fileName}' into workspace...`, "info");
 
@@ -995,14 +995,14 @@
             if (result.status === "success" && result.fileData) {
                 const data = result.fileData;
 
-                // Step 1: Update Global logData
+                // 1. Assign imported JSON to the active logData session state
                 if (typeof logData !== "undefined") {
                     Object.assign(logData, data);
                 } else {
                     window.logData = data;
                 }
 
-                // Step 2: Check for existing local import handlers used by "Import JSON"
+                // 2. Call local import or form population routines if they exist
                 if (typeof importJSONData === "function") {
                     importJSONData(data);
                 } else if (typeof loadJSON === "function") {
@@ -1011,16 +1011,30 @@
                     loadBoreholeData(data);
                 }
 
-                // Step 3: Populate Form Fields
                 if (typeof populateForm === "function") populateForm(data);
 
-                // Step 4: Redraw Canvas
-                if (typeof renderLog === "function") renderLog();
-                if (typeof updateUI === "function") updateUI();
-                if (typeof drawCanvas === "function") drawCanvas();
+                // 3. Physical UI Click Simulation (Forces visual canvas redraw)
+                setTimeout(() => {
+                    // Look for the log type toggle switch, layer buttons, or radio inputs
+                    const toggleBtn = document.querySelector('input[name="logType"]') || 
+                                      document.querySelector('button[data-log-type]') ||
+                                      document.getElementById("logTypeToggle") ||
+                                      document.querySelector('.toggle-switch') ||
+                                      document.querySelector('button:has(i[data-lucide="layers"])');
 
-                // Step 5: Force SVG resize calculation
-                window.dispatchEvent(new Event('resize'));
+                    if (toggleBtn) {
+                        // Click once to force the canvas state manager to awaken and render
+                        toggleBtn.click();
+                        
+                        // If clicking it changed the selection, click it again to return to original state
+                        setTimeout(() => {
+                            toggleBtn.click();
+                        }, 50);
+                    } else {
+                        // Fallback: Dispatch window resize if no specific button element is matched
+                        window.dispatchEvent(new Event('resize'));
+                    }
+                }, 100);
 
                 showCloudStatus(`Successfully loaded '${fileName}'!`, "success");
                 setTimeout(closeCloudModal, 1000);
