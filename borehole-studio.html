@@ -988,70 +988,97 @@ async function executeCloudAction() {
         if (window.lucide) lucide.createIcons();
     }
 
-// Helper: Fetches JSON content from Drive, imports payload, and refreshes log canvas
-    async function loadCloudFile(fileId, fileName) {
-        // Read current email and PIN inputs from modal
-        const email = document.getElementById("cloudUserEmail").value.trim();
-        const pin = document.getElementById("cloudUserPin").value.trim();
+// Helper: Fetches JSON content from Drive, maps title block inputs, and renders workspace
+async function loadCloudFile(fileId, fileName) {
+    const email = document.getElementById("cloudUserEmail").value.trim();
+    const pin = document.getElementById("cloudUserPin").value.trim();
 
-        if (!email || !pin) {
-            showCloudStatus("Please enter your email and PIN to retrieve this file.", "error");
-            return;
-        }
+    if (!email || !pin) {
+        showCloudStatus("Please enter your email and PIN to retrieve this file.", "error");
+        return;
+    }
 
-        showCloudStatus(`Loading '${fileName}' into workspace...`, "info");
+    showCloudStatus(`Loading '${fileName}' into workspace...`, "info");
 
-        try {
-            const response = await fetch(APPS_SCRIPT_URL, {
-                method: "POST",
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: JSON.stringify({
-                    action: "get_file",
-                    email: email,
-                    pin: pin,
-                    fileId: fileId
-                })
+    try {
+        const response = await fetch(APPS_SCRIPT_URL, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({
+                action: "get_file",
+                email: email,
+                pin: pin,
+                fileId: fileId
+            })
+        });
+
+        const result = await response.json();
+        if (result.status === "success" && result.fileData) {
+            const data = result.fileData;
+
+            // 1. Assign payload to active state
+            if (typeof logData !== "undefined") {
+                Object.assign(logData, data);
+            } else {
+                window.logData = data;
+            }
+
+            // 2. Local import routines if present
+            if (typeof importJSONData === "function") {
+                importJSONData(data);
+            } else if (typeof loadJSON === "function") {
+                loadJSON(data);
+            } else if (typeof loadBoreholeData === "function") {
+                loadBoreholeData(data);
+            }
+
+            // 3. Populate Form Inputs (including fallback mapping for nested title block data)
+            if (typeof populateForm === "function") {
+                populateForm(data);
+            }
+
+            // Explicitly sync Title Block / Header Inputs if nested in JSON payload
+            const headerData = data.header || data.projectInfo || data.titleBlock || data;
+            const fieldMap = {
+                // DOM Input ID or Name : JSON Key
+                "projectName": headerData.projectName || headerData.project || "",
+                "client": headerData.client || headerData.clientName || "",
+                "location": headerData.location || headerData.siteLocation || "",
+                "boringNo": headerData.boringNo || headerData.boringNumber || headerData.holeNo || "",
+                "date": headerData.date || headerData.dateStarted || "",
+                "driller": headerData.driller || headerData.drillingCompany || "",
+                "elevation": headerData.elevation || headerData.groundElevation || "",
+                "loggedBy": headerData.loggedBy || headerData.inspector || "",
+                "sheetNo": headerData.sheetNo || headerData.sheet || ""
+            };
+
+            // Loop through map and populate input elements if found
+            Object.keys(fieldMap).forEach(id => {
+                const inputEl = document.getElementById(id) || document.querySelector(`[name="${id}"]`);
+                if (inputEl && fieldMap[id] !== undefined) {
+                    inputEl.value = fieldMap[id];
+                    // Dispatch input/change event so local state listeners pick up the update
+                    inputEl.dispatchEvent(new Event('input', { bubbles: true }));
+                    inputEl.dispatchEvent(new Event('change', { bubbles: true }));
+                }
             });
 
-            const result = await response.json();
-            if (result.status === "success" && result.fileData) {
-                const data = result.fileData;
+            // 4. Trigger Canvas Redraw
+            if (typeof renderLog === "function") renderLog();
+            if (typeof updateUI === "function") updateUI();
+            if (typeof drawCanvas === "function") drawCanvas();
 
-                // 1. Assign payload to active state
-                if (typeof logData !== "undefined") {
-                    Object.assign(logData, data);
-                } else {
-                    window.logData = data;
-                }
+            window.dispatchEvent(new Event('resize'));
 
-                // 2. Local import handlers if present
-                if (typeof importJSONData === "function") {
-                    importJSONData(data);
-                } else if (typeof loadJSON === "function") {
-                    loadJSON(data);
-                } else if (typeof loadBoreholeData === "function") {
-                    loadBoreholeData(data);
-                }
-
-                // 3. Populate UI input fields
-                if (typeof populateForm === "function") populateForm(data);
-
-                // 4. Force UI / Canvas refresh
-                if (typeof renderLog === "function") renderLog();
-                if (typeof updateUI === "function") updateUI();
-                if (typeof drawCanvas === "function") drawCanvas();
-
-                window.dispatchEvent(new Event('resize'));
-
-                showCloudStatus(`Successfully loaded '${fileName}'!`, "success");
-                setTimeout(closeCloudModal, 1000);
-            } else {
-                showCloudStatus(result.message || "Failed to load file. Verify PIN.", "error");
-            }
-        } catch (err) {
-            showCloudStatus("Network error retrieving file contents.", "error");
+            showCloudStatus(`Successfully loaded '${fileName}'!`, "success");
+            setTimeout(closeCloudModal, 1000);
+        } else {
+            showCloudStatus(result.message || "Failed to load file. Verify PIN.", "error");
         }
+    } catch (err) {
+        showCloudStatus("Network error retrieving file contents.", "error");
     }
+}
 
     // Helper: Displays alert and status banners in the modal
     function showCloudStatus(message, type) {
