@@ -976,62 +976,65 @@
     }
 
 // Helper: Fetches JSON content from Drive and imports into active workspace session
-    async function loadCloudFile(fileId, fileName) {
-        showCloudStatus(`Loading '${fileName}' into workspace...`, "info");
+async function loadCloudFile(fileId, fileName) {
+    showCloudStatus(`Loading '${fileName}' into workspace...`, "info");
 
-        try {
-            const response = await fetch(APPS_SCRIPT_URL, {
-                method: "POST",
-                headers: { "Content-Type": "text/plain;charset=utf-8" },
-                body: JSON.stringify({
-                    action: "get_file",
-                    fileId: fileId
-                })
-            });
+    try {
+        const response = await fetch(APPS_SCRIPT_URL, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({
+                action: "get_file",
+                fileId: fileId
+            })
+        });
 
-            const result = await response.json();
-            if (result.status === "success" && result.fileData) {
-                const data = result.fileData;
+        const result = await response.json();
+        if (result.status === "success" && result.fileData) {
+            const data = result.fileData;
 
-                // 1. Primary Method: Call your local importJSON function if available
-                if (typeof importJSONData === "function") {
-                    importJSONData(data);
-                } else if (typeof loadBoreholeData === "function") {
-                    loadBoreholeData(data);
-                } else {
-                    // 2. Direct Fallback: Update global logData object & trigger re-render
-                    if (typeof logData !== "undefined") {
-                        Object.assign(logData, data);
-                    } else {
-                        window.logData = data;
-                    }
-
-                    // Trigger UI and Canvas redraws
-                    if (typeof populateForm === "function") populateForm(data);
-                    if (typeof updateUI === "function") updateUI();
-                    if (typeof renderLog === "function") renderLog();
-                    if (typeof drawCanvas === "function") drawCanvas();
-                }
-
-                showCloudStatus(`Successfully loaded '${fileName}'!`, "success");
-                setTimeout(closeCloudModal, 1000);
+            // 1. Load data payload into active state
+            if (typeof importJSONData === "function") {
+                importJSONData(data);
+            } else if (typeof loadBoreholeData === "function") {
+                loadBoreholeData(data);
             } else {
-                showCloudStatus(result.message || "Failed to parse log file.", "error");
+                if (typeof logData !== "undefined") {
+                    Object.assign(logData, data);
+                } else {
+                    window.logData = data;
+                }
             }
-        } catch (err) {
-            showCloudStatus("Network error retrieving file contents.", "error");
+
+            // 2. Populate UI inputs if form mapper exists
+            if (typeof populateForm === "function") populateForm(data);
+
+            // 3. Force canvas redraw without requiring manual toggle clicks
+            if (typeof renderLog === "function") {
+                renderLog();
+            } else if (typeof updateUI === "function") {
+                updateUI();
+            } else if (typeof drawCanvas === "function") {
+                drawCanvas();
+            }
+
+            // 4. Fallback Trigger: Programmatically fire change events on inputs to force auto-render
+            const logTypeToggle = document.querySelector('input[name="logType"]:checked') || document.getElementById("logTypeToggle");
+            if (logTypeToggle) {
+                logTypeToggle.dispatchEvent(new Event('change', { bubbles: true }));
+            } else {
+                window.dispatchEvent(new Event('resize'));
+            }
+
+            showCloudStatus(`Successfully loaded '${fileName}'!`, "success");
+            setTimeout(closeCloudModal, 1000);
+        } else {
+            showCloudStatus(result.message || "Failed to parse log file.", "error");
         }
+    } catch (err) {
+        showCloudStatus("Network error retrieving file contents.", "error");
     }
-
-    function showCloudStatus(message, type) {
-        const statusDiv = document.getElementById("cloudStatus");
-        statusDiv.innerText = message;
-        statusDiv.classList.remove("hidden", "bg-red-100", "text-red-700", "bg-green-100", "text-green-700", "bg-blue-100", "text-blue-700", "bg-slate-50", "border", "border-slate-200");
-
-        if (type === "error") statusDiv.classList.add("bg-red-100", "text-red-700");
-        else if (type === "success") statusDiv.classList.add("bg-green-100", "text-green-700");
-        else statusDiv.classList.add("bg-blue-100", "text-blue-700");
-    }
+}
 </script>
 </script>
 </body>
