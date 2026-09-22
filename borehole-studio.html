@@ -975,6 +975,7 @@
         if (window.lucide) lucide.createIcons();
     }
 
+// Helper: Fetches JSON content from Drive and imports into active workspace session
     async function loadCloudFile(fileId, fileName) {
         showCloudStatus(`Loading '${fileName}' into workspace...`, "info");
 
@@ -990,16 +991,30 @@
 
             const result = await response.json();
             if (result.status === "success" && result.fileData) {
+                const data = result.fileData;
+
+                // 1. Primary Method: Call your local importJSON function if available
                 if (typeof importJSONData === "function") {
-                    importJSONData(result.fileData);
-                } else if (typeof logData !== "undefined") {
-                    Object.assign(logData, result.fileData);
-                    if (typeof renderLog === "function") renderLog();
+                    importJSONData(data);
+                } else if (typeof loadBoreholeData === "function") {
+                    loadBoreholeData(data);
+                } else {
+                    // 2. Direct Fallback: Update global logData object & trigger re-render
+                    if (typeof logData !== "undefined") {
+                        Object.assign(logData, data);
+                    } else {
+                        window.logData = data;
+                    }
+
+                    // Trigger UI and Canvas redraws
+                    if (typeof populateForm === "function") populateForm(data);
                     if (typeof updateUI === "function") updateUI();
+                    if (typeof renderLog === "function") renderLog();
+                    if (typeof drawCanvas === "function") drawCanvas();
                 }
 
                 showCloudStatus(`Successfully loaded '${fileName}'!`, "success");
-                setTimeout(closeCloudModal, 1200);
+                setTimeout(closeCloudModal, 1000);
             } else {
                 showCloudStatus(result.message || "Failed to parse log file.", "error");
             }
