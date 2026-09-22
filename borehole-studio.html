@@ -845,7 +845,7 @@
 
 <!-- CLOUD API INTEGRATION SCRIPT -->
 <script>
-    // Configuration: Your deployed Google Apps Script Web App URL
+    // Configuration: Deployed Google Apps Script Web App URL
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwTtMfAUpjjxnkjMJh3eFwJI3ptBV_9YuquXz5F7ex1z8avANVvP0fSO14t3E2nf-21_w/exec";
     
     let currentModalMode = "save"; // "save" or "load"
@@ -977,7 +977,7 @@
         if (window.lucide) lucide.createIcons();
     }
 
-// Helper: Fetches JSON content from Drive, imports payload, and auto-refreshes log canvas
+    // Helper: Fetches JSON content from Drive and safely imports payload into workspace
     async function loadCloudFile(fileId, fileName) {
         showCloudStatus(`Loading '${fileName}' into workspace...`, "info");
 
@@ -995,38 +995,32 @@
             if (result.status === "success" && result.fileData) {
                 const data = result.fileData;
 
-                // 1. Load data payload into active state
-                if (typeof importJSONData === "function") {
-                    importJSONData(data);
-                } else if (typeof loadBoreholeData === "function") {
-                    loadBoreholeData(data);
+                // Step 1: Update Global logData
+                if (typeof logData !== "undefined") {
+                    Object.assign(logData, data);
                 } else {
-                    if (typeof logData !== "undefined") {
-                        Object.assign(logData, data);
-                    } else {
-                        window.logData = data;
-                    }
+                    window.logData = data;
                 }
 
-                // 2. Populate UI inputs if form mapper exists
+                // Step 2: Check for existing local import handlers used by "Import JSON"
+                if (typeof importJSONData === "function") {
+                    importJSONData(data);
+                } else if (typeof loadJSON === "function") {
+                    loadJSON(data);
+                } else if (typeof loadBoreholeData === "function") {
+                    loadBoreholeData(data);
+                }
+
+                // Step 3: Populate Form Fields
                 if (typeof populateForm === "function") populateForm(data);
 
-                // 3. Force canvas redraw safely after DOM updates
-                setTimeout(() => {
-                    // Method A: Direct render calls
-                    if (typeof renderLog === "function") renderLog();
-                    if (typeof updateUI === "function") updateUI();
-                    if (typeof drawCanvas === "function") drawCanvas();
+                // Step 4: Redraw Canvas
+                if (typeof renderLog === "function") renderLog();
+                if (typeof updateUI === "function") updateUI();
+                if (typeof drawCanvas === "function") drawCanvas();
 
-                    // Method B: Dispatch form input event (triggers auto-render listeners without changing log type)
-                    const logForm = document.querySelector('form') || document.getElementById('logForm');
-                    if (logForm) {
-                        logForm.dispatchEvent(new Event('input', { bubbles: true }));
-                    }
-
-                    // Method C: Window resize fallback (re-calculates SVG viewBox dimensions)
-                    window.dispatchEvent(new Event('resize'));
-                }, 50);
+                // Step 5: Force SVG resize calculation
+                window.dispatchEvent(new Event('resize'));
 
                 showCloudStatus(`Successfully loaded '${fileName}'!`, "success");
                 setTimeout(closeCloudModal, 1000);
@@ -1036,6 +1030,17 @@
         } catch (err) {
             showCloudStatus("Network error retrieving file contents.", "error");
         }
+    }
+
+    // Helper: Displays alert and status banners in the modal
+    function showCloudStatus(message, type) {
+        const statusDiv = document.getElementById("cloudStatus");
+        statusDiv.innerText = message;
+        statusDiv.classList.remove("hidden", "bg-red-100", "text-red-700", "bg-green-100", "text-green-700", "bg-blue-100", "text-blue-700", "bg-slate-50", "border", "border-slate-200");
+
+        if (type === "error") statusDiv.classList.add("bg-red-100", "text-red-700");
+        else if (type === "success") statusDiv.classList.add("bg-green-100", "text-green-700");
+        else statusDiv.classList.add("bg-blue-100", "text-blue-700");
     }
 </script>
 </body>
