@@ -796,5 +796,168 @@
             reader.readAsText(event.target.files[0]);
         }
     </script>
+<!-- CLOUD STORAGE MODAL -->
+<div id="cloudModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-xl shadow-2xl max-w-md w-full overflow-hidden border border-slate-100">
+        <!-- Modal Header -->
+        <div class="bg-slate-900 text-white p-4 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i data-lucide="cloud" class="w-5 h-5 text-blue-400"></i>
+                <h3 id="cloudModalTitle" class="font-bold text-base">Philo Cloud Storage</h3>
+            </div>
+            <button onclick="closeCloudModal()" class="text-slate-400 hover:text-white transition">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="p-5 space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Subscriber Email</label>
+                <input type="email" id="cloudUserEmail" placeholder="geologist@firm.com" class="w-full text-sm p-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+            </div>
+
+            <div id="projectNameContainer">
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Project Subfolder Name</label>
+                <input type="text" id="cloudProjectName" placeholder="e.g. 2026_MainSt_Expansion" class="w-full text-sm p-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+            </div>
+
+            <div id="fileNameContainer">
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Borehole Log File Name</label>
+                <input type="text" id="cloudFileName" placeholder="BH-01.json" class="w-full text-sm p-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+            </div>
+
+            <!-- Status Indicator -->
+            <div id="cloudStatus" class="hidden text-xs p-3 rounded-lg font-medium"></div>
+
+            <!-- Modal Action Buttons -->
+            <div class="pt-2 flex flex-col gap-2">
+                <button id="cloudSubmitBtn" onclick="executeCloudAction()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg text-sm transition shadow-sm flex items-center justify-center gap-2">
+                    <i data-lucide="cloud-upload" class="w-4 h-4"></i> Save to Workspace Drive
+                </button>
+                <a href="https://buy.stripe.com/aFadRaaFr3HL8sd2FtbfO00" target="_blank" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-2 rounded-lg text-xs text-center transition">
+                    Need an active subscription? Upgrade for $19/mo
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CLOUD API INTEGRATION SCRIPT -->
+<script>
+    // Configuration: Replace with your actual deployed Google Apps Script URL
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwTtMfAUpjjxnkjMJh3eFwJI3ptBV_9YuquXz5F7ex1z8avANVvP0fSO14t3E2nf-21_w/exec";
+    
+    let currentModalMode = "save"; // "save" or "load"
+
+    function openCloudSaveModal() {
+        currentModalMode = "save";
+        document.getElementById("cloudModalTitle").innerText = "Save Log to Philo Cloud";
+        document.getElementById("projectNameContainer").classList.remove("hidden");
+        document.getElementById("fileNameContainer").classList.remove("hidden");
+        document.getElementById("cloudSubmitBtn").innerHTML = `<i data-lucide="cloud-upload" class="w-4 h-4"></i> Save to Cloud`;
+        
+        // Auto-fill log name if available
+        if (typeof logData !== "undefined" && logData.boringNo) {
+            document.getElementById("cloudFileName").value = logData.boringNo + ".json";
+        }
+        
+        document.getElementById("cloudModal").classList.remove("hidden");
+        lucide.createIcons();
+    }
+
+    function openCloudLoadModal() {
+        currentModalMode = "load";
+        document.getElementById("cloudModalTitle").innerText = "Fetch Cloud Project Files";
+        document.getElementById("projectNameContainer").classList.add("hidden");
+        document.getElementById("fileNameContainer").classList.add("hidden");
+        document.getElementById("cloudSubmitBtn").innerHTML = `<i data-lucide="folder-open" class="w-4 h-4"></i> List My Projects`;
+        
+        document.getElementById("cloudModal").classList.remove("hidden");
+        lucide.createIcons();
+    }
+
+    function closeCloudModal() {
+        document.getElementById("cloudModal").classList.add("hidden");
+        document.getElementById("cloudStatus").classList.add("hidden");
+    }
+
+    async function executeCloudAction() {
+        const email = document.getElementById("cloudUserEmail").value.trim();
+        const statusDiv = document.getElementById("cloudStatus");
+
+        if (!email) {
+            showCloudStatus("Please enter your registered subscriber email.", "error");
+            return;
+        }
+
+        showCloudStatus("Connecting to Philo Workspace Drive...", "info");
+
+        if (currentModalMode === "save") {
+            const projectName = document.getElementById("cloudProjectName").value.trim() || "General_Projects";
+            let fileName = document.getElementById("cloudFileName").value.trim() || "borehole_log.json";
+            if (!fileName.endsWith(".json")) fileName += ".json";
+
+            // Extract active logData from the app session
+            const currentLogPayload = typeof exportLogData === "function" ? exportLogData() : logData;
+
+            try {
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({
+                        action: "save_log",
+                        email: email,
+                        projectName: projectName,
+                        fileName: fileName,
+                        logData: currentLogPayload
+                    })
+                });
+
+                const result = await response.json();
+                if (result.status === "success") {
+                    showCloudStatus(`Successfully saved '${fileName}' into folder '${projectName}'!`, "success");
+                    setTimeout(closeCloudModal, 2000);
+                } else {
+                    showCloudStatus(result.message || "Save failed. Verify subscription.", "error");
+                }
+            } catch (err) {
+                showCloudStatus("Network error connecting to cloud vault.", "error");
+            }
+
+        } else if (currentModalMode === "load") {
+            try {
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({
+                        action: "list_projects",
+                        email: email
+                    })
+                });
+
+                const result = await response.json();
+                if (result.status === "success" && result.projects) {
+                    showCloudStatus(`Found ${result.projects.length} project folder(s). Check console for full directory tree!`, "success");
+                    console.log("Customer Cloud Projects:", result.projects);
+                } else {
+                    showCloudStatus(result.message || "Could not retrieve project directory.", "error");
+                }
+            } catch (err) {
+                showCloudStatus("Network error connecting to cloud vault.", "error");
+            }
+        }
+    }
+
+    function showCloudStatus(message, type) {
+        const statusDiv = document.getElementById("cloudStatus");
+        statusDiv.innerText = message;
+        statusDiv.classList.remove("hidden", "bg-red-100", "text-red-700", "bg-green-100", "text-green-700", "bg-blue-100", "text-blue-700");
+
+        if (type === "error") statusDiv.classList.add("bg-red-100", "text-red-700");
+        else if (type === "success") statusDiv.classList.add("bg-green-100", "text-green-700");
+        else statusDiv.classList.add("bg-blue-100", "text-blue-700");
+    }
+</script>
 </body>
 </html>
