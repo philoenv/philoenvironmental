@@ -889,11 +889,12 @@
         document.getElementById("cloudStatus").classList.add("hidden");
     }
 
-    async function executeCloudAction() {
+async function executeCloudAction() {
         const email = document.getElementById("cloudUserEmail").value.trim();
+        const pin = document.getElementById("cloudUserPin").value.trim(); // 1. GRAB PIN HERE
 
-        if (!email) {
-            showCloudStatus("Please enter your registered subscriber email.", "error");
+        if (!email || !pin) {
+            showCloudStatus("Please enter both your registered email and account PIN.", "error");
             return;
         }
 
@@ -913,6 +914,7 @@
                     body: JSON.stringify({
                         action: "save_log",
                         email: email,
+                        pin: pin, // 2. PASS PIN TO BACKEND HERE
                         projectName: projectName,
                         fileName: fileName,
                         logData: currentLogPayload
@@ -924,7 +926,7 @@
                     showCloudStatus(`Successfully saved '${fileName}' into folder '${projectName}'!`, "success");
                     setTimeout(closeCloudModal, 2000);
                 } else {
-                    showCloudStatus(result.message || "Save failed. Verify subscription.", "error");
+                    showCloudStatus(result.message || "Save failed. Verify subscription or PIN.", "error");
                 }
             } catch (err) {
                 showCloudStatus("Network error connecting to cloud vault.", "error");
@@ -937,7 +939,8 @@
                     headers: { "Content-Type": "text/plain;charset=utf-8" },
                     body: JSON.stringify({
                         action: "list_projects",
-                        email: email
+                        email: email,
+                        pin: pin // 3. PASS PIN TO BACKEND HERE
                     })
                 });
 
@@ -945,7 +948,7 @@
                 if (result.status === "success" && result.projects) {
                     renderProjectList(result.projects);
                 } else {
-                    showCloudStatus(result.message || "Could not retrieve project directory.", "error");
+                    showCloudStatus(result.message || "Could not retrieve project directory. Check PIN.", "error");
                 }
             } catch (err) {
                 showCloudStatus("Network error connecting to cloud vault.", "error");
