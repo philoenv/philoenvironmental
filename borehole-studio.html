@@ -827,7 +827,7 @@
                 <input type="text" id="cloudFileName" placeholder="BH-01.json" class="w-full text-sm p-2.5 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
             </div>
 
-            <!-- Status Indicator -->
+            <!-- Status Indicator / Project List Container -->
             <div id="cloudStatus" class="hidden text-xs p-3 rounded-lg font-medium"></div>
 
             <!-- Modal Action Buttons -->
@@ -845,7 +845,7 @@
 
 <!-- CLOUD API INTEGRATION SCRIPT -->
 <script>
-    // Configuration: Replace with your actual deployed Google Apps Script URL
+    // Configuration: Replace with your actual deployed Google Apps Script URL & Stripe Link
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwTtMfAUpjjxnkjMJh3eFwJI3ptBV_9YuquXz5F7ex1z8avANVvP0fSO14t3E2nf-21_w/exec";
     
     let currentModalMode = "save"; // "save" or "load"
@@ -884,7 +884,6 @@
 
     async function executeCloudAction() {
         const email = document.getElementById("cloudUserEmail").value.trim();
-        const statusDiv = document.getElementById("cloudStatus");
 
         if (!email) {
             showCloudStatus("Please enter your registered subscriber email.", "error");
@@ -938,8 +937,7 @@
 
                 const result = await response.json();
                 if (result.status === "success" && result.projects) {
-                    showCloudStatus(`Found ${result.projects.length} project folder(s). Check console for full directory tree!`, "success");
-                    console.log("Customer Cloud Projects:", result.projects);
+                    renderProjectList(result.projects);
                 } else {
                     showCloudStatus(result.message || "Could not retrieve project directory.", "error");
                 }
@@ -949,10 +947,43 @@
         }
     }
 
+    // Helper: Renders clickable project folders directly inside the modal
+    function renderProjectList(projects) {
+        const statusDiv = document.getElementById("cloudStatus");
+        statusDiv.classList.remove("hidden", "bg-red-100", "bg-blue-100", "text-red-700", "text-blue-700");
+        statusDiv.classList.add("bg-slate-50", "text-slate-800", "border", "border-slate-200");
+
+        if (projects.length === 0) {
+            statusDiv.innerHTML = `<p class="text-xs text-slate-500">No projects or saved logs found for this email.</p>`;
+            return;
+        }
+
+        let html = `<div class="space-y-3 max-h-48 overflow-y-auto pt-1 text-left">`;
+        projects.forEach(p => {
+            html += `<div class="text-xs font-bold text-slate-700 border-b pb-1 flex items-center gap-1"><i data-lucide="folder" class="w-3.5 h-3.5 text-blue-600"></i>${p.projectName}</div>`;
+            html += `<ul class="pl-4 space-y-1 my-1">`;
+            if (p.files.length === 0) {
+                html += `<li class="text-xs text-slate-400 italic">No files in folder</li>`;
+            } else {
+                p.files.forEach(f => {
+                    html += `<li class="text-xs text-blue-600 hover:underline cursor-pointer flex items-center gap-1 font-medium" onclick="alert('File ID: ${f.id} selected')">
+                        <i data-lucide="file-text" class="w-3 h-3 text-slate-400"></i> ${f.name}
+                    </li>`;
+                });
+            }
+            html += `</ul>`;
+        });
+        html += `</div>`;
+
+        statusDiv.innerHTML = html;
+        lucide.createIcons();
+    }
+
+    // Helper: Displays alert and status banners in the modal
     function showCloudStatus(message, type) {
         const statusDiv = document.getElementById("cloudStatus");
         statusDiv.innerText = message;
-        statusDiv.classList.remove("hidden", "bg-red-100", "text-red-700", "bg-green-100", "text-green-700", "bg-blue-100", "text-blue-700");
+        statusDiv.classList.remove("hidden", "bg-red-100", "text-red-700", "bg-green-100", "text-green-700", "bg-blue-100", "text-blue-700", "bg-slate-50", "border", "border-slate-200");
 
         if (type === "error") statusDiv.classList.add("bg-red-100", "text-red-700");
         else if (type === "success") statusDiv.classList.add("bg-green-100", "text-green-700");
