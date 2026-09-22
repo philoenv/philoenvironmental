@@ -947,7 +947,7 @@
         }
     }
 
-    // Helper: Renders clickable project folders directly inside the modal
+   // Helper: Renders clickable project folders directly inside the modal
     function renderProjectList(projects) {
         const statusDiv = document.getElementById("cloudStatus");
         statusDiv.classList.remove("hidden", "bg-red-100", "bg-blue-100", "text-red-700", "text-blue-700");
@@ -966,7 +966,7 @@
                 html += `<li class="text-xs text-slate-400 italic">No files in folder</li>`;
             } else {
                 p.files.forEach(f => {
-                    html += `<li class="text-xs text-blue-600 hover:underline cursor-pointer flex items-center gap-1 font-medium" onclick="alert('File ID: ${f.id} selected')">
+                    html += `<li class="text-xs text-blue-600 hover:underline cursor-pointer flex items-center gap-1 font-medium" onclick="loadCloudFile('${f.id}', '${f.name}')">
                         <i data-lucide="file-text" class="w-3 h-3 text-slate-400"></i> ${f.name}
                     </li>`;
                 });
@@ -979,15 +979,39 @@
         lucide.createIcons();
     }
 
-    // Helper: Displays alert and status banners in the modal
-    function showCloudStatus(message, type) {
-        const statusDiv = document.getElementById("cloudStatus");
-        statusDiv.innerText = message;
-        statusDiv.classList.remove("hidden", "bg-red-100", "text-red-700", "bg-green-100", "text-green-700", "bg-blue-100", "text-blue-700", "bg-slate-50", "border", "border-slate-200");
+    // Helper: Fetches JSON content from Drive and imports into active workspace session
+    async function loadCloudFile(fileId, fileName) {
+        showCloudStatus(`Loading '${fileName}' into workspace...`, "info");
 
-        if (type === "error") statusDiv.classList.add("bg-red-100", "text-red-700");
-        else if (type === "success") statusDiv.classList.add("bg-green-100", "text-green-700");
-        else statusDiv.classList.add("bg-blue-100", "text-blue-700");
+        try {
+            const response = await fetch(APPS_SCRIPT_URL, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({
+                    action: "get_file",
+                    fileId: fileId
+                })
+            });
+
+            const result = await response.json();
+            if (result.status === "success" && result.fileData) {
+                // Populate session logData object
+                if (typeof importJSONData === "function") {
+                    importJSONData(result.fileData);
+                } else if (typeof logData !== "undefined") {
+                    Object.assign(logData, result.fileData);
+                    if (typeof renderLog === "function") renderLog();
+                    if (typeof updateUI === "function") updateUI();
+                }
+
+                showCloudStatus(`Successfully loaded '${fileName}'!`, "success");
+                setTimeout(closeCloudModal, 1200);
+            } else {
+                showCloudStatus(result.message || "Failed to parse log file.", "error");
+            }
+        } catch (err) {
+            showCloudStatus("Network error retrieving file contents.", "error");
+        }
     }
 </script>
 </body>
