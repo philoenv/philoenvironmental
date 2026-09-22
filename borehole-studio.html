@@ -245,12 +245,10 @@
             </button>
         </div>
 
-        <!-- Action Buttons -->
-     <!-- Action Buttons -->
 <!-- WORKSPACE TOOLBAR / TIERED ACTIONS -->
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
     
-    <!-- FREE TIER BOX -->
+    <!-- FREE TIER BOX (ACTIVE) -->
     <div class="relative border-2 border-slate-200 bg-slate-50/50 rounded-xl p-4 pt-5 shadow-sm">
         <span class="absolute -top-3 left-4 bg-slate-200 text-slate-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider border border-slate-300">
             Free Tier Tools
@@ -262,25 +260,26 @@
             <button onclick="exportJSON()" class="flex-1 bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5 shadow-xs">
                 <i data-lucide="download" class="w-4 h-4 text-slate-600"></i> Export JSON
             </button>
+            
             <!-- IMPORT JSON WITH FILE INPUT -->
-<label for="jsonInput" class="flex-1 bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5 shadow-xs cursor-pointer">
-    <i data-lucide="upload" class="w-4 h-4 text-slate-600"></i> Import JSON
-    <input type="file" id="jsonInput" onchange="importJSON(event)" class="hidden" accept=".json">
-</label>
+            <label for="jsonInput" class="flex-1 bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5 shadow-xs cursor-pointer">
+                <i data-lucide="upload" class="w-4 h-4 text-slate-600"></i> Import JSON
+                <input type="file" id="jsonInput" onchange="importJSON(event)" class="hidden" accept=".json">
+            </label>
         </div>
     </div>
 
-    <!-- PAID SUBSCRIPTION TIER BOX -->
-    <div class="relative border-2 border-blue-200 bg-blue-50/30 rounded-xl p-4 pt-5 shadow-sm">
-        <span class="absolute -top-3 left-4 bg-blue-600 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-xs flex items-center gap-1">
-            <i data-lucide="crown" class="w-3 h-3"></i> Cloud Workspace (Paid Subscription)
+    <!-- PAID SUBSCRIPTION TIER BOX (DISABLED / COMING SOON) -->
+    <div class="relative border-2 border-slate-200 bg-slate-100/50 rounded-xl p-4 pt-5 shadow-sm opacity-75">
+        <span class="absolute -top-3 left-4 bg-amber-500 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow-xs flex items-center gap-1">
+            <i data-lucide="clock" class="w-3 h-3"></i> Cloud Workspace — Coming Soon
         </span>
         <div class="flex flex-wrap items-center gap-2">
-            <button onclick="openCloudSaveModal()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5 shadow-xs">
-                <i data-lucide="cloud-upload" class="w-4 h-4"></i> Save to Cloud
+            <button disabled title="Cloud storage is coming soon" class="flex-1 bg-slate-300 text-slate-500 font-semibold py-2 px-3 rounded-lg text-xs cursor-not-allowed flex items-center justify-center gap-1.5 shadow-none">
+                <i data-lucide="cloud-upload" class="w-4 h-4 text-slate-400"></i> Save to Cloud
             </button>
-            <button onclick="openCloudLoadModal()" class="flex-1 bg-white hover:bg-blue-50 text-blue-700 border border-blue-300 font-semibold py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5 shadow-xs">
-                <i data-lucide="folder-open" class="w-4 h-4 text-blue-600"></i> Open Cloud Project
+            <button disabled title="Cloud storage is coming soon" class="flex-1 bg-slate-200 text-slate-400 border border-slate-300 font-semibold py-2 px-3 rounded-lg text-xs cursor-not-allowed flex items-center justify-center gap-1.5 shadow-none">
+                <i data-lucide="folder-open" class="w-4 h-4 text-slate-400"></i> Open Cloud Project
             </button>
         </div>
     </div>
