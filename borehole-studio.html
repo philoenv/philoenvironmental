@@ -850,75 +850,46 @@
 
         // Helper: Handles local JSON file upload, populates form inputs, and updates canvas
 function importJSON(event) {
-    const file = event.target.files[0];
-    if (!file) return;
+            const file = event.target.files[0];
+            if (!file) return;
 
-    const reader = new FileReader();
+            const reader = new FileReader();
 
-    reader.onload = function(e) {
-        try {
-            const data = JSON.parse(e.target.result);
-            console.log("Imported Local JSON Payload:", data);
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
 
-            // 1. Assign payload to global active state
-            if (typeof logData !== "undefined") {
-                Object.assign(logData, data);
-            } else {
-                window.logData = data;
-            }
+                    // 1. Rehydrate active logData state
+                    logData = {
+                        mode: data.mode || 'environmental',
+                        metadata: data.metadata || {},
+                        strata: Array.isArray(data.strata) ? data.strata : []
+                    };
 
-            // 2. Run local import routines if defined
-            if (typeof importJSONData === "function") importJSONData(data);
-            if (typeof loadJSON === "function") loadJSON(data);
-            if (typeof loadBoreholeData === "function") loadBoreholeData(data);
+                    // 2. Write metadata back to contenteditable header spans/fields
+                    if (logData.metadata) {
+                        Object.keys(logData.metadata).forEach(key => {
+                            const el = document.getElementById(key);
+                            if (el) {
+                                el.innerText = logData.metadata[key];
+                            }
+                        });
+                    }
 
-            // 3. Populate Form Inputs (Title block, field notes, and all DOM fields)
-            if (typeof populateForm === "function") {
-                populateForm(data);
-            }
+                    // 3. Set logging mode and force redraw of table & editor cards
+                    setLoggingMode(logData.mode);
 
-            // Sync known title block fields
-            const headerData = data.header || data.projectInfo || data.titleBlock || data;
-            const fieldMap = {
-                "projectName": headerData.projectName || headerData.project || "",
-                "client": headerData.client || headerData.clientName || "",
-                "location": headerData.location || headerData.siteLocation || "",
-                "boringNo": headerData.boringNo || headerData.boringNumber || headerData.holeNo || "",
-                "date": headerData.date || headerData.dateStarted || "",
-                "driller": headerData.driller || headerData.drillingCompany || "",
-                "elevation": headerData.elevation || headerData.groundElevation || "",
-                "loggedBy": headerData.loggedBy || headerData.inspector || "",
-                "sheetNo": headerData.sheetNo || headerData.sheet || "",
-                "fieldNotes": data.fieldNotes || data.notes || ""
+                    // Reset input so re-importing the same file works if clicked again
+                    event.target.value = "";
+
+                } catch (err) {
+                    console.error("Import Error:", err);
+                    alert("Error parsing JSON file. Please ensure it is a valid Borehole Studio log file.");
+                }
             };
 
-            Object.keys(fieldMap).forEach(id => {
-                const inputEl = document.getElementById(id) || document.querySelector(`[name="${id}"]`);
-                if (inputEl && fieldMap[id] !== undefined) {
-                    inputEl.value = fieldMap[id];
-                    inputEl.dispatchEvent(new Event('input', { bubbles: true }));
-                    inputEl.dispatchEvent(new Event('change', { bubbles: true }));
-                }
-            });
-
-            // 4. Force Canvas Redraw
-            if (typeof renderLog === "function") renderLog();
-            if (typeof updateUI === "function") updateUI();
-            if (typeof drawCanvas === "function") drawCanvas();
-
-            window.dispatchEvent(new Event('resize'));
-
-            // Reset file input value so selecting the same file again triggers onchange
-            event.target.value = "";
-
-        } catch (err) {
-            console.error("JSON Import Error:", err);
-            alert("Error parsing JSON file. Please ensure it is a valid Borehole Studio log file.");
+            reader.readAsText(file);
         }
-    };
-
-    reader.readAsText(file);
-}
     </script>
 <!-- CLOUD STORAGE MODAL -->
 <div id="cloudModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
