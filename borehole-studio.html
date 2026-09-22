@@ -845,6 +845,7 @@
 
 <!-- CLOUD API INTEGRATION SCRIPT -->
 <script>
+    // Configuration: Your deployed Google Apps Script Web App URL
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwTtMfAUpjjxnkjMJh3eFwJI3ptBV_9YuquXz5F7ex1z8avANVvP0fSO14t3E2nf-21_w/exec";
     
     let currentModalMode = "save"; // "save" or "load"
@@ -944,12 +945,13 @@
         }
     }
 
+    // Helper: Renders clickable project folders inside the modal
     function renderProjectList(projects) {
         const statusDiv = document.getElementById("cloudStatus");
         statusDiv.classList.remove("hidden", "bg-red-100", "bg-blue-100", "text-red-700", "text-blue-700");
         statusDiv.classList.add("bg-slate-50", "text-slate-800", "border", "border-slate-200");
 
-        if (projects.length === 0) {
+        if (!projects || projects.length === 0) {
             statusDiv.innerHTML = `<p class="text-xs text-slate-500">No projects or saved logs found for this email.</p>`;
             return;
         }
@@ -958,7 +960,7 @@
         projects.forEach(p => {
             html += `<div class="text-xs font-bold text-slate-700 border-b pb-1 flex items-center gap-1"><i data-lucide="folder" class="w-3.5 h-3.5 text-blue-600"></i>${p.projectName}</div>`;
             html += `<ul class="pl-4 space-y-1 my-1">`;
-            if (p.files.length === 0) {
+            if (!p.files || p.files.length === 0) {
                 html += `<li class="text-xs text-slate-400 italic">No files in folder</li>`;
             } else {
                 p.files.forEach(f => {
@@ -975,66 +977,77 @@
         if (window.lucide) lucide.createIcons();
     }
 
-// Helper: Fetches JSON content from Drive and imports into active workspace session
-async function loadCloudFile(fileId, fileName) {
-    showCloudStatus(`Loading '${fileName}' into workspace...`, "info");
+    // Helper: Fetches JSON content from Drive, imports payload, and auto-refreshes log canvas
+    async function loadCloudFile(fileId, fileName) {
+        showCloudStatus(`Loading '${fileName}' into workspace...`, "info");
 
-    try {
-        const response = await fetch(APPS_SCRIPT_URL, {
-            method: "POST",
-            headers: { "Content-Type": "text/plain;charset=utf-8" },
-            body: JSON.stringify({
-                action: "get_file",
-                fileId: fileId
-            })
-        });
+        try {
+            const response = await fetch(APPS_SCRIPT_URL, {
+                method: "POST",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({
+                    action: "get_file",
+                    fileId: fileId
+                })
+            });
 
-        const result = await response.json();
-        if (result.status === "success" && result.fileData) {
-            const data = result.fileData;
+            const result = await response.json();
+            if (result.status === "success" && result.fileData) {
+                const data = result.fileData;
 
-            // 1. Load data payload into active state
-            if (typeof importJSONData === "function") {
-                importJSONData(data);
-            } else if (typeof loadBoreholeData === "function") {
-                loadBoreholeData(data);
-            } else {
-                if (typeof logData !== "undefined") {
-                    Object.assign(logData, data);
+                // Load data into active state
+                if (typeof importJSONData === "function") {
+                    importJSONData(data);
+                } else if (typeof loadBoreholeData === "function") {
+                    loadBoreholeData(data);
                 } else {
-                    window.logData = data;
+                    if (typeof logData !== "undefined") {
+                        Object.assign(logData, data);
+                    } else {
+                        window.logData = data;
+                    }
                 }
-            }
 
-            // 2. Populate UI inputs if form mapper exists
-            if (typeof populateForm === "function") populateForm(data);
+                // Populate UI inputs if form mapper exists
+                if (typeof populateForm === "function") populateForm(data);
 
-            // 3. Force canvas redraw without requiring manual toggle clicks
-            if (typeof renderLog === "function") {
-                renderLog();
-            } else if (typeof updateUI === "function") {
-                updateUI();
-            } else if (typeof drawCanvas === "function") {
-                drawCanvas();
-            }
+                // Direct render call if available
+                if (typeof renderLog === "function") {
+                    renderLog();
+                } else if (typeof updateUI === "function") {
+                    updateUI();
+                } else if (typeof drawCanvas === "function") {
+                    drawCanvas();
+                }
 
-            // 4. Fallback Trigger: Programmatically fire change events on inputs to force auto-render
-            const logTypeToggle = document.querySelector('input[name="logType"]:checked') || document.getElementById("logTypeToggle");
-            if (logTypeToggle) {
-                logTypeToggle.dispatchEvent(new Event('change', { bubbles: true }));
+                // Programmatically dispatch toggle event to force instant canvas redraw
+                const logTypeToggle = document.querySelector('input[name="logType"]:checked') || document.getElementById("logTypeToggle");
+                if (logTypeToggle) {
+                    logTypeToggle.dispatchEvent(new Event('change', { bubbles: true }));
+                } else {
+                    window.dispatchEvent(new Event('resize'));
+                }
+
+                showCloudStatus(`Successfully loaded '${fileName}'!`, "success");
+                setTimeout(closeCloudModal, 1000);
             } else {
-                window.dispatchEvent(new Event('resize'));
+                showCloudStatus(result.message || "Failed to parse log file.", "error");
             }
-
-            showCloudStatus(`Successfully loaded '${fileName}'!`, "success");
-            setTimeout(closeCloudModal, 1000);
-        } else {
-            showCloudStatus(result.message || "Failed to parse log file.", "error");
+        } catch (err) {
+            showCloudStatus("Network error retrieving file contents.", "error");
         }
-    } catch (err) {
-        showCloudStatus("Network error retrieving file contents.", "error");
     }
-}
+
+    // Helper: Displays alert and status banners in the modal
+    function showCloudStatus(message, type) {
+        const statusDiv = document.getElementById("cloudStatus");
+        statusDiv.innerText = message;
+        statusDiv.classList.remove("hidden", "bg-red-100", "text-red-700", "bg-green-100", "text-green-700", "bg-blue-100", "text-blue-700", "bg-slate-50", "border", "border-slate-200");
+
+        if (type === "error") statusDiv.classList.add("bg-red-100", "text-red-700");
+        else if (type === "success") statusDiv.classList.add("bg-green-100", "text-green-700");
+        else statusDiv.classList.add("bg-blue-100", "text-blue-700");
+    }
 </script>
 </body>
 </html>
