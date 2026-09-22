@@ -805,13 +805,47 @@
         }
 
         function exportJSON() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(logData, null, 2));
-            const downloadAnchor = document.createElement('a');
-            downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `${logData.metadata.boreholeId || 'borehole_log'}.json`);
-            document.body.appendChild(downloadAnchor);
-            downloadAnchor.click();
-            downloadAnchor.remove();
+            try {
+                // 1. Explicitly harvest current text from contenteditable DOM fields into logData.metadata
+                if (!logData.metadata) logData.metadata = {};
+                
+                const metaKeys = [
+                    "companyName", "companySub", "logTitle", "boreholeId",
+                    "projectName", "projectNo", "drillMethod", "location",
+                    "surfaceElev", "samplingMethod", "dates", "gwlInfo",
+                    "personnel", "remarks"
+                ];
+
+                metaKeys.forEach(key => {
+                    const el = document.getElementById(key);
+                    if (el) {
+                        logData.metadata[key] = el.innerText.trim();
+                    }
+                });
+
+                // 2. Ensure current logging mode is attached
+                logData.mode = currentMode;
+
+                // 3. Serialize full payload
+                const boreholeId = logData.metadata.boreholeId || 'borehole_log';
+                const fileName = boreholeId.replace(/[^a-z0-9]/gi, '_') + '.json';
+                const jsonStr = JSON.stringify(logData, null, 2);
+                
+                const blob = new Blob([jsonStr], { type: "application/json" });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+            } catch (err) {
+                console.error("Export Error:", err);
+                alert("An error occurred while exporting log data.");
+            }
         }
 
         // Helper: Handles local JSON file upload, populates form inputs, and updates canvas
