@@ -398,7 +398,7 @@
     </main>
 
     <script>
-        // Global State
+     // Global State
         let currentMode = 'environmental';
 
         let logData = {
@@ -412,7 +412,7 @@
                 projectNo: "PE-2026-104",
                 drillMethod: "Direct Push / Geoprobe 7822DT",
                 location: "Site Area A - North Parcel",
-                surfaceElev: "100.0",
+                surfaceElev: "100.0 ft NAVD88",
                 samplingMethod: "4-ft Continuous MacroCore",
                 dates: "Sept 20, 2026",
                 gwlInfo: "6.0 ft bgs (Static)",
@@ -495,7 +495,8 @@
             Object.keys(logData.metadata).forEach(key => {
                 const el = document.getElementById(key);
                 if (el) {
-                    el.innerText = logData.metadata[key];
+                    el.innerText = logData.metadata[key] || "";
+                    // Keep logData object synced as user edits DOM directly
                     el.addEventListener('blur', () => {
                         logData.metadata[key] = el.innerText;
                     });
@@ -503,9 +504,24 @@
             });
         }
 
+        function saveMetadataFromUI() {
+            if (!logData.metadata) logData.metadata = {};
+            const metaKeys = [
+                "companyName", "companySub", "logTitle", "boreholeId",
+                "projectName", "projectNo", "drillMethod", "location",
+                "surfaceElev", "samplingMethod", "dates", "gwlInfo",
+                "personnel", "remarks"
+            ];
+            metaKeys.forEach(key => {
+                const el = document.getElementById(key);
+                if (el) {
+                    logData.metadata[key] = el.innerText;
+                }
+            });
+        }
+
         function renderTableHead() {
             const thead = document.getElementById('logTableHead');
-            
             if (currentMode === 'geotechnical') {
                 thead.innerHTML = `
                     <tr class="bg-slate-100 text-[7.5pt] uppercase font-bold text-slate-800">
@@ -534,19 +550,14 @@
             }
         }
 
-        // Helper to generate Depth Ruler Track (1-ft minor ticks, 5-ft labeled major ticks)
         function renderRulerCell(top, bottom, heightPx) {
             const range = Math.max(bottom - top, 0.1);
             let tickHTML = '';
-
-            // Calculate exact tick positions continuously
             for (let d = Math.ceil(top * 10) / 10; d <= bottom; d += 1) {
                 const depthVal = Math.round(d);
                 if (depthVal < top || depthVal > bottom) continue;
-
                 const percent = ((depthVal - top) / range) * 100;
                 const isMajor = (depthVal % 5 === 0);
-
                 if (isMajor) {
                     tickHTML += `
                         <div class="absolute w-full flex items-center justify-between px-1" style="top: ${percent}%;">
@@ -560,7 +571,6 @@
                     `;
                 }
             }
-
             return `
                 <div class="relative w-full bg-slate-50 border-r border-slate-300 overflow-hidden" style="height: ${heightPx}px;">
                     ${tickHTML}
@@ -574,13 +584,10 @@
 
             logData.strata.forEach((layer, index) => {
                 const tr = document.createElement('tr');
-
                 const layerHeight = Math.max((layer.depthBottom - layer.depthTop) * 20, 48);
-
                 const nextLayer = logData.strata[index + 1];
                 const isNextSamePattern = nextLayer && nextLayer.pattern === layer.pattern;
 
-                // Subtle dotted line if contiguous same lithology; Solid line if pattern changes
                 const borderClass = (isNextSamePattern && index < logData.strata.length - 1) 
                     ? "stratum-border-subtle" 
                     : "stratum-border-split";
@@ -589,27 +596,13 @@
 
                 if (currentMode === 'geotechnical') {
                     tr.innerHTML = `
-                        <td class="${borderClass} p-0 align-top">
-                            ${rulerHTML}
-                        </td>
-                        <td class="${borderClass} font-bold text-[8pt] align-middle bg-slate-50/50">
-                            ${layer.uscs}
-                        </td>
-                        <td class="${borderClass} p-0 align-middle relative">
-                            <div class="w-full pat-${layer.pattern}" style="height: ${layerHeight}px;"></div>
-                        </td>
-                        <td class="${borderClass} text-left align-top p-2 leading-relaxed">
-                            ${layer.description}
-                        </td>
-                        <td class="${borderClass} font-mono text-[7.5pt] align-middle font-medium">
-                            ${layer.sampleId || '—'}
-                        </td>
-                        <td class="${borderClass} font-mono text-[7.5pt] align-middle font-bold text-blue-900">
-                            ${layer.spt || '—'}
-                        </td>
-                        <td class="${borderClass} font-mono text-[7pt] align-middle text-slate-700">
-                            ${layer.rqd || '—'}
-                        </td>
+                        <td class="${borderClass} p-0 align-top">${rulerHTML}</td>
+                        <td class="${borderClass} font-bold text-[8pt] align-middle bg-slate-50/50">${layer.uscs}</td>
+                        <td class="${borderClass} p-0 align-middle relative"><div class="w-full pat-${layer.pattern}" style="height: ${layerHeight}px;"></div></td>
+                        <td class="${borderClass} text-left align-top p-2 leading-relaxed">${layer.description}</td>
+                        <td class="${borderClass} font-mono text-[7.5pt] align-middle font-medium">${layer.sampleId || '—'}</td>
+                        <td class="${borderClass} font-mono text-[7.5pt] align-middle font-bold text-blue-900">${layer.spt || '—'}</td>
+                        <td class="${borderClass} font-mono text-[7pt] align-middle text-slate-700">${layer.rqd || '—'}</td>
                     `;
                 } else {
                     const pidVal = parseFloat(layer.pid) || 0;
@@ -621,18 +614,10 @@
                     if (layer.wellComp === 'sand' || layer.wellComp === 'screen') wellClass = "well-sand-bg";
 
                     tr.innerHTML = `
-                        <td class="${borderClass} p-0 align-top">
-                            ${rulerHTML}
-                        </td>
-                        <td class="${borderClass} font-bold text-[8pt] align-middle bg-slate-50/50">
-                            ${layer.uscs}
-                        </td>
-                        <td class="${borderClass} p-0 align-middle relative">
-                            <div class="w-full pat-${layer.pattern}" style="height: ${layerHeight}px;"></div>
-                        </td>
-                        <td class="${borderClass} text-left align-top p-2 leading-relaxed">
-                            ${layer.description}
-                        </td>
+                        <td class="${borderClass} p-0 align-top">${rulerHTML}</td>
+                        <td class="${borderClass} font-bold text-[8pt] align-middle bg-slate-50/50">${layer.uscs}</td>
+                        <td class="${borderClass} p-0 align-middle relative"><div class="w-full pat-${layer.pattern}" style="height: ${layerHeight}px;"></div></td>
+                        <td class="${borderClass} text-left align-top p-2 leading-relaxed">${layer.description}</td>
                         <td class="${borderClass} font-mono text-[7.5pt] align-middle p-1">
                             <div class="font-bold text-slate-900">${layer.pid ? layer.pid + ' ppm' : '—'}</div>
                             ${layer.pid && layer.pid !== '—' ? `
@@ -641,12 +626,8 @@
                                 </div>
                             ` : ''}
                         </td>
-                        <td class="${borderClass} text-[7pt] align-middle font-medium text-slate-800">
-                            ${layer.odorSheen || 'None'}
-                        </td>
-                        <td class="${borderClass} font-mono text-[7.5pt] align-middle font-bold text-blue-900">
-                            ${layer.sampleId || '—'}
-                        </td>
+                        <td class="${borderClass} text-[7pt] align-middle font-medium text-slate-800">${layer.odorSheen || 'None'}</td>
+                        <td class="${borderClass} font-mono text-[7.5pt] align-middle font-bold text-blue-900">${layer.sampleId || '—'}</td>
                         <td class="${borderClass} p-1 align-middle relative text-left">
                             <div class="w-full h-full p-1 rounded border border-slate-300 relative ${wellClass}">
                                 ${layer.wellComp === 'screen' ? '<div class="absolute inset-y-0 left-1/2 -translate-x-1/2 w-2.5 bg-white border-2 border-slate-900 border-dashed"></div>' : ''}
@@ -658,7 +639,6 @@
                         </td>
                     `;
                 }
-
                 tbody.appendChild(tr);
             });
         }
@@ -718,17 +698,17 @@
                         <div class="grid grid-cols-2 gap-2">
                             <div>
                                 <label class="text-[6.5pt] font-bold text-slate-500 uppercase">PID VOC (ppm)</label>
-                                <input type="text" value="${layer.pid || ''}" onchange="updateLayerData(${index}, 'pid', this.value)" class="w-full p-1 border rounded bg-white font-mono">
+                                <input type="text" value="${layer.pid \vert{}\vert{} ''}" onchange="updateLayerData(${index}, 'pid', this.value)" class="w-full p-1 border rounded bg-white font-mono">
                             </div>
                             <div>
                                 <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Sample ID</label>
-                                <input type="text" value="${layer.sampleId || ''}" onchange="updateLayerData(${index}, 'sampleId', this.value)" class="w-full p-1 border rounded bg-white font-mono">
+                                <input type="text" value="${layer.sampleId \vert{}\vert{} ''}" onchange="updateLayerData(${index}, 'sampleId', this.value)" class="w-full p-1 border rounded bg-white font-mono">
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-2">
                             <div>
                                 <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Odor / Sheen</label>
-                                <input type="text" value="${layer.odorSheen || ''}" onchange="updateLayerData(${index}, 'odorSheen', this.value)" class="w-full p-1 border rounded bg-white">
+                                <input type="text" value="${layer.odorSheen \vert{}\vert{} ''}" onchange="updateLayerData(${index}, 'odorSheen', this.value)" class="w-full p-1 border rounded bg-white">
                             </div>
                             <div>
                                 <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Well Component</label>
@@ -743,21 +723,21 @@
                         </div>
                         <div>
                             <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Well Construction Note</label>
-                            <input type="text" value="${layer.wellDesc || ''}" onchange="updateLayerData(${index}, 'wellDesc', this.value)" class="w-full p-1 border rounded bg-white text-xs">
+                            <input type="text" value="${layer.wellDesc \vert{}\vert{} ''}" onchange="updateLayerData(${index}, 'wellDesc', this.value)" class="w-full p-1 border rounded bg-white text-xs">
                         </div>
                     ` : `
                         <div class="grid grid-cols-3 gap-1.5">
                             <div>
                                 <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Sample ID</label>
-                                <input type="text" value="${layer.sampleId || ''}" onchange="updateLayerData(${index}, 'sampleId', this.value)" class="w-full p-1 border rounded bg-white font-mono text-[7pt]">
+                                <input type="text" value="${layer.sampleId \vert{}\vert{} ''}" onchange="updateLayerData(${index}, 'sampleId', this.value)" class="w-full p-1 border rounded bg-white font-mono text-[7pt]">
                             </div>
                             <div>
                                 <label class="text-[6.5pt] font-bold text-slate-500 uppercase">SPT Blows</label>
-                                <input type="text" value="${layer.spt || ''}" onchange="updateLayerData(${index}, 'spt', this.value)" class="w-full p-1 border rounded bg-white font-mono text-[7pt]">
+                                <input type="text" value="${layer.spt \vert{}\vert{} ''}" onchange="updateLayerData(${index}, 'spt', this.value)" class="w-full p-1 border rounded bg-white font-mono text-[7pt]">
                             </div>
                             <div>
                                 <label class="text-[6.5pt] font-bold text-slate-500 uppercase">Rec / RQD</label>
-                                <input type="text" value="${layer.rqd || ''}" onchange="updateLayerData(${index}, 'rqd', this.value)" class="w-full p-1 border rounded bg-white font-mono text-[7pt]">
+                                <input type="text" value="${layer.rqd \vert{}\vert{} ''}" onchange="updateLayerData(${index}, 'rqd', this.value)" class="w-full p-1 border rounded bg-white font-mono text-[7pt]">
                             </div>
                         </div>
                     `}
@@ -804,137 +784,74 @@
             renderLogTable();
         }
 
-// Helper: Harvests complete borehole workspace state into downloadable JSON
-function exportJSON() {
-    // 1. Gather Title Block / Header Inputs
-    const header = {
-        projectName: (document.getElementById("projectName") || document.querySelector('[name="projectName"]'))?.value || "",
-        client: (document.getElementById("client") || document.querySelector('[name="client"]'))?.value || "",
-        location: (document.getElementById("location") || document.querySelector('[name="location"]'))?.value || "",
-        boringNo: (document.getElementById("boringNo") || document.querySelector('[name="boringNo"]'))?.value || "",
-        date: (document.getElementById("date") || document.querySelector('[name="date"]'))?.value || "",
-        driller: (document.getElementById("driller") || document.querySelector('[name="driller"]'))?.value || "",
-        elevation: (document.getElementById("elevation") || document.querySelector('[name="elevation"]'))?.value || "",
-        loggedBy: (document.getElementById("loggedBy") || document.querySelector('[name="loggedBy"]'))?.value || "",
-        sheetNo: (document.getElementById("sheetNo") || document.querySelector('[name="sheetNo"]'))?.value || ""
-    };
+        // --- FULL LOCAL EXPORT & IMPORT ENGINE ---
 
-    // 2. Gather Field Notes / Remarks
-    const fieldNotesEl = document.getElementById("fieldNotes") || document.getElementById("notes") || document.querySelector('textarea[name="fieldNotes"]');
-    const fieldNotes = fieldNotesEl ? fieldNotesEl.value : "";
+        function exportJSON() {
+            try {
+                // 1. Sync title block text from contenteditable HTML fields into logData
+                saveMetadataFromUI();
 
-    // 3. Assemble Complete Payload
-    const payload = {
-        header: header,
-        // Duplicate flat key mapping for legacy/fallback compatibility
-        projectName: header.projectName,
-        client: header.client,
-        location: header.location,
-        boringNo: header.boringNo,
-        date: header.date,
-        driller: header.driller,
-        elevation: header.elevation,
-        loggedBy: header.loggedBy,
-        sheetNo: header.sheetNo,
-        
-        fieldNotes: fieldNotes,
-        notes: fieldNotes,
-        
-        // Preserve Stratigraphy & Well Construction Arrays
-        stratigraphy: typeof stratigraphyData !== "undefined" ? stratigraphyData : (window.logData?.stratigraphy || []),
-        wellConstruction: typeof wellData !== "undefined" ? wellData : (window.logData?.wellConstruction || [])
-    };
+                // 2. Build explicit JSON structure
+                const payload = {
+                    mode: currentMode,
+                    metadata: logData.metadata,
+                    strata: logData.strata
+                };
 
-    // Sync payload with global state object
-    if (typeof logData !== "undefined") {
-        Object.assign(logData, payload);
-    } else {
-        window.logData = payload;
-    }
+                // 3. Download JSON file
+                const boreholeId = logData.metadata.boreholeId || 'borehole_log';
+                const fileName = boreholeId.replace(/[^a-z0-9]/gi, '_') + '.json';
+                const jsonStr = JSON.stringify(payload, null, 2);
+                
+                const blob = new Blob([jsonStr], { type: "application/json" });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
 
-    // 4. Trigger JSON File Download
-    const fileName = (header.boringNo ? header.boringNo.replace(/[^a-z0-9]/gi, '_') : 'borehole_log') + '.json';
-    const jsonStr = JSON.stringify(payload, null, 2);
-    const blob = new Blob([jsonStr], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-}
-
-// Helper: Reads local JSON file, populates form inputs, and updates canvas
-function importJSON(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = function(e) {
-        try {
-            const data = JSON.parse(e.target.result);
-            console.log("Imported JSON Data:", data);
-
-            // 1. Assign to active window state
-            if (typeof logData !== "undefined") {
-                Object.assign(logData, data);
-            } else {
-                window.logData = data;
+            } catch (err) {
+                console.error("Export Error:", err);
+                alert("An error occurred while exporting log data.");
             }
+        }
 
-            // 2. Map Title Block & Header Inputs
-            const headerData = data.header || data;
-            const fieldMap = {
-                "projectName": headerData.projectName || data.projectName || "",
-                "client": headerData.client || data.client || "",
-                "location": headerData.location || data.location || "",
-                "boringNo": headerData.boringNo || data.boringNo || "",
-                "date": headerData.date || data.date || "",
-                "driller": headerData.driller || data.driller || "",
-                "elevation": headerData.elevation || data.elevation || "",
-                "loggedBy": headerData.loggedBy || data.loggedBy || "",
-                "sheetNo": headerData.sheetNo || data.sheetNo || "",
-                "fieldNotes": data.fieldNotes || data.notes || ""
+        function importJSON(event) {
+            const file = event.target?.files?.[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+
+                    // 1. Re-hydrate global state
+                    logData = {
+                        mode: data.mode || 'environmental',
+                        metadata: data.metadata || {},
+                        strata: Array.isArray(data.strata) ? data.strata : []
+                    };
+
+                    // 2. Re-hydrate UI Title Block Content & Mode
+                    loadMetadataToUI();
+                    setLoggingMode(logData.mode);
+
+                    // 3. Reset input value so consecutive re-loads work
+                    event.target.value = "";
+
+                } catch (err) {
+                    console.error("Import Error:", err);
+                    alert("Error parsing JSON file. Please ensure it is a valid Borehole Studio file.");
+                }
             };
 
-            // Loop through map and populate DOM elements
-            Object.keys(fieldMap).forEach(id => {
-                const inputEl = document.getElementById(id) || document.querySelector(`[name="${id}"]`);
-                if (inputEl) {
-                    inputEl.value = fieldMap[id];
-                    // Trigger input/change listeners to update active canvas state
-                    inputEl.dispatchEvent(new Event('input', { bubbles: true }));
-                    inputEl.dispatchEvent(new Event('change', { bubbles: true }));
-                }
-            });
-
-            // 3. Re-hydrate Stratigraphy / Log Tables
-            if (data.stratigraphy && typeof populateStratigraphyTable === "function") {
-                populateStratigraphyTable(data.stratigraphy);
-            }
-
-            // 4. Force Full Canvas Redraw
-            if (typeof renderLog === "function") renderLog();
-            if (typeof updateUI === "function") updateUI();
-            if (typeof drawCanvas === "function") drawCanvas();
-
-            window.dispatchEvent(new Event('resize'));
-
-            // Reset input value so selecting the same file consecutively triggers onchange
-            event.target.value = "";
-
-        } catch (err) {
-            console.error("Local JSON Import Error:", err);
-            alert("Could not load JSON file. Please verify the file format.");
+            reader.readAsText(file);
         }
-    };
-
-    reader.readAsText(file);
-}
     </script>
 <!-- CLOUD STORAGE MODAL -->
 <div id="cloudModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
