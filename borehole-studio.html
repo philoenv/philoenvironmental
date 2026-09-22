@@ -845,7 +845,6 @@
 
 <!-- CLOUD API INTEGRATION SCRIPT -->
 <script>
-    // Configuration: Replace with your actual deployed Google Apps Script URL & Stripe Link
     const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwTtMfAUpjjxnkjMJh3eFwJI3ptBV_9YuquXz5F7ex1z8avANVvP0fSO14t3E2nf-21_w/exec";
     
     let currentModalMode = "save"; // "save" or "load"
@@ -857,13 +856,12 @@
         document.getElementById("fileNameContainer").classList.remove("hidden");
         document.getElementById("cloudSubmitBtn").innerHTML = `<i data-lucide="cloud-upload" class="w-4 h-4"></i> Save to Cloud`;
         
-        // Auto-fill log name if available
         if (typeof logData !== "undefined" && logData.boringNo) {
             document.getElementById("cloudFileName").value = logData.boringNo + ".json";
         }
         
         document.getElementById("cloudModal").classList.remove("hidden");
-        lucide.createIcons();
+        if (window.lucide) lucide.createIcons();
     }
 
     function openCloudLoadModal() {
@@ -874,7 +872,7 @@
         document.getElementById("cloudSubmitBtn").innerHTML = `<i data-lucide="folder-open" class="w-4 h-4"></i> List My Projects`;
         
         document.getElementById("cloudModal").classList.remove("hidden");
-        lucide.createIcons();
+        if (window.lucide) lucide.createIcons();
     }
 
     function closeCloudModal() {
@@ -897,8 +895,7 @@
             let fileName = document.getElementById("cloudFileName").value.trim() || "borehole_log.json";
             if (!fileName.endsWith(".json")) fileName += ".json";
 
-            // Extract active logData from the app session
-            const currentLogPayload = typeof exportLogData === "function" ? exportLogData() : logData;
+            const currentLogPayload = typeof exportLogData === "function" ? exportLogData() : (typeof logData !== "undefined" ? logData : {});
 
             try {
                 const response = await fetch(APPS_SCRIPT_URL, {
@@ -947,7 +944,6 @@
         }
     }
 
-   // Helper: Renders clickable project folders directly inside the modal
     function renderProjectList(projects) {
         const statusDiv = document.getElementById("cloudStatus");
         statusDiv.classList.remove("hidden", "bg-red-100", "bg-blue-100", "text-red-700", "text-blue-700");
@@ -976,10 +972,9 @@
         html += `</div>`;
 
         statusDiv.innerHTML = html;
-        lucide.createIcons();
+        if (window.lucide) lucide.createIcons();
     }
 
-    // Helper: Fetches JSON content from Drive and imports into active workspace session
     async function loadCloudFile(fileId, fileName) {
         showCloudStatus(`Loading '${fileName}' into workspace...`, "info");
 
@@ -995,7 +990,6 @@
 
             const result = await response.json();
             if (result.status === "success" && result.fileData) {
-                // Populate session logData object
                 if (typeof importJSONData === "function") {
                     importJSONData(result.fileData);
                 } else if (typeof logData !== "undefined") {
@@ -1013,6 +1007,17 @@
             showCloudStatus("Network error retrieving file contents.", "error");
         }
     }
+
+    function showCloudStatus(message, type) {
+        const statusDiv = document.getElementById("cloudStatus");
+        statusDiv.innerText = message;
+        statusDiv.classList.remove("hidden", "bg-red-100", "text-red-700", "bg-green-100", "text-green-700", "bg-blue-100", "text-blue-700", "bg-slate-50", "border", "border-slate-200");
+
+        if (type === "error") statusDiv.classList.add("bg-red-100", "text-red-700");
+        else if (type === "success") statusDiv.classList.add("bg-green-100", "text-green-700");
+        else statusDiv.classList.add("bg-blue-100", "text-blue-700");
+    }
+</script>
 </script>
 </body>
 </html>
