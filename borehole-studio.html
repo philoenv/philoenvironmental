@@ -988,8 +988,17 @@ async function executeCloudAction() {
         if (window.lucide) lucide.createIcons();
     }
 
-// Helper: Fetches JSON content from Drive, imports payload, and simulates physical UI clicks to render
+// Helper: Fetches JSON content from Drive, imports payload, and refreshes log canvas
     async function loadCloudFile(fileId, fileName) {
+        // Read current email and PIN inputs from modal
+        const email = document.getElementById("cloudUserEmail").value.trim();
+        const pin = document.getElementById("cloudUserPin").value.trim();
+
+        if (!email || !pin) {
+            showCloudStatus("Please enter your email and PIN to retrieve this file.", "error");
+            return;
+        }
+
         showCloudStatus(`Loading '${fileName}' into workspace...`, "info");
 
         try {
@@ -998,6 +1007,8 @@ async function executeCloudAction() {
                 headers: { "Content-Type": "text/plain;charset=utf-8" },
                 body: JSON.stringify({
                     action: "get_file",
+                    email: email,
+                    pin: pin,
                     fileId: fileId
                 })
             });
@@ -1006,14 +1017,14 @@ async function executeCloudAction() {
             if (result.status === "success" && result.fileData) {
                 const data = result.fileData;
 
-                // 1. Assign imported JSON to the active logData session state
+                // 1. Assign payload to active state
                 if (typeof logData !== "undefined") {
                     Object.assign(logData, data);
                 } else {
                     window.logData = data;
                 }
 
-                // 2. Call local import or form population routines if they exist
+                // 2. Local import handlers if present
                 if (typeof importJSONData === "function") {
                     importJSONData(data);
                 } else if (typeof loadJSON === "function") {
@@ -1022,35 +1033,20 @@ async function executeCloudAction() {
                     loadBoreholeData(data);
                 }
 
+                // 3. Populate UI input fields
                 if (typeof populateForm === "function") populateForm(data);
 
-                // 3. Physical UI Click Simulation (Forces visual canvas redraw)
-                setTimeout(() => {
-                    // Look for the log type toggle switch, layer buttons, or radio inputs
-                    const toggleBtn = document.querySelector('input[name="logType"]') || 
-                                      document.querySelector('button[data-log-type]') ||
-                                      document.getElementById("logTypeToggle") ||
-                                      document.querySelector('.toggle-switch') ||
-                                      document.querySelector('button:has(i[data-lucide="layers"])');
+                // 4. Force UI / Canvas refresh
+                if (typeof renderLog === "function") renderLog();
+                if (typeof updateUI === "function") updateUI();
+                if (typeof drawCanvas === "function") drawCanvas();
 
-                    if (toggleBtn) {
-                        // Click once to force the canvas state manager to awaken and render
-                        toggleBtn.click();
-                        
-                        // If clicking it changed the selection, click it again to return to original state
-                        setTimeout(() => {
-                            toggleBtn.click();
-                        }, 50);
-                    } else {
-                        // Fallback: Dispatch window resize if no specific button element is matched
-                        window.dispatchEvent(new Event('resize'));
-                    }
-                }, 100);
+                window.dispatchEvent(new Event('resize'));
 
                 showCloudStatus(`Successfully loaded '${fileName}'!`, "success");
                 setTimeout(closeCloudModal, 1000);
             } else {
-                showCloudStatus(result.message || "Failed to parse log file.", "error");
+                showCloudStatus(result.message || "Failed to load file. Verify PIN.", "error");
             }
         } catch (err) {
             showCloudStatus("Network error retrieving file contents.", "error");
