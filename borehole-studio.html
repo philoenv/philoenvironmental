@@ -248,26 +248,26 @@
 <!-- WORKSPACE TOOLBAR / TIERED ACTIONS -->
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
     
-    <!-- FREE TIER BOX (ACTIVE) -->
-    <div class="relative border-2 border-slate-200 bg-slate-50/50 rounded-xl p-4 pt-5 shadow-sm">
-        <span class="absolute -top-3 left-4 bg-slate-200 text-slate-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider border border-slate-300">
-            Free Tier Tools
-        </span>
-        <div class="flex flex-wrap items-center gap-2">
-            <button onclick="window.print()" class="flex-1 bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5 shadow-xs">
-                <i data-lucide="printer" class="w-4 h-4 text-slate-600"></i> Print PDF
-            </button>
-            <button onclick="exportJSON()" class="flex-1 bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5 shadow-xs">
-                <i data-lucide="download" class="w-4 h-4 text-slate-600"></i> Export JSON
-            </button>
-            
-            <!-- IMPORT JSON WITH FILE INPUT -->
-            <label for="jsonInput" class="flex-1 bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5 shadow-xs cursor-pointer">
-                <i data-lucide="upload" class="w-4 h-4 text-slate-600"></i> Import JSON
-                <input type="file" id="jsonInput" onchange="importJSON(event)" class="hidden" accept=".json">
-            </label>
-        </div>
+   <!-- FREE TIER BOX (ACTIVE) -->
+<div class="relative border-2 border-slate-200 bg-slate-50/50 rounded-xl p-4 pt-5 shadow-sm">
+    <span class="absolute -top-3 left-4 bg-slate-200 text-slate-700 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider border border-slate-300">
+        Free Tier Tools
+    </span>
+    <div class="flex flex-wrap items-center gap-2.5">
+        <button onclick="window.print()" class="flex-1 whitespace-nowrap bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5 shadow-xs">
+            <i data-lucide="printer" class="w-4 h-4 text-slate-600 shrink-0"></i> Print PDF
+        </button>
+        <button onclick="exportJSON()" class="flex-1 whitespace-nowrap bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5 shadow-xs">
+            <i data-lucide="download" class="w-4 h-4 text-slate-600 shrink-0"></i> Export JSON
+        </button>
+        
+        <!-- IMPORT JSON WITH FILE INPUT -->
+        <label for="jsonInput" class="flex-1 whitespace-nowrap bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-semibold py-2 px-3 rounded-lg text-xs transition flex items-center justify-center gap-1.5 shadow-xs cursor-pointer">
+            <i data-lucide="upload" class="w-4 h-4 text-slate-600 shrink-0"></i> Import JSON
+            <input type="file" id="jsonInput" onchange="importJSON(event)" class="hidden" accept=".json">
+        </label>
     </div>
+</div>
 
     <!-- PAID SUBSCRIPTION TIER BOX (DISABLED / COMING SOON) -->
     <div class="relative border-2 border-slate-200 bg-slate-100/50 rounded-xl p-4 pt-5 shadow-sm opacity-75">
