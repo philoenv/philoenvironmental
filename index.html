@@ -1,343 +1,292 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Philo Environmental LLC - Autonomous Sensor Systems, Environmental Geology & Subsurface Tools, and Specialized Procurement Solutions.">
-    <title>Philo Environmental LLC | Autonomous Sensor Systems & Technical Consulting</title>
-    <style>
-        :root {
-            --primary: #0f172a; /* Slate Dark */
-            --accent: #2563eb;  /* Defense Blue */
-            --gold: #d97706;    /* Award / Finalist Highlight */
-            --light: #f8fafc;
-            --card-bg: #ffffff;
-            --text: #1e293b;
-        }
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Philo Environmental LLC | UAS Supply-Chain Compliance</title>
+<meta name="description" content="Sourcing compliance assessments for drone makers, component suppliers and government buyers: NDAA Section 848, the FCC Covered List and Drone Dominance requirements.">
+<meta property="og:title" content="Philo Environmental LLC | UAS Supply-Chain Compliance">
+<meta property="og:description" content="Know where every part in your drone comes from. Parts-list reviews, teardown verification and remediation plans.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2318303a'/%3E%3Cpath d='M9 23V9h8a5 5 0 0 1 0 10h-8' fill='none' stroke='%23e9eef0' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@112,600;112,800&family=Public+Sans:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+/* Layout: left-aligned single column; hero pairs the pitch with a live-looking parts ledger, the page's one bold element. */
+:root{
+  --bg:#f3f5f6; --surface:#ffffff; --ink:#18303a; --muted:#56656d; --rule:#d5dde1;
+  --accent:#0f5f63; --accent-ink:#ffffff;
+  --ok:#2c7a4b; --bad:#b0302a; --warn:#9a6400; --na:#6b7880;
+  --display:"Archivo", "Arial Narrow", Arial, sans-serif;
+  --body:"Public Sans", "Segoe UI", Arial, sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0f1b21; --surface:#152730; --ink:#e4ecef; --muted:#9db0b8; --rule:#2a3f49;
+  --accent:#5fb7b4; --accent-ink:#0f1b21;
+  --ok:#6cc48f; --bad:#ef7d74; --warn:#e2ae4a; --na:#93a4ab; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0f1b21; --surface:#152730; --ink:#e4ecef; --muted:#9db0b8; --rule:#2a3f49;
+  --accent:#5fb7b4; --accent-ink:#0f1b21;
+  --ok:#6cc48f; --bad:#ef7d74; --warn:#e2ae4a; --na:#93a4ab; color-scheme:dark }
 
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; 
-        }
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1120px;margin:0 auto}
+a{color:var(--accent)}
+a:focus-visible,.btn:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:4px}
+h1,h2,h3{font-family:var(--display);font-stretch:112%;line-height:1.1;text-wrap:balance;margin:0}
+h1{font-weight:800;font-size:clamp(2.2rem,5.2vw,3.7rem);letter-spacing:-.01em}
+h2{font-weight:800;font-size:clamp(1.6rem,3vw,2.2rem)}
+h3{font-weight:600;font-size:1.15rem}
+p{margin:0;max-width:62ch}
 
-        body { 
-            background-color: var(--light); 
-            color: var(--text); 
-            line-height: 1.6;
-            -webkit-text-size-adjust: 100%;
-        }
+header.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-block:22px;border-bottom:1px solid var(--rule)}
+.mark{font-family:var(--display);font-stretch:112%;font-weight:800;font-size:1.05rem;color:var(--ink);text-decoration:none}
+.mark span{font-weight:600;color:var(--muted)}
+nav ul{list-style:none;display:flex;gap:22px;flex-wrap:wrap;margin:0;padding:0}
+nav a{color:var(--ink);text-decoration:none;font-size:.95rem}
+nav a:hover{color:var(--accent)}
 
-        header {
-            background: #ffffff;
-            border-bottom: 2px solid #e2e8f0;
-            padding: 1rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+section{padding-block:72px;border-bottom:1px solid var(--rule)}
+section:last-of-type{border-bottom:0}
+.lead{font-size:1.2rem;color:var(--muted);margin-top:18px}
+.head{display:grid;gap:12px;margin-bottom:36px}
+.head p{color:var(--muted)}
 
-        .logo { 
-            font-size: 1.25rem; 
-            font-weight: 800; 
-            letter-spacing: 0.05em; 
-            color: var(--primary); 
-            text-transform: uppercase; 
-        }
+/* Hero */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:56px;align-items:center;padding-block:64px 72px}
+.ctas{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px}
+.btn{display:inline-block;padding:13px 22px;border-radius:6px;font-weight:600;text-decoration:none;font-size:1rem}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.ghost{color:var(--ink);border:1.5px solid var(--rule)}
+.btn.ghost:hover{border-color:var(--accent)}
 
-        .hero {
-            background: linear-gradient(135deg, #020617 0%, #1e293b 100%);
-            color: white;
-            padding: 3.5rem 1.25rem;
-            text-align: center;
-        }
+.ledger{background:var(--surface);border:1px solid var(--rule);border-radius:10px;overflow:hidden;min-width:0}
+.ledger-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 18px;border-bottom:1px solid var(--rule);font-size:.85rem;color:var(--muted)}
+.ledger-top strong{color:var(--ink);font-weight:600}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.88rem;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:10px 18px;border-bottom:1px solid var(--rule);white-space:nowrap}
+th{font-weight:600;color:var(--muted);font-size:.8rem}
+tr:last-child td{border-bottom:0}
+.st{display:inline-flex;align-items:center;gap:7px;font-weight:600}
+.st::before{content:"";width:9px;height:9px;border-radius:2px;background:currentColor}
+.st.ok{color:var(--ok)} .st.bad{color:var(--bad)} .st.warn{color:var(--warn)} .st.na{color:var(--na)}
+.ledger-foot{padding:12px 18px;font-size:.82rem;color:var(--muted);border-top:1px solid var(--rule)}
 
-        .badge {
-            display: inline-block;
-            background: rgba(217, 119, 6, 0.15);
-            color: #f59e0b;
-            border: 1px solid #d97706;
-            padding: 0.4rem 0.85rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            margin-bottom: 1.25rem;
-        }
+/* Deadlines */
+.timeline{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border-top:2px solid var(--ink);margin-top:8px}
+.tl{padding:18px 20px 0 0;position:relative}
+.tl::before{content:"";position:absolute;top:-7px;left:0;width:12px;height:12px;border-radius:50%;background:var(--bg);border:2px solid var(--ink)}
+.tl.past::before{background:var(--ink)}
+.tl time{display:block;font-family:var(--display);font-stretch:112%;font-weight:800;font-size:1.25rem}
+.tl p{font-size:.95rem;color:var(--muted);margin-top:6px}
+.note{font-size:.85rem;color:var(--muted);margin-top:28px}
 
-        .hero h1 { 
-            font-size: clamp(1.75rem, 5vw, 2.75rem); 
-            margin-bottom: 1rem; 
-            line-height: 1.25; 
-            font-weight: 800; 
-        }
+/* Services */
+.services{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 56px}
+.svc{display:grid;gap:8px;padding-top:18px;border-top:1px solid var(--rule)}
+.svc p{color:var(--muted)}
+.svc .out{font-size:.9rem;color:var(--ink)}
+.svc .out b{font-weight:600}
+.svc:last-child:nth-child(odd){grid-column:1/-1}
+.svc:last-child:nth-child(odd) p{max-width:62ch}
 
-        .hero p { 
-            font-size: clamp(1rem, 2.5vw, 1.2rem); 
-            max-width: 750px; 
-            margin: 0 auto 1.75rem auto; 
-            color: #94a3b8; 
-        }
+/* Who */
+.who{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px}
+.who div{display:grid;gap:6px}
+.who p{color:var(--muted);font-size:.95rem}
 
-        .btn {
-            display: inline-block;
-            background-color: var(--accent);
-            color: white;
-            padding: 0.85rem 1.75rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: background 0.2s;
-            width: 100%;
-            max-width: 320px;
-            text-align: center;
-        }
+/* Process */
+ol.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px;counter-reset:s}
+ol.steps li{counter-increment:s;display:grid;gap:8px;align-content:start}
+ol.steps li::before{content:counter(s);font-family:var(--display);font-stretch:112%;font-weight:800;font-size:2rem;color:var(--accent);line-height:1}
+ol.steps p{color:var(--muted);font-size:.95rem}
 
-        .btn:hover { 
-            background-color: #1d4ed8; 
-        }
+/* About */
+.about{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:56px}
+.about .body{display:grid;gap:16px}
+.creds{display:grid;gap:18px;align-content:start}
+.cred{padding:18px 20px;background:var(--surface);border:1px solid var(--rule);border-radius:8px;display:grid;gap:6px}
+.cred p{color:var(--muted);font-size:.95rem}
 
-        .btn-outline {
-            display: inline-block;
-            background-color: transparent;
-            color: #059669;
-            border: 1px solid #059669;
-            padding: 0.6rem 1.2rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-top: 1rem;
-            transition: all 0.2s ease-in-out;
-        }
+/* Contact */
+.contact{display:grid;gap:18px}
+.email{font-family:var(--display);font-stretch:112%;font-weight:600;font-size:clamp(1.15rem,2.6vw,1.6rem);word-break:break-word}
 
-        .btn-outline:hover {
-            background-color: #059669;
-            color: white;
-        }
+footer{padding-block:28px 40px;border-top:1px solid var(--rule);font-size:.85rem;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
-        .container { 
-            max-width: 1100px; 
-            margin: 0 auto; 
-            padding: 2.5rem 1.25rem; 
-        }
-
-        /* NATO Highlight Section */
-        .nato-feature {
-            background: #ffffff;
-            border: 2px solid #e2e8f0;
-            border-left: 6px solid var(--gold);
-            border-radius: 8px;
-            padding: 1.5rem;
-            margin-bottom: 2.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .nato-header { 
-            display: flex; 
-            align-items: flex-start; 
-            justify-content: space-between; 
-            flex-wrap: wrap; 
-            gap: 0.5rem; 
-            margin-bottom: 1rem; 
-        }
-
-        .nato-title { 
-            font-size: 1.25rem; 
-            font-weight: 700; 
-            color: var(--primary); 
-        }
-
-        .nato-tag { 
-            background: #fef3c7; 
-            color: #92400e; 
-            font-size: 0.75rem; 
-            font-weight: 700; 
-            padding: 0.25rem 0.6rem; 
-            border-radius: 4px; 
-            display: inline-block;
-        }
-
-        .nato-feature p {
-            font-size: 1rem;
-            color: #334155;
-            margin-bottom: 1rem;
-        }
-
-        .nato-feature ul {
-            list-style-type: square;
-            margin-left: 1.25rem;
-            color: #475569;
-            font-size: 0.95rem;
-        }
-
-        .nato-feature li {
-            margin-bottom: 0.5rem;
-        }
-
-        .services-grid { 
-            display: grid; 
-            grid-template-columns: 1fr; 
-            gap: 1.5rem; 
-        }
-
-        .card {
-            background: var(--card-bg);
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .card.primary-card { border-top: 4px solid var(--accent); }
-        .card.secondary-card { border-top: 4px solid #64748b; }
-        .card.tool-card { border-top: 4px solid #059669; }
-
-        .card h3 { 
-            color: var(--primary); 
-            margin-bottom: 0.5rem; 
-            font-size: 1.2rem; 
-        }
-
-        .card .category { 
-            font-size: 0.75rem; 
-            font-weight: 700; 
-            text-transform: uppercase; 
-            color: #64748b; 
-            margin-bottom: 0.35rem; 
-            display: block; 
-        }
-
-        .card p {
-            font-size: 0.95rem;
-            color: #334155;
-            flex-grow: 1;
-        }
-
-        .contact { 
-            text-align: center; 
-            background-color: var(--primary); 
-            color: white; 
-            padding: 3.5rem 1.25rem; 
-        }
-
-        .contact h2 {
-            font-size: 1.75rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .contact p { 
-            color: #94a3b8; 
-            margin-bottom: 1.5rem; 
-            font-size: 1rem;
-        }
-
-        footer { 
-            text-align: center; 
-            padding: 1.5rem 1rem; 
-            background-color: #020617; 
-            color: #64748b; 
-            font-size: 0.85rem; 
-        }
-
-        /* Desktop Breakpoints */
-        @media (min-width: 768px) {
-            header { padding: 1.25rem 2rem; }
-            .hero { padding: 5rem 2rem; }
-            .container { padding: 4rem 2rem; }
-            .nato-feature { padding: 2.5rem; margin-bottom: 4rem; }
-            .nato-title { font-size: 1.5rem; }
-            .services-grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
-            .btn { width: auto; }
-        }
-    </style>
+@media (max-width:900px){
+  .hero,.about{grid-template-columns:minmax(0,1fr);gap:40px}
+  .who,ol.steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  section{padding-block:52px}
+  .services,.who,ol.steps{grid-template-columns:minmax(0,1fr)}
+  .timeline{grid-template-columns:minmax(0,1fr);border-top:0;border-left:2px solid var(--ink);margin-left:6px}
+  .tl{padding:0 0 22px 22px}
+  .tl::before{top:4px;left:-7px}
+  nav ul{gap:16px}
+  th,td{padding:9px 10px;white-space:normal;font-size:.8rem}
+  th:first-child,td:first-child{padding-left:14px}
+  .st{white-space:nowrap}
+}
+</style>
 </head>
 <body>
+<div class="wrap">
 
-    <header>
-        <div class="logo">Philo Environmental LLC</div>
-    </header>
+<header class="top">
+  <a class="mark" href="#">Philo Environmental <span>LLC</span></a>
+  <nav aria-label="Sections">
+    <ul>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+</header>
 
-    <section class="hero">
-        <span class="badge">NATO Innovation Challenge Finalist</span>
-        <h1>Autonomous Sensor Systems & Technical Consulting</h1>
-        <p>Deploying tactical acoustic detection platforms, specialized environmental geology oversight, and web-based subsurface tools.</p>
-        <a href="#contact" class="btn">Initiate Technical Briefing</a>
-    </section>
+<main>
+<section class="hero" aria-labelledby="hero-h">
+  <div>
+    <h1 id="hero-h">Know where every part in your drone comes from.</h1>
+    <p class="lead">Sourcing compliance assessments for drone makers, component suppliers and the agencies that buy from them. We trace your parts list against NDAA Section 848, the FCC Covered List and Drone Dominance requirements, then show you what to replace.</p>
+    <div class="ctas">
+      <a class="btn primary" href="mailto:daniel.philo@philoenvironmental.com?subject=UAS%20compliance%20assessment">Request an assessment</a>
+      <a class="btn ghost" href="mailto:daniel.philo@philoenvironmental.com?subject=Sample%20assessment%20request">Get a sample report</a>
+    </div>
+  </div>
 
-    <main class="container">
+  <figure class="ledger" style="margin:0" aria-labelledby="ledger-cap">
+    <div class="ledger-top"><strong>Sample assessment: fixed-wing test aircraft</strong><span>16 items reviewed</span></div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th scope="col">Component</th><th scope="col">Maker origin</th><th scope="col">Status</th></tr></thead>
+        <tbody>
+          <tr><td>Flight controller</td><td>China</td><td><span class="st bad">Non-compliant</span></td></tr>
+          <tr><td>GNSS + compass</td><td>China</td><td><span class="st bad">Non-compliant</span></td></tr>
+          <tr><td>Telemetry radio</td><td>Likely China</td><td><span class="st bad">Non-compliant</span></td></tr>
+          <tr><td>Companion computer</td><td>United Kingdom</td><td><span class="st ok">Compliant</span></td></tr>
+          <tr><td>Camera module</td><td>UK, Japanese sensor</td><td><span class="st warn">Verify</span></td></tr>
+          <tr><td>Propellers</td><td>United States</td><td><span class="st ok">Compliant</span></td></tr>
+          <tr><td>Power connectors</td><td>China</td><td><span class="st na">Out of scope</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <figcaption class="ledger-foot" id="ledger-cap">Excerpt from our assessment of a hobby-grade build: 8 of 16 items non-compliant, 2 compliant, 2 out of scope, 4 to verify.</figcaption>
+  </figure>
+</section>
 
-        <!-- NATO Achievement Highlight -->
-        <section class="nato-feature" id="nato">
-            <div class="nato-header">
-                <div class="nato-title">NATO Innovation Challenge Finalist</div>
-                <span class="nato-tag">Global Defense Innovation</span>
-            </div>
-            <p>
-                Philo Environmental LLC was selected as a finalist in the NATO Innovation Challenge for engineering Project DADS (Distributed Airfield Denial System)—an autonomous acoustic detection and tracking platform engineered for high-noise operational environments.
-            </p>
-            <ul>
-                <li>Real-time, on-device signal processing utilizing custom MFCC feature extraction and machine learning classifiers.</li>
-                <li>Designed for low-cost, field-deployable counter-unmanned observation and tactical perimeter defense.</li>
-                <li>Validated presentation and software architecture delivered to NATO HQ SACT evaluators.</li>
-            </ul>
-        </section>
+<section aria-labelledby="dl-h">
+  <div class="head">
+    <h2 id="dl-h">The deadlines are already set.</h2>
+    <p>Sourcing rules for drones tighten through 2027. A parts list that passes today may not pass at your next delivery.</p>
+  </div>
+  <div class="timeline" role="list">
+    <div class="tl past" role="listitem"><time datetime="2025-12-22">Dec 2025</time><p>FCC adds foreign-produced drones and critical components to the Covered List.</p></div>
+    <div class="tl past" role="listitem"><time datetime="2026-08">Aug 2026</time><p>Drone Dominance assembly-level sourcing requirements take effect.</p></div>
+    <div class="tl" role="listitem"><time datetime="2027-01-01">Jan 1, 2027</time><p>FCC carve-outs for Blue UAS and domestic products are scheduled to expire.</p></div>
+    <div class="tl" role="listitem"><time datetime="2027-02">Feb 2027 to Aug 2027</time><p>Drone Dominance adds non-covered battery cells, GNSS receivers and US-controlled firmware.</p></div>
+  </div>
+  <p class="note">Dates as published through October 2026. Rules have changed roughly monthly; we track them for monitoring clients.</p>
+</section>
 
-        <!-- Capabilities Grid -->
-        <h2 style="text-align: center; color: var(--primary); margin-bottom: 2rem;" id="defense">Capabilities & Technical Solutions</h2>
-        
-        <div class="services-grid">
-            <!-- Defense Systems Card -->
-            <div class="card primary-card">
-                <div>
-                    <span class="category" style="color: var(--accent);">Defense Technology</span>
-                    <h3>Autonomous Sensor Systems</h3>
-                    <p>Development and integration of low-cost acoustic signature classification platforms and standalone monitoring nodes tailored for tactical perimeter defense, asset protection, and forward-deployed weapon integration.</p>
-                </div>
-            </div>
+<section id="services" aria-labelledby="svc-h">
+  <div class="head">
+    <h2 id="svc-h">What we check</h2>
+    <p>Start with a parts-list review. Add the other services when a contract, submission or deadline calls for them.</p>
+  </div>
+  <div class="services">
+    <div class="svc">
+      <h3>Parts-list review</h3>
+      <p>Every line traced to its manufacturer, country of origin and distributor, then checked against Section 848, the American Security Drone Act, Section 889, the 1260H list, the FCC Covered List and the 65% domestic-content test.</p>
+      <p class="out"><b>You get:</b> a part-by-part compliance table, a gap report and replacement options.</p>
+    </div>
+    <div class="svc">
+      <h3>Teardown verification</h3>
+      <p>We take apart a production unit and compare it to the parts list: chip markings, modules, connectors and firmware sources. This is how relabeled and counterfeit parts get caught.</p>
+      <p class="out"><b>You get:</b> a photographed teardown report.</p>
+    </div>
+    <div class="svc">
+      <h3>Supplier and firmware review</h3>
+      <p>Foreign ownership and control checks on your suppliers, and confirmation of where firmware and ground-station software are hosted and controlled.</p>
+      <p class="out"><b>You get:</b> supplier risk findings.</p>
+    </div>
+    <div class="svc">
+      <h3>Submission packages</h3>
+      <p>Documentation assembled for Blue UAS and Green UAS submissions, or for an FCC domestic-product claim.</p>
+      <p class="out"><b>You get:</b> a ready-to-submit package.</p>
+    </div>
+    <div class="svc">
+      <h3>Ongoing monitoring</h3>
+      <p>We watch the rule changes and re-check your parts list when they land, so a supplier swap or a new listing doesn't surprise you at delivery.</p>
+      <p class="out"><b>You get:</b> monthly status updates and alerts.</p>
+    </div>
+  </div>
+</section>
 
-            <!-- Environmental & Geology Tool Card -->
-            <div class="card tool-card">
-                <div>
-                    <span class="category" style="color: #059669;">Geological Software & Consulting</span>
-                    <h3>Borehole Studio & Environmental Oversight</h3>
-                    <p>Professional geological consulting, site characterization, and custom web utilities. Features Borehole Studio—an interactive tool for field data formatting and visual stratigraphy plotting.</p>
-                </div>
-                <div>
-                    <a href="/borehole-studio.html" class="btn-outline">Launch Borehole Studio &rarr;</a>
-                </div>
-            </div>
+<section aria-labelledby="who-h">
+  <div class="head"><h2 id="who-h">Who we work with</h2></div>
+  <div class="who">
+    <div><h3>Drone makers</h3><p>Startups and small manufacturers preparing for Drone Dominance, Blue UAS listing or the FCC deadline.</p></div>
+    <div><h3>Component suppliers</h3><p>Motor, battery, electronics and harness makers who need documented provenance to sell upstream.</p></div>
+    <div><h3>Government buyers</h3><p>State and local agencies, first responders and utilities verifying drones before they buy.</p></div>
+    <div><h3>Prime contractors</h3><p>Integrators vetting smaller suppliers before they enter a program.</p></div>
+  </div>
+</section>
 
-            <!-- Government Procurement Card -->
-            <div class="card secondary-card">
-                <div>
-                    <span class="category">Government Services</span>
-                    <h3>Specialized Government Procurement</h3>
-                    <p>B2G procurement consulting, RFP execution, and subconsultant partnering for municipal infrastructure, equipment supply, and specialized public-sector solicitations.</p>
-                </div>
-            </div>
-        </div>
+<section id="process" aria-labelledby="proc-h">
+  <div class="head">
+    <h2 id="proc-h">How an assessment runs</h2>
+    <p>A typical parts-list review takes one to three weeks, depending on its size and how much supplier documentation you already have.</p>
+  </div>
+  <ol class="steps">
+    <li><h3>Send your parts list</h3><p>Your bill of materials with part numbers, plus any supplier certificates you hold. We sign an NDA first if you need one.</p></li>
+    <li><h3>We trace each part</h3><p>Manufacturer, country of origin and distributor for every line, checked against the rules that bind your customer.</p></li>
+    <li><h3>We verify the hardware</h3><p>Optional teardown of a production unit to confirm the parts list matches what's actually built.</p></li>
+    <li><h3>You get the report</h3><p>Findings, a compliance table and a remediation plan with replacement parts, plus a walkthrough call.</p></li>
+  </ol>
+  <p class="note">Findings are technical assessments, not legal opinions. We work alongside your counsel and can refer you to trade-compliance attorneys.</p>
+</section>
 
-    </main>
+<section id="about" aria-labelledby="about-h">
+  <div class="about">
+    <div class="body">
+      <h2 id="about-h">About Philo Environmental</h2>
+      <p>Philo Environmental LLC started in environmental site characterization and public-sector procurement: work built on regulations, chain-of-custody records and field verification. Supply-chain compliance for drones uses the same discipline.</p>
+      <p>We also build autonomous sensor systems ourselves, so we know what sourcing a compliant drone actually takes, from flight controller to power connector.</p>
+      <p>Founded and led by Daniel Philo.</p>
+    </div>
+    <div class="creds">
+      <div class="cred"><h3>NATO Innovation Challenge finalist</h3><p>Project DADS, an on-device acoustic detection and tracking platform, presented to NATO HQ SACT evaluators.</p></div>
+      <div class="cred"><h3>Government procurement support</h3><p>RFP execution and subconsultant partnering for municipal and public-sector solicitations.</p></div>
+      <div class="cred"><h3>Borehole Studio</h3><p>Our web tool for field data formatting and stratigraphy plotting. <a href="https://philoenvironmental.com/borehole-studio.html">Open Borehole Studio</a></p></div>
+    </div>
+  </div>
+</section>
 
-    <section class="contact" id="contact">
-        <h2>Partner With Philo Environmental</h2>
-        <p>Direct inquiries regarding defense technology demos, environmental consulting, or procurement proposals.</p>
-        <a href="mailto:daniel.philo@philoenvironmental.com" class="btn">Send Direct Inquiry</a>
-    </section>
+<section id="contact" aria-labelledby="contact-h">
+  <div class="contact">
+    <h2 id="contact-h">Start with your parts list.</h2>
+    <p>Email us your bill of materials, or ask for the full sample assessment first. We reply within two business days.</p>
+    <a class="email" href="mailto:daniel.philo@philoenvironmental.com?subject=UAS%20compliance%20assessment">daniel.philo@philoenvironmental.com</a>
+  </div>
+</section>
+</main>
 
-    <footer>
-        <p>&copy; 2026 Philo Environmental LLC. All rights reserved.</p>
-    </footer>
-
+<footer>
+  <span>&copy; 2026 Philo Environmental LLC</span>
+  <span>UAS supply-chain compliance and autonomous sensor systems</span>
+</footer>
+</div>
 </body>
 </html>
