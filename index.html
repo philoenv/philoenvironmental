@@ -72,7 +72,7 @@ section:last-of-type{border-bottom:0}
 .ledger-top strong{color:var(--ink);font-weight:600}
 .scroll{overflow-x:auto}
 table{border-collapse:collapse;width:100%;font-size:.88rem;font-variant-numeric:tabular-nums}
-th,td{text-align:left;padding:10px 18px;border-bottom:1px solid var(--rule);white-space:nowrap}
+th,td{text-align:left;padding:7px 18px;border-bottom:1px solid var(--rule);white-space:nowrap}
 th{font-weight:600;color:var(--muted);font-size:.8rem}
 tr:last-child td{border-bottom:0}
 .st{display:inline-flex;align-items:center;gap:7px;font-weight:600}
@@ -167,22 +167,31 @@ footer{padding-block:28px 40px;border-top:1px solid var(--rule);font-size:.85rem
   </div>
 
   <figure class="ledger" style="margin:0" aria-labelledby="ledger-cap">
-    <div class="ledger-top"><strong>Sample assessment: fixed-wing test aircraft</strong><span>16 items reviewed</span></div>
+    <div class="ledger-top"><strong>Sample assessment: fixed-wing test article</strong><span>16 items</span></div>
     <div class="scroll">
       <table>
         <thead><tr><th scope="col">Component</th><th scope="col">Maker origin</th><th scope="col">Status</th></tr></thead>
         <tbody>
+          <tr><td>Airframe</td><td>China</td><td><span class="st na">Out of scope</span></td></tr>
           <tr><td>Flight controller</td><td>China</td><td><span class="st bad">Non-compliant</span></td></tr>
           <tr><td>GNSS + compass</td><td>China</td><td><span class="st bad">Non-compliant</span></td></tr>
-          <tr><td>Telemetry radio</td><td>Likely China</td><td><span class="st bad">Non-compliant</span></td></tr>
+          <tr><td>Telemetry radio</td><td>China</td><td><span class="st bad">Non-compliant</span></td></tr>
+          <tr><td>ESC</td><td>China</td><td><span class="st bad">Non-compliant</span></td></tr>
+          <tr><td>Servos</td><td>China</td><td><span class="st warn">Verify</span></td></tr>
+          <tr><td>Motor</td><td>China</td><td><span class="st bad">Non-compliant</span></td></tr>
+          <tr><td>Battery</td><td>China</td><td><span class="st bad">Non-compliant</span></td></tr>
+          <tr><td>Propellers</td><td>United States</td><td><span class="st na">Out of scope</span></td></tr>
+          <tr><td>Power connectors</td><td>China</td><td><span class="st na">Out of scope</span></td></tr>
           <tr><td>Companion computer</td><td>United Kingdom</td><td><span class="st ok">Compliant</span></td></tr>
           <tr><td>Camera module</td><td>UK, Japanese sensor</td><td><span class="st warn">Verify</span></td></tr>
-          <tr><td>Propellers</td><td>United States</td><td><span class="st ok">Compliant</span></td></tr>
-          <tr><td>Power connectors</td><td>China</td><td><span class="st na">Out of scope</span></td></tr>
+          <tr><td>RC link</td><td>China</td><td><span class="st bad">Non-compliant</span></td></tr>
+          <tr><td>Airspeed sensor</td><td>China</td><td><span class="st bad">Non-compliant</span></td></tr>
+          <tr><td>Flight firmware</td><td>Open source</td><td><span class="st warn">Verify</span></td></tr>
+          <tr><td>Ground station software</td><td>Open source</td><td><span class="st warn">Verify</span></td></tr>
         </tbody>
       </table>
     </div>
-    <figcaption class="ledger-foot" id="ledger-cap">Excerpt from our assessment of a hobby-grade build: 8 of 16 items non-compliant, 2 compliant, 2 out of scope, 4 to verify.</figcaption>
+    <figcaption class="ledger-foot" id="ledger-cap">Results from our sample assessment of a hobby-grade test article: 8 non-compliant, 1 compliant, 3 out of scope, 4 to verify. The telemetry radios also carried no FCC ID. Full sample report available on request.</figcaption>
   </figure>
 </section>
 
@@ -208,7 +217,7 @@ footer{padding-block:28px 40px;border-top:1px solid var(--rule);font-size:.85rem
   <div class="services">
     <div class="svc">
       <h3>Parts-list review</h3>
-      <p>Every line traced to its manufacturer, country of origin and distributor, then checked against Section 848, the American Security Drone Act, Section 889, the 1260H list, the FCC Covered List and the 65% domestic-content test.</p>
+      <p>Every line traced to its manufacturer, country of origin and distributor, then checked against Section 848, the American Security Drone Act, Section 889, the 1260H list, the FCC Covered List and the 65% domestic-content test. Every transmitter is also checked for a valid FCC ID.</p>
       <p class="out"><b>You get:</b> a part-by-part compliance table, a gap report and replacement options.</p>
     </div>
     <div class="svc">
@@ -264,7 +273,7 @@ footer{padding-block:28px 40px;border-top:1px solid var(--rule);font-size:.85rem
       <h2 id="about-h">About Philo Environmental</h2>
       <p>Philo Environmental LLC started in environmental site characterization and public-sector procurement: work built on regulations, chain-of-custody records and field verification. Supply-chain compliance for drones uses the same discipline.</p>
       <p>We also build autonomous sensor systems ourselves, so we know what sourcing a compliant drone actually takes, from flight controller to power connector.</p>
-      <p>Founded and led by Daniel Philo, PG.</p>
+      <p>Founded and led by Daniel Philo, PG, a licensed Professional Geologist in California and Utah.</p>
     </div>
     <div class="creds">
       <div class="cred"><h3>NATO Innovation Challenge finalist</h3><p>Project DADS, an on-device acoustic detection and tracking platform, presented to NATO HQ SACT evaluators.</p></div>
