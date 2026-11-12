@@ -100,7 +100,7 @@ tr:last-child td{border-bottom:0}
 
 /* Who */
 .who{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px}
-.who div{display:grid;gap:6px}
+.who div{display:grid;gap:6px;align-content:start}
 .who p{color:var(--muted);font-size:.95rem}
 
 /* Process */
@@ -121,6 +121,9 @@ ol.steps p{color:var(--muted);font-size:.95rem}
 .email{font-family:var(--display);font-stretch:112%;font-weight:600;font-size:clamp(1.15rem,2.6vw,1.6rem);word-break:break-word}
 
 footer{padding-block:28px 40px;border-top:1px solid var(--rule);font-size:.85rem;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.social{display:flex;gap:18px;flex-wrap:wrap;font-weight:600}
+.social a{color:var(--accent);text-decoration:none}
+.social a:hover{text-decoration:underline}
 
 @media (max-width:900px){
   .hero,.about{grid-template-columns:minmax(0,1fr);gap:40px}
@@ -204,7 +207,7 @@ footer{padding-block:28px 40px;border-top:1px solid var(--rule);font-size:.85rem
     <div class="tl past" role="listitem"><time datetime="2025-12-22">Dec 2025</time><p>FCC adds foreign-produced drones and critical components to the Covered List.</p></div>
     <div class="tl past" role="listitem"><time datetime="2026-08">Aug 2026</time><p>Drone Dominance assembly-level sourcing requirements take effect.</p></div>
     <div class="tl" role="listitem"><time datetime="2027-01-01">Jan 1, 2027</time><p>FCC carve-outs for Blue UAS and domestic products are scheduled to expire.</p></div>
-    <div class="tl" role="listitem"><time datetime="2027-02">Feb 2027 to Aug 2027</time><p>Drone Dominance adds non-covered battery cells, GNSS receivers and US-controlled firmware.</p></div>
+    <div class="tl" role="listitem"><time datetime="2027-02">Feb 2027 to Aug 2027</time><p>Drone Dominance adds non-covered chip fabrication, circuit boards and battery cells, then US-controlled firmware.</p></div>
   </div>
   <p class="note">Dates as published through October 2026. Rules have changed roughly monthly; we track them for monitoring clients.</p>
 </section>
@@ -288,6 +291,10 @@ footer{padding-block:28px 40px;border-top:1px solid var(--rule);font-size:.85rem
     <h2 id="contact-h">Start with your parts list.</h2>
     <p>Email us your bill of materials, or ask for the full sample assessment first. We reply within two business days.</p>
     <a class="email" href="mailto:contact@philoenvironmental.com?subject=UAS%20compliance%20assessment">contact@philoenvironmental.com</a>
+    <div class="social">
+      <a href="https://www.linkedin.com/in/daniel-philo" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://x.com/PhiloEnv" target="_blank" rel="noopener">X (@PhiloEnv)</a>
+    </div>
   </div>
 </section>
 </main>
@@ -295,6 +302,7 @@ footer{padding-block:28px 40px;border-top:1px solid var(--rule);font-size:.85rem
 <footer>
   <span>&copy; 2026 Philo Environmental LLC</span>
   <span>UAS supply-chain compliance and autonomous sensor systems</span>
+  <span class="social"><a href="https://www.linkedin.com/in/daniel-philo" target="_blank" rel="noopener">LinkedIn</a><a href="https://x.com/PhiloEnv" target="_blank" rel="noopener">X</a></span>
 </footer>
 </div>
 </body>
